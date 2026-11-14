@@ -4,6 +4,8 @@
 
 구독을 등록하고, 결제 마감과 해지 처리 상태를 한곳에서 관리하는 구독 도우미입니다.
 
+[![똑Pay 서비스 시연 화면 — 이미지를 누르면 60초 영상으로 이동합니다](docs/demo/service-demo-poster.png)](docs/demo/service-demo.mp4)
+
 [웹 데모 열기](https://mmporong.github.io/kirothon-team-024/#home) · [시연 영상 60초](docs/demo/service-demo.mp4) · [발표 PDF](PRESENTATION.pdf) · [발표 PPTX](docs/presentation/PRESENTATION.pptx) · [발표 대본](docs/presentation/speaker-script.ko.txt) · [개발 보고서](BUILD_REPORT.md)
 
 > 등록한 구독은 이 브라우저에 저장됩니다. 결제·해지는 공식 서비스에서 처리하며, 가족 의견과 Kiro 점검 기록은 예시 가구의 시연입니다.
