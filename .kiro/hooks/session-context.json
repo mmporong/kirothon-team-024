@@ -1,0 +1,11 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "session-context",
+      "trigger": "SessionStart",
+      "action": { "type": "command", "command": "node scripts/hooks/session-context.mjs" },
+      "timeout": 20
+    }
+  ]
+}

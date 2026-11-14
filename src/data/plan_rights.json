@@ -1,0 +1,8 @@
+{
+  "_note": "요금제별 권리(광고·최대 화질·동시 시청). null은 미확인. verified=false는 총괄이 기재한 값으로 계정·공식 요금제 표에서 다시 확인이 필요하다.",
+  "disney_plus_kr": {
+    "standard": { "ads": false, "uhd": false, "streams": 2, "verified": false },
+    "premium": { "ads": false, "uhd": true, "streams": 4, "verified": false },
+    "ad_standard": { "ads": true, "uhd": false, "streams": 2, "verified": false }
+  }
+}

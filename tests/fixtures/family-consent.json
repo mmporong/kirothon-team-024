@@ -1,0 +1,1965 @@
+{
+  "schema_version": "1.0",
+  "fixture_set": "family-consent",
+  "synthetic": true,
+  "timezone": "Asia/Seoul",
+  "purpose": "Q5 가족 동의 불변식과 Q8 요구사항을 연결한 결정 함수 및 상태 전이용 골든 fixture 계약이다. 제품 구현 또는 실제 가족 사용성 검증의 성공 증거가 아니다.",
+  "source_contracts": [
+    {
+      "path": "../Q5-family-consent.md",
+      "sha256": "1192b9188919b9769be40f64c0dc6df0b446d2a650d6ce84cefed72d6ed7f077"
+    },
+    {
+      "path": "../Q8-kiro-blueprint.md",
+      "sha256": "50a9a46c94246bb0c6f9edc743642fb17e81834864bf84ade93c99abeb3c781b"
+    }
+  ],
+  "signature_contract": {
+    "cryptographic_verification_performed_by_fixture": false,
+    "contract": "이 fixture는 실제 암호 검증을 수행하지 않는다. verifiedVotes와 payerChoice는 신뢰 경계가 키·서명·현재 요청·nonce·역할을 검증해 얻은 결과여야 하며 클라이언트 boolean을 신뢰하면 안 된다.",
+    "harness_contract": "시험 하네스는 실제 키 생성이나 서명 검증 대신 합성 trust_boundary_verdict를 주입한다. 판정기는 accepted가 true인 결과만 동의 계산에 전달해야 한다.",
+    "required_checks": [
+      "signature_valid",
+      "member_key_binding_valid",
+      "current_request_binding_valid",
+      "nonce_fresh",
+      "actor_role_verified"
+    ],
+    "client_assertions_are_authoritative": false
+  },
+  "case_input_defaults": {
+    "applies_to": "모든 cases[].input에 적용하며 사례에 명시한 trust_boundary_verdict 필드가 같은 키를 덮어쓴다.",
+    "trust_boundary_verdict": {
+      "source": "synthetic_trust_boundary_injection",
+      "signature_valid": true,
+      "member_key_binding_valid": true,
+      "current_request_binding_valid": true,
+      "nonce_fresh": true,
+      "actor_role_verified": true,
+      "accepted": true
+    },
+    "meaning": "FAM-01부터 FAM-21까지 별도 실패값이 없으면 키·서명·현재 요청·nonce·역할 검사를 통과한 합성 검증 결과가 주입됐다는 전제다. FAM-22 이후의 보안 반례는 명시한 실패값이 우선한다."
+  },
+  "interpretation": {
+    "invariant_summary": {
+      "I01": "현재 roster 전원의 명시적 agree만 unanimous 안내를 연다.",
+      "I02": "48시간 전 timeout 예외를 열지 않으며 시간 경과만으로 안내나 해지를 실행하지 않는다.",
+      "I03": "명시적 object가 있으면 timeout 결제자 예외로 우회하지 않는다.",
+      "I04": "아동 구독은 등록된 보호자 두 명의 명시적 동의를 요구한다.",
+      "I05": "takeover 또는 downgrade는 찬성이 아니며 새 제안과 비용 및 권한 확인이 필요하다.",
+      "I06": "request, version, policy, proposal, roster가 다르면 기존 동의를 재사용하지 않는다.",
+      "I07": "키, 구성원, 내용, 만료, nonce 검증에 실패한 응답은 수락하지 않는다.",
+      "I08": "철회는 안내를 잠그며 같은 조건의 의사 변경은 더 높은 seq만 수락한다.",
+      "I09": "전달, 공유 성공, QR 스캔은 동의가 아니다.",
+      "I10": "결정 결과는 안내 허용이며 실제 해지 완료가 아니다.",
+      "I11": "최신 버전 재검사와 안내 권한 소비는 하나의 원자적 처리여야 한다.",
+      "I12": "다음 청구 관측 전에는 실제 절약이나 다음 달 0원을 확정하지 않는다."
+    },
+    "steering_rule_summary": {
+      "FR01": "소유자의 명시적 확인을 요구한다.",
+      "FR02": "참여자와 정책 버전별로 동의를 묶는다.",
+      "FR03": "만료, 철회, 계약 또는 요청 변경 시 이전 동의를 무효화한다.",
+      "FR04": "가족 의견은 법적 위임권 또는 서비스 해지 권한과 다르다."
+    },
+    "decision_values": [
+      "ALLOW_GUIDE",
+      "AWAIT_RESPONSES",
+      "BLOCK",
+      "REQUIRE_PAYER_DECISION",
+      "PROPOSE_ALTERNATIVE",
+      "DENY_TRANSITION",
+      "REJECT_RESPONSE",
+      "REQUIRE_NEW_REQUEST",
+      "REQUIRE_RECOVERY_REVIEW"
+    ],
+    "binding_note": "request_id, request_version, contract_version, policy_hash, proposal_hash, roster_hash, member_id, nonce, seq, expiry와 actor 권한을 신뢰 경계에서 검증한다."
+  },
+  "rule_sets": [
+    {
+      "id": "RULESET_UNANIMOUS_SYN",
+      "label": "전원 명시 동의",
+      "mode": "unanimous",
+      "wait_hours": 48,
+      "approval_valid_hours": 72,
+      "silence_is_consent": false,
+      "timeout_waives_guardians": false,
+      "actual_cancellation_actor": "billing_account_owner",
+      "rule_ids": [
+        "I01",
+        "I02",
+        "I03",
+        "I05",
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "I10",
+        "I11",
+        "I12",
+        "FR01",
+        "FR02",
+        "FR03",
+        "FR04"
+      ]
+    },
+    {
+      "id": "RULESET_PAYER_AFTER_TIMEOUT_SYN",
+      "label": "48시간 후 결제자 명시 결정 옵션",
+      "mode": "payer_after_timeout",
+      "wait_hours": 48,
+      "approval_valid_hours": 72,
+      "silence_is_consent": false,
+      "requires_prior_policy_opt_in": true,
+      "requires_no_objection": true,
+      "requires_verified_payer_choice": true,
+      "timeout_waives_guardians": false,
+      "receipt_label": "payer_override",
+      "actual_cancellation_actor": "billing_account_owner",
+      "rule_ids": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I06",
+        "I07",
+        "I08",
+        "I10",
+        "I11",
+        "FR01",
+        "FR02",
+        "FR03",
+        "FR04"
+      ]
+    },
+    {
+      "id": "RULESET_CHILD_TWO_GUARDIANS_SYN",
+      "label": "아동 이용 구독의 보호자 두 명 동의",
+      "mode": "unanimous_with_two_guardians",
+      "wait_hours": 48,
+      "approval_valid_hours": 72,
+      "silence_is_consent": false,
+      "required_guardian_count": 2,
+      "timeout_waives_guardians": false,
+      "actual_cancellation_actor": "billing_account_owner",
+      "scope_note": "Q5가 제안한 강화 앱 규칙이며 보편적 법률 결론으로 사용하지 않는다.",
+      "rule_ids": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I06",
+        "I07",
+        "I08",
+        "I10",
+        "I11",
+        "FR01",
+        "FR02",
+        "FR03",
+        "FR04"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "FAM-01",
+      "requirement_ids": [
+        "R07",
+        "R16",
+        "R17"
+      ],
+      "description": "현재 roster 전원이 동일한 요청 버전에 명시 동의하면 가족 검토 안내를 허용한다.",
+      "coverage_tags": [
+        "unanimous",
+        "happy_path"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_01_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_A_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_01_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_01_B_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "open_cancellation_guide"
+        }
+      },
+      "expected": {
+        "decision": "ALLOW_GUIDE",
+        "result_state": "guidance_ready",
+        "cancellation_action_enabled": false,
+        "consent_receipt_label": "unanimous",
+        "reason_rule_ids": [
+          "I01",
+          "I10",
+          "FR01",
+          "FR02",
+          "FR04"
+        ],
+        "note": "안내 허용은 실제 서비스 해지 완료가 아니다."
+      }
+    },
+    {
+      "id": "FAM-02",
+      "requirement_ids": [
+        "R07",
+        "R16"
+      ],
+      "description": "참여자 한 명이 반대하면 결제자의 timeout 옵션으로 우회하지 않고 차단한다.",
+      "coverage_tags": [
+        "one_objection",
+        "no_timeout_bypass"
+      ],
+      "input": {
+        "clock": "2026-11-16T12:01:00+09:00",
+        "rule_set_id": "RULESET_PAYER_AFTER_TIMEOUT_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_02_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T12:00:00+09:00",
+          "expires_at": "2026-11-17T12:00:00+09:00",
+          "policy_opt_in": true,
+          "policy_hash": "POLICY_B_SYN",
+          "proposal_hash": "PROPOSAL_B_SYN",
+          "roster_hash": "ROSTER_B_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_02_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_02_B_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "object",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "ui",
+          "action": "choose_cancel_after_timeout"
+        }
+      },
+      "expected": {
+        "decision": "BLOCK",
+        "result_state": "consent_blocked",
+        "cancellation_action_enabled": false,
+        "consent_receipt_label": null,
+        "reason_rule_ids": [
+          "I03",
+          "FR02"
+        ],
+        "blocking_member_ids": [
+          "MEMBER_B_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-03",
+      "requirement_ids": [
+        "R07"
+      ],
+      "description": "48시간 전 참여자 한 명이 응답하지 않으면 명시 동의를 기다린다.",
+      "coverage_tags": [
+        "pending_before_48h",
+        "silence_not_consent"
+      ],
+      "input": {
+        "clock": "2026-11-15T11:59:59+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_03_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T12:00:00+09:00",
+          "expires_at": "2026-11-17T12:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_C_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_03_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "evaluate_consent"
+        }
+      },
+      "expected": {
+        "decision": "AWAIT_RESPONSES",
+        "result_state": "awaiting_family",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I01",
+          "I02"
+        ],
+        "pending_member_ids": [
+          "MEMBER_B_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-04",
+      "requirement_ids": [
+        "R07",
+        "R08"
+      ],
+      "description": "기본 전원 동의 규칙에서는 48시간 무응답도 동의로 간주하지 않는다.",
+      "coverage_tags": [
+        "no_response_48h",
+        "default_unanimous"
+      ],
+      "input": {
+        "clock": "2026-11-16T12:00:01+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_04_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T12:00:00+09:00",
+          "expires_at": "2026-11-17T12:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_D_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_04_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "evaluate_consent"
+        }
+      },
+      "expected": {
+        "decision": "AWAIT_RESPONSES",
+        "result_state": "awaiting_family",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I01",
+          "I02"
+        ],
+        "pending_member_ids": [
+          "MEMBER_B_SYN"
+        ],
+        "note": "48시간은 자동 동의 또는 자동 해지 시각이 아니다."
+      }
+    },
+    {
+      "id": "FAM-05",
+      "requirement_ids": [
+        "R07",
+        "R16"
+      ],
+      "description": "사전 공개한 payer_after_timeout 규칙에서 48시간이 지나고 반대가 없으면 결제자 명시 결정을 요구한다.",
+      "coverage_tags": [
+        "payer_timeout_eligible",
+        "not_unanimous"
+      ],
+      "input": {
+        "clock": "2026-11-16T12:00:01+09:00",
+        "rule_set_id": "RULESET_PAYER_AFTER_TIMEOUT_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_05_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T12:00:00+09:00",
+          "expires_at": "2026-11-17T12:00:00+09:00",
+          "policy_opt_in": true,
+          "policy_hash": "POLICY_B_SYN",
+          "proposal_hash": "PROPOSAL_E_SYN",
+          "roster_hash": "ROSTER_B_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_05_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "evaluate_consent"
+        }
+      },
+      "expected": {
+        "decision": "REQUIRE_PAYER_DECISION",
+        "result_state": "payer_decision_required",
+        "cancellation_action_enabled": false,
+        "consent_receipt_label": null,
+        "reason_rule_ids": [
+          "I02",
+          "I03",
+          "FR01",
+          "FR02"
+        ],
+        "pending_member_ids": [
+          "MEMBER_B_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-06",
+      "requirement_ids": [
+        "R07",
+        "R16"
+      ],
+      "description": "신뢰 경계에서 현재 결제자로 검증된 actor가 timeout 결정을 명시해야 payer override 안내를 허용한다.",
+      "coverage_tags": [
+        "payer_override",
+        "verified_owner"
+      ],
+      "input": {
+        "clock": "2026-11-16T12:01:00+09:00",
+        "rule_set_id": "RULESET_PAYER_AFTER_TIMEOUT_SYN",
+        "state": "payer_decision_required",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_06_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T12:00:00+09:00",
+          "expires_at": "2026-11-17T12:00:00+09:00",
+          "policy_opt_in": true,
+          "policy_hash": "POLICY_B_SYN",
+          "proposal_hash": "PROPOSAL_F_SYN",
+          "roster_hash": "ROSTER_B_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_06_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "actor_role_verified": true,
+          "nonce": "NONCE_FAM_06_SYN",
+          "channel": "api",
+          "action": "payer_choose_cancel"
+        }
+      },
+      "expected": {
+        "decision": "ALLOW_GUIDE",
+        "result_state": "guidance_ready",
+        "cancellation_action_enabled": false,
+        "consent_receipt_label": "payer_override",
+        "reason_rule_ids": [
+          "I02",
+          "I03",
+          "I07",
+          "I10",
+          "FR01",
+          "FR04"
+        ],
+        "note": "payer_override를 unanimous로 표시하지 않는다."
+      }
+    },
+    {
+      "id": "FAM-07",
+      "requirement_ids": [
+        "R07",
+        "R16"
+      ],
+      "description": "'내가 낼게' 응답은 소유권과 납부 전환이 확인되기 전에는 찬성 또는 해지 권한이 아니다.",
+      "coverage_tags": [
+        "takeover_offer",
+        "ownership_unverified"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_07_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_CANCEL_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_07_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_07_B_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "takeover",
+            "seq": 1,
+            "request_version": 1,
+            "billing_ownership_verified": false,
+            "payment_transition_verified": false
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "open_cancellation_guide"
+        }
+      },
+      "expected": {
+        "decision": "PROPOSE_ALTERNATIVE",
+        "result_state": "alternative_proposed",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I05",
+          "I10",
+          "FR01",
+          "FR04"
+        ],
+        "required_next_steps": [
+          "verify_cost_and_impact",
+          "verify_billing_authority",
+          "create_request_version_2"
+        ]
+      }
+    },
+    {
+      "id": "FAM-08",
+      "requirement_ids": [
+        "R07",
+        "R08",
+        "R16"
+      ],
+      "description": "인수 비용과 납부 전환을 확인해 새 제안 v2를 만들었더라도 v1 동의는 재사용하지 않는다.",
+      "coverage_tags": [
+        "takeover_verified",
+        "new_proposal_requires_reconsent"
+      ],
+      "input": {
+        "clock": "2026-11-14T13:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 2,
+        "request": {
+          "id": "REQ_FAM_08_SYN",
+          "version": 2,
+          "created_at": "2026-11-14T12:50:00+09:00",
+          "expires_at": "2026-11-17T12:50:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_TAKEOVER_V2_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "proposed_payer"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_08_OWNER_V1_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_08_B_V1_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "takeover",
+            "seq": 1,
+            "request_version": 1,
+            "billing_ownership_verified": true,
+            "payment_transition_verified": true
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "evaluate_consent"
+        }
+      },
+      "expected": {
+        "decision": "AWAIT_RESPONSES",
+        "result_state": "awaiting_family",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I05",
+          "I06",
+          "FR02",
+          "FR03"
+        ],
+        "invalidated_response_ids": [
+          "RESP_08_OWNER_V1_SYN",
+          "RESP_08_B_V1_SYN"
+        ],
+        "pending_member_ids": [
+          "OWNER_SYN",
+          "MEMBER_B_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-09",
+      "requirement_ids": [
+        "R08",
+        "R16"
+      ],
+      "description": "요청 버전이 v2로 바뀐 뒤 재전송한 오래된 v1 동의를 거부한다.",
+      "coverage_tags": [
+        "stale_consent",
+        "request_version_change",
+        "replay"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_09_SYN",
+          "version": 2,
+          "created_at": "2026-11-14T11:30:00+09:00",
+          "expires_at": "2026-11-17T11:30:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_V2_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_09_OWNER_V2_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 2,
+            "request_version": 2
+          },
+          {
+            "response_id": "RESP_09_B_V1_REPLAY_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "trust_boundary_verdict": {
+          "source": "synthetic_trust_boundary_injection",
+          "response_id": "RESP_09_B_V1_REPLAY_SYN",
+          "signature_valid": true,
+          "member_key_binding_valid": true,
+          "current_request_binding_valid": false,
+          "nonce_fresh": true,
+          "actor_role_verified": true,
+          "accepted": false,
+          "error_code": "REQUEST_BINDING_INVALID"
+        },
+        "command": {
+          "actor_id": "MEMBER_B_SYN",
+          "channel": "api",
+          "action": "submit_response",
+          "nonce": "NONCE_FAM_09_OLD_SYN"
+        }
+      },
+      "expected": {
+        "decision": "REJECT_RESPONSE",
+        "result_state": "awaiting_family",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I06",
+          "I07",
+          "FR02",
+          "FR03"
+        ],
+        "rejected_response_ids": [
+          "RESP_09_B_V1_REPLAY_SYN"
+        ],
+        "pending_member_ids": [
+          "MEMBER_B_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-10",
+      "requirement_ids": [
+        "R07",
+        "R08",
+        "R16"
+      ],
+      "description": "안내 허용 후 해지 전 동의를 철회하면 안내를 잠그고 가족 검토 상태로 되돌린다.",
+      "coverage_tags": [
+        "withdrawal",
+        "pre_cancellation"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "guidance_ready",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_10_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_G_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_10_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_10_B_WITHDRAW_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "withdraw",
+            "seq": 2,
+            "supersedes_seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "consume_guide_authorization"
+        }
+      },
+      "expected": {
+        "decision": "BLOCK",
+        "result_state": "consent_invalidated",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I08",
+          "I11",
+          "FR03"
+        ],
+        "invalidated_member_ids": [
+          "MEMBER_B_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-11",
+      "requirement_ids": [
+        "R08",
+        "R16"
+      ],
+      "description": "동일 제안에서 본인의 반대를 더 높은 seq의 agree로 바꾸면 같은 버전에서 재계산한다.",
+      "coverage_tags": [
+        "objection_withdrawal",
+        "higher_seq"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "consent_blocked",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_11_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_H_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_11_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_11_B_OBJECT_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "object",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_11_B_AGREE_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "agree",
+            "seq": 2,
+            "supersedes_seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "MEMBER_B_SYN",
+          "channel": "domain",
+          "action": "submit_response"
+        }
+      },
+      "expected": {
+        "decision": "ALLOW_GUIDE",
+        "result_state": "guidance_ready",
+        "cancellation_action_enabled": false,
+        "consent_receipt_label": "unanimous",
+        "reason_rule_ids": [
+          "I01",
+          "I08",
+          "I10",
+          "FR02"
+        ],
+        "preserved_history_response_ids": [
+          "RESP_11_B_OBJECT_SYN",
+          "RESP_11_B_AGREE_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-12",
+      "requirement_ids": [
+        "R08",
+        "R16"
+      ],
+      "description": "동일 구성원의 같은 seq 충돌 응답은 재생 또는 경합으로 거부하고 기존 결정을 유지한다.",
+      "coverage_tags": [
+        "replay_attack",
+        "same_seq_conflict"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_12_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_I_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_12_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_12_B_ORIGINAL_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "object",
+            "seq": 4,
+            "request_version": 1,
+            "nonce": "NONCE_FAM_12_SYN"
+          },
+          {
+            "response_id": "RESP_12_B_CONFLICT_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "agree",
+            "seq": 4,
+            "request_version": 1,
+            "nonce": "NONCE_FAM_12_SYN"
+          }
+        ],
+        "trust_boundary_verdict": {
+          "source": "synthetic_trust_boundary_injection",
+          "response_id": "RESP_12_B_CONFLICT_SYN",
+          "signature_valid": true,
+          "member_key_binding_valid": true,
+          "current_request_binding_valid": true,
+          "nonce_fresh": false,
+          "actor_role_verified": true,
+          "accepted": false,
+          "error_code": "NONCE_REUSED"
+        },
+        "command": {
+          "actor_id": "MEMBER_B_SYN",
+          "channel": "api",
+          "action": "submit_response"
+        }
+      },
+      "expected": {
+        "decision": "REJECT_RESPONSE",
+        "result_state": "consent_blocked",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I07",
+          "I08",
+          "FR03"
+        ],
+        "rejected_response_ids": [
+          "RESP_12_B_CONFLICT_SYN"
+        ],
+        "accepted_response_ids": [
+          "RESP_12_B_ORIGINAL_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-13",
+      "requirement_ids": [
+        "R08"
+      ],
+      "description": "승인 유효기간 72시간이 지나면 이전 동의를 무효화하고 새 요청을 요구한다.",
+      "coverage_tags": [
+        "consent_expired",
+        "new_request"
+      ],
+      "input": {
+        "clock": "2026-11-17T12:00:01+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_13_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T12:00:00+09:00",
+          "expires_at": "2026-11-17T12:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_J_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_13_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_13_B_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "evaluate_consent"
+        }
+      },
+      "expected": {
+        "decision": "REQUIRE_NEW_REQUEST",
+        "result_state": "consent_invalidated",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I06",
+          "I07",
+          "FR03"
+        ],
+        "invalidated_response_ids": [
+          "RESP_13_OWNER_SYN",
+          "RESP_13_B_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-14",
+      "requirement_ids": [
+        "R07",
+        "R16"
+      ],
+      "description": "아동 이용 구독에서 소유자와 등록 보호자 두 명이 모두 동의하면 안내를 허용한다.",
+      "coverage_tags": [
+        "child_subscription",
+        "two_guardians",
+        "unanimous"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_CHILD_TWO_GUARDIANS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_14_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_CHILD_SYN",
+          "proposal_hash": "PROPOSAL_CHILD_A_SYN",
+          "roster_hash": "ROSTER_CHILD_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "PARENT_A_SYN",
+            "role": "guardian"
+          },
+          {
+            "member_id": "PARENT_B_SYN",
+            "role": "guardian"
+          },
+          {
+            "member_id": "CHILD_SYN",
+            "role": "child_user"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_14_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_14_PARENT_A_SYN",
+            "member_id": "PARENT_A_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_14_PARENT_B_SYN",
+            "member_id": "PARENT_B_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_14_CHILD_SYN",
+            "member_id": "CHILD_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "open_cancellation_guide"
+        }
+      },
+      "expected": {
+        "decision": "ALLOW_GUIDE",
+        "result_state": "guidance_ready",
+        "cancellation_action_enabled": false,
+        "consent_receipt_label": "unanimous",
+        "reason_rule_ids": [
+          "I01",
+          "I04",
+          "I10",
+          "FR01",
+          "FR02",
+          "FR04"
+        ]
+      }
+    },
+    {
+      "id": "FAM-15",
+      "requirement_ids": [
+        "R07"
+      ],
+      "description": "아동 이용 구독에서 보호자 한 명이 미응답이면 48시간 후에도 timeout으로 면제하지 않는다.",
+      "coverage_tags": [
+        "child_subscription",
+        "missing_guardian",
+        "timeout_no_waiver"
+      ],
+      "input": {
+        "clock": "2026-11-16T12:00:01+09:00",
+        "rule_set_id": "RULESET_CHILD_TWO_GUARDIANS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_15_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T12:00:00+09:00",
+          "expires_at": "2026-11-17T12:00:00+09:00",
+          "policy_hash": "POLICY_CHILD_SYN",
+          "proposal_hash": "PROPOSAL_CHILD_B_SYN",
+          "roster_hash": "ROSTER_CHILD_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "PARENT_A_SYN",
+            "role": "guardian"
+          },
+          {
+            "member_id": "PARENT_B_SYN",
+            "role": "guardian"
+          },
+          {
+            "member_id": "CHILD_SYN",
+            "role": "child_user"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_15_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_15_PARENT_A_SYN",
+            "member_id": "PARENT_A_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_15_CHILD_SYN",
+            "member_id": "CHILD_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "evaluate_consent"
+        }
+      },
+      "expected": {
+        "decision": "AWAIT_RESPONSES",
+        "result_state": "awaiting_family",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I01",
+          "I02",
+          "I04"
+        ],
+        "pending_member_ids": [
+          "PARENT_B_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-16",
+      "requirement_ids": [
+        "R07",
+        "R16"
+      ],
+      "description": "아동 이용 구독에서 보호자 한 명이 반대하면 안내 상태로 전이하지 않는다.",
+      "coverage_tags": [
+        "child_subscription",
+        "guardian_objection"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_CHILD_TWO_GUARDIANS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_16_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_CHILD_SYN",
+          "proposal_hash": "PROPOSAL_CHILD_C_SYN",
+          "roster_hash": "ROSTER_CHILD_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "PARENT_A_SYN",
+            "role": "guardian"
+          },
+          {
+            "member_id": "PARENT_B_SYN",
+            "role": "guardian"
+          },
+          {
+            "member_id": "CHILD_SYN",
+            "role": "child_user"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_16_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_16_PARENT_A_SYN",
+            "member_id": "PARENT_A_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_16_PARENT_B_SYN",
+            "member_id": "PARENT_B_SYN",
+            "decision": "object",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_16_CHILD_SYN",
+            "member_id": "CHILD_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "open_cancellation_guide"
+        }
+      },
+      "expected": {
+        "decision": "BLOCK",
+        "result_state": "consent_blocked",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I03",
+          "I04"
+        ],
+        "blocking_member_ids": [
+          "PARENT_B_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-17",
+      "requirement_ids": [
+        "R07",
+        "R16"
+      ],
+      "description": "UI에서 버튼을 숨겼더라도 API가 가족 동의 검사를 생략해 guidance_ready로 바꾸려는 요청을 거부한다.",
+      "coverage_tags": [
+        "api_bypass",
+        "shared_policy_function"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_17_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_K_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_17_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "api",
+          "action": "force_transition",
+          "requested_state": "guidance_ready",
+          "bypass_client_guard": true
+        }
+      },
+      "expected": {
+        "decision": "DENY_TRANSITION",
+        "result_state": "awaiting_family",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I01",
+          "I11",
+          "FR02"
+        ],
+        "error_code": "CONSENT_INSUFFICIENT"
+      }
+    },
+    {
+      "id": "FAM-18",
+      "requirement_ids": [
+        "R07",
+        "R16"
+      ],
+      "description": "결제 소유자가 아닌 참여자가 소유자 역할을 주장해 payer 결정을 보내는 요청을 거부한다.",
+      "coverage_tags": [
+        "ownership_spoof",
+        "api_bypass"
+      ],
+      "input": {
+        "clock": "2026-11-16T12:01:00+09:00",
+        "rule_set_id": "RULESET_PAYER_AFTER_TIMEOUT_SYN",
+        "state": "payer_decision_required",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_18_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T12:00:00+09:00",
+          "expires_at": "2026-11-17T12:00:00+09:00",
+          "policy_opt_in": true,
+          "policy_hash": "POLICY_B_SYN",
+          "proposal_hash": "PROPOSAL_L_SYN",
+          "roster_hash": "ROSTER_B_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_18_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "trust_boundary_verdict": {
+          "source": "synthetic_trust_boundary_injection",
+          "response_id": null,
+          "signature_valid": true,
+          "member_key_binding_valid": true,
+          "current_request_binding_valid": true,
+          "nonce_fresh": true,
+          "actor_role_verified": false,
+          "accepted": false,
+          "error_code": "OWNER_AUTH_REQUIRED"
+        },
+        "command": {
+          "actor_id": "MEMBER_B_SYN",
+          "claimed_role": "billing_account_owner",
+          "actor_role_verified": false,
+          "nonce": "NONCE_FAM_18_SYN",
+          "channel": "api",
+          "action": "payer_choose_cancel"
+        }
+      },
+      "expected": {
+        "decision": "DENY_TRANSITION",
+        "result_state": "payer_decision_required",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I07",
+          "FR01",
+          "FR04"
+        ],
+        "error_code": "OWNER_AUTH_REQUIRED"
+      }
+    },
+    {
+      "id": "FAM-19",
+      "requirement_ids": [
+        "R08",
+        "R16"
+      ],
+      "description": "계약 버전이 변경되면 이전 계약 버전에 묶인 전원 동의를 모두 무효화한다.",
+      "coverage_tags": [
+        "contract_version_change",
+        "stale_consent"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "guidance_ready",
+        "contract_version": 2,
+        "request": {
+          "id": "REQ_FAM_19_SYN",
+          "version": 1,
+          "contract_version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_M_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_19_OWNER_V1_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1,
+            "contract_version": 1
+          },
+          {
+            "response_id": "RESP_19_B_V1_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1,
+            "contract_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "consume_guide_authorization"
+        }
+      },
+      "expected": {
+        "decision": "REQUIRE_NEW_REQUEST",
+        "result_state": "consent_invalidated",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I06",
+          "I11",
+          "FR03"
+        ],
+        "invalidated_response_ids": [
+          "RESP_19_OWNER_V1_SYN",
+          "RESP_19_B_V1_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-20",
+      "requirement_ids": [
+        "R08",
+        "R11",
+        "R15",
+        "R16"
+      ],
+      "description": "해지 증거 기록 뒤의 반대는 과거 해지를 되돌리는 명령이 아니라 복구 또는 재가입 검토 사건으로 분리한다.",
+      "coverage_tags": [
+        "post_cancellation_objection",
+        "recovery_review",
+        "state_separation"
+      ],
+      "input": {
+        "clock": "2026-11-20T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "termination_verified",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_20_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_N_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_20_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_20_B_AGREE_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_20_B_OBJECT_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "object",
+            "seq": 2,
+            "request_version": 1,
+            "received_after_termination_evidence": true
+          }
+        ],
+        "command": {
+          "actor_id": "MEMBER_B_SYN",
+          "channel": "domain",
+          "action": "submit_response"
+        }
+      },
+      "expected": {
+        "decision": "REQUIRE_RECOVERY_REVIEW",
+        "result_state": "recovery_review_required",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I08",
+          "I10",
+          "I12",
+          "FR04"
+        ],
+        "must_not_set_states": [
+          "guidance_ready",
+          "zero_verified"
+        ],
+        "note": "복구 검토와 다음 청구 관측을 별도 상태로 유지한다."
+      }
+    },
+    {
+      "id": "FAM-21",
+      "requirement_ids": [
+        "R07",
+        "R16"
+      ],
+      "description": "요청 전달, 공유창 성공, QR 스캔 기록만 있고 명시 투표가 없으면 동의로 계산하지 않는다.",
+      "coverage_tags": [
+        "delivery_not_consent",
+        "share_success",
+        "qr_scan",
+        "no_explicit_vote"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_21_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_O_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "delivery_events": [
+          {
+            "event_id": "DELIVERY_FAM_21_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "kind": "share_sheet_completed"
+          },
+          {
+            "event_id": "SCAN_FAM_21_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "kind": "qr_scanned"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_21_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "command": {
+          "actor_id": "OWNER_SYN",
+          "channel": "domain",
+          "action": "evaluate_consent"
+        }
+      },
+      "expected": {
+        "decision": "AWAIT_RESPONSES",
+        "result_state": "awaiting_family",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I01",
+          "I09",
+          "FR02"
+        ],
+        "pending_member_ids": [
+          "MEMBER_B_SYN"
+        ],
+        "ignored_as_consent_event_ids": [
+          "DELIVERY_FAM_21_SYN",
+          "SCAN_FAM_21_SYN"
+        ]
+      }
+    },
+    {
+      "id": "FAM-22",
+      "requirement_ids": [
+        "R07",
+        "R08",
+        "R16"
+      ],
+      "description": "서명 검증에 실패한 agree 응답은 동의 집합에 넣지 않고 SIGNATURE_INVALID로 거부한다.",
+      "coverage_tags": [
+        "signature_invalid",
+        "synthetic_trust_boundary_injection"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_22_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_P_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_22_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_22_B_INVALID_SIG_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "trust_boundary_verdict": {
+          "source": "synthetic_trust_boundary_injection",
+          "response_id": "RESP_22_B_INVALID_SIG_SYN",
+          "signature_valid": false,
+          "member_key_binding_valid": true,
+          "current_request_binding_valid": true,
+          "nonce_fresh": true,
+          "actor_role_verified": true,
+          "accepted": false,
+          "error_code": "SIGNATURE_INVALID"
+        },
+        "command": {
+          "actor_id": "MEMBER_B_SYN",
+          "channel": "api",
+          "action": "submit_response"
+        }
+      },
+      "expected": {
+        "decision": "REJECT_RESPONSE",
+        "result_state": "awaiting_family",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I07",
+          "FR02"
+        ],
+        "rejected_response_ids": [
+          "RESP_22_B_INVALID_SIG_SYN"
+        ],
+        "pending_member_ids": [
+          "MEMBER_B_SYN"
+        ],
+        "error_code": "SIGNATURE_INVALID"
+      }
+    },
+    {
+      "id": "FAM-23",
+      "requirement_ids": [
+        "R07",
+        "R08",
+        "R16"
+      ],
+      "description": "서명 자체가 유효해도 roster 구성원과 검증 키의 바인딩이 실패하면 응답을 거부한다.",
+      "coverage_tags": [
+        "signature_valid",
+        "member_key_binding_invalid",
+        "synthetic_trust_boundary_injection"
+      ],
+      "input": {
+        "clock": "2026-11-14T12:00:00+09:00",
+        "rule_set_id": "RULESET_UNANIMOUS_SYN",
+        "state": "awaiting_family",
+        "contract_version": 1,
+        "request": {
+          "id": "REQ_FAM_23_SYN",
+          "version": 1,
+          "created_at": "2026-11-14T10:00:00+09:00",
+          "expires_at": "2026-11-17T10:00:00+09:00",
+          "policy_hash": "POLICY_A_SYN",
+          "proposal_hash": "PROPOSAL_Q_SYN",
+          "roster_hash": "ROSTER_A_SYN"
+        },
+        "roster": [
+          {
+            "member_id": "OWNER_SYN",
+            "role": "billing_account_owner"
+          },
+          {
+            "member_id": "MEMBER_B_SYN",
+            "role": "affected_member"
+          }
+        ],
+        "responses": [
+          {
+            "response_id": "RESP_23_OWNER_SYN",
+            "member_id": "OWNER_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          },
+          {
+            "response_id": "RESP_23_B_WRONG_KEY_SYN",
+            "member_id": "MEMBER_B_SYN",
+            "decision": "agree",
+            "seq": 1,
+            "request_version": 1
+          }
+        ],
+        "trust_boundary_verdict": {
+          "source": "synthetic_trust_boundary_injection",
+          "response_id": "RESP_23_B_WRONG_KEY_SYN",
+          "signature_valid": true,
+          "member_key_binding_valid": false,
+          "current_request_binding_valid": true,
+          "nonce_fresh": true,
+          "actor_role_verified": true,
+          "accepted": false,
+          "error_code": "MEMBER_KEY_BINDING_INVALID"
+        },
+        "command": {
+          "actor_id": "MEMBER_B_SYN",
+          "channel": "api",
+          "action": "submit_response"
+        }
+      },
+      "expected": {
+        "decision": "REJECT_RESPONSE",
+        "result_state": "awaiting_family",
+        "cancellation_action_enabled": false,
+        "reason_rule_ids": [
+          "I07",
+          "FR02"
+        ],
+        "rejected_response_ids": [
+          "RESP_23_B_WRONG_KEY_SYN"
+        ],
+        "pending_member_ids": [
+          "MEMBER_B_SYN"
+        ],
+        "error_code": "MEMBER_KEY_BINDING_INVALID"
+      }
+    }
+  ],
+  "status": "ready_for_review"
+}

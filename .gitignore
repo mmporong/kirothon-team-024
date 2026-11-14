@@ -21,3 +21,8 @@ out/
 # 기타
 .DS_Store
 *.log
+
+# 구독 마침표
+.vite/
+coverage/
+bot-state/runtime/

@@ -1,0 +1,11 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "stop-summary",
+      "trigger": "Stop",
+      "action": { "type": "command", "command": "node scripts/hooks/stop-summary.mjs" },
+      "timeout": 90
+    }
+  ]
+}

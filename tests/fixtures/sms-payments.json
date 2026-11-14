@@ -1,0 +1,3880 @@
+{
+  "schema_version": "1.0",
+  "fixture_set": "sms-payments",
+  "synthetic": true,
+  "timezone": "Asia/Seoul",
+  "created_at": "2026-11-14T14:18:36.136845+09:00",
+  "source_contracts": [
+    {
+      "path": "../Q1-sms-access.md",
+      "sha256": "ccfb0d79f2f062bbf02f922cd88d2914b74859332de861649abac99b9388e423"
+    },
+    {
+      "path": "../Q2-cancel-guide.json",
+      "sha256": "c701728c8712a481fb55204db67a5a1fa0a6d2a63ba6bbc158e4a429006df99a"
+    },
+    {
+      "path": "../Q8-kiro-blueprint.md",
+      "sha256": "50a9a46c94246bb0c6f9edc743642fb17e81834864bf84ade93c99abeb3c781b"
+    }
+  ],
+  "scope": "전부 합성 입력과 기대 결과. 실서비스 현행 가격/문자 호환성/개인 거래/구현 통과의 증거가 아님.",
+  "classification_order": [
+    "advertisement",
+    "otp",
+    "failed",
+    "notice",
+    "partial_cancellation",
+    "cancellation",
+    "refund",
+    "zero_authorization",
+    "approval",
+    "unknown"
+  ],
+  "local_rules": {
+    "FIX-SMS-01": "(광고) 문자는 지출 후보 제외. 카드의 광고 5건 요구를 위한 합성 계약.",
+    "FIX-SMS-02": "본문의 연도와 KST가 명시된 거래만 완전한 일시 생성. received_at은 누락 연도의 근거가 아님.",
+    "FIX-SMS-03": "금액은 절댓값, cash_effect는 본문 유형에 따른 debit/credit/none 방향 후보이며 실제 자금 이동 확정이 아님. 금액·통화 미확정과 방향은 분리. 복수 금액/모호한 통화는 값 확정 보류.",
+    "FIX-SMS-04": "카드 끝4자리·공개 서비스명은 전부 합성 문맥. 결제 채널·구독 계약은 SMS만으로 확정하지 않음."
+  },
+  "span_contract": "Python/JS Unicode code point 기준 [start,end). UTF-16 index와 다를 수 있으므로 adapter가 변환해야 함.",
+  "cases": [
+    {
+      "id": "SMS-001",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-001",
+        "received_at": "2026-09-05T10:20:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n7,000원 일시불\n2026-09-05 10:20 KST\n넷플릭스\n합성거래 SYN-TX-001"
+      },
+      "expected": {
+        "service_id": "netflix_kr",
+        "amount": {
+          "value": 7000,
+          "currency": "KRW"
+        },
+        "event_at": "2026-09-05T10:20:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 71,
+            "end": 75,
+            "text": "넷플릭스"
+          },
+          "amount": {
+            "start": 39,
+            "end": 45,
+            "text": "7,000원"
+          },
+          "event_time": {
+            "start": 50,
+            "end": 66,
+            "text": "2026-09-05 10:20"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:15b720bc255739311bda29acfb83ee25d975a6d4b7c1eaf0378caef624ce1855",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-002",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-002",
+        "received_at": "2026-10-05T10:20:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n7,000원 일시불\n2026-10-05 10:20 KST\n넷플릭스\n합성거래 SYN-TX-002"
+      },
+      "expected": {
+        "service_id": "netflix_kr",
+        "amount": {
+          "value": 7000,
+          "currency": "KRW"
+        },
+        "event_at": "2026-10-05T10:20:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 71,
+            "end": 75,
+            "text": "넷플릭스"
+          },
+          "amount": {
+            "start": 39,
+            "end": 45,
+            "text": "7,000원"
+          },
+          "event_time": {
+            "start": 50,
+            "end": 66,
+            "text": "2026-10-05 10:20"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:d5f199d051dbbb244ab3058dc21f9675e065e79729fb80dececb915e162da8ac",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-003",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-003",
+        "received_at": "2026-11-05T10:20:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n7,000원 일시불\n2026-11-05 10:20 KST\n넷플릭스\n합성거래 SYN-TX-003"
+      },
+      "expected": {
+        "service_id": "netflix_kr",
+        "amount": {
+          "value": 7000,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-05T10:20:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 71,
+            "end": 75,
+            "text": "넷플릭스"
+          },
+          "amount": {
+            "start": 39,
+            "end": 45,
+            "text": "7,000원"
+          },
+          "event_time": {
+            "start": 50,
+            "end": 66,
+            "text": "2026-11-05 10:20"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:e6b858c8a7b201f28a237617e2140fe87dcf6bf735153390bcc79587cf4bb2f4",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-004",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-004",
+        "received_at": "2026-09-10T10:30:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n신한카드[합성] 카드(1111) 승인 홍*동\n14,900원 일시불\n2026-09-10 10:30 KST\nYouTube Premium\n합성거래 SYN-TX-004\n정기결제"
+      },
+      "expected": {
+        "service_id": "youtube_premium_kr",
+        "amount": {
+          "value": 14900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-09-10T10:30:00+09:00",
+        "payment_last4": "1111",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 70,
+            "end": 85,
+            "text": "YouTube Premium"
+          },
+          "amount": {
+            "start": 37,
+            "end": 44,
+            "text": "14,900원"
+          },
+          "event_time": {
+            "start": 49,
+            "end": 65,
+            "text": "2026-09-10 10:30"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "1111"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:b2629c3a34284dbd46839a05953ca1dffbb477d3c3db02e5f94c85d5df686a6d",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-005",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-005",
+        "received_at": "2026-10-10T10:30:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n신한카드[합성] 카드(1111) 승인 홍*동\n14,900원 일시불\n2026-10-10 10:30 KST\nYouTube Premium\n합성거래 SYN-TX-005\n정기결제"
+      },
+      "expected": {
+        "service_id": "youtube_premium_kr",
+        "amount": {
+          "value": 14900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-10-10T10:30:00+09:00",
+        "payment_last4": "1111",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 70,
+            "end": 85,
+            "text": "YouTube Premium"
+          },
+          "amount": {
+            "start": 37,
+            "end": 44,
+            "text": "14,900원"
+          },
+          "event_time": {
+            "start": 49,
+            "end": 65,
+            "text": "2026-10-10 10:30"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "1111"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:258de755b18062677c6d5a1359c54b886e84ed40048f50f0aebdd932a4e0f01a",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-006",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-006",
+        "received_at": "2026-11-10T10:30:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n신한카드[합성] 카드(1111) 승인 홍*동\n15,900원 일시불\n2026-11-10 10:30 KST\nYouTube Premium\n합성거래 SYN-TX-006\n정기결제 요금 인상 적용(합성 시나리오)"
+      },
+      "expected": {
+        "service_id": "youtube_premium_kr",
+        "amount": {
+          "value": 15900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-10T10:30:00+09:00",
+        "payment_last4": "1111",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 70,
+            "end": 85,
+            "text": "YouTube Premium"
+          },
+          "amount": {
+            "start": 37,
+            "end": 44,
+            "text": "15,900원"
+          },
+          "event_time": {
+            "start": 49,
+            "end": 65,
+            "text": "2026-11-10 10:30"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "1111"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:be9c8060d5c3367817d8eb9d64250e45d244329099139b83f7f0f79160396108",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-007",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-007",
+        "received_at": "2026-09-12T11:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n삼성카드[합성] 카드(2222) 승인 홍*동\n11,900원 일시불\n2026-09-12 11:00 KST\n밀리의서재\n합성거래 SYN-TX-007"
+      },
+      "expected": {
+        "service_id": "millie",
+        "amount": {
+          "value": 11900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-09-12T11:00:00+09:00",
+        "payment_last4": "2222",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 70,
+            "end": 75,
+            "text": "밀리의서재"
+          },
+          "amount": {
+            "start": 37,
+            "end": 44,
+            "text": "11,900원"
+          },
+          "event_time": {
+            "start": 49,
+            "end": 65,
+            "text": "2026-09-12 11:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "2222"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:da0cd92f178f14b4dbc80270d62a95c59ee41d7b90fda5254d8863e23db12dc0",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-008",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-008",
+        "received_at": "2026-10-12T11:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n삼성카드[합성] 카드(2222) 승인 홍*동\n11,900원 일시불\n2026-10-12 11:00 KST\n밀리의서재\n합성거래 SYN-TX-008"
+      },
+      "expected": {
+        "service_id": "millie",
+        "amount": {
+          "value": 11900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-10-12T11:00:00+09:00",
+        "payment_last4": "2222",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 70,
+            "end": 75,
+            "text": "밀리의서재"
+          },
+          "amount": {
+            "start": 37,
+            "end": 44,
+            "text": "11,900원"
+          },
+          "event_time": {
+            "start": 49,
+            "end": 65,
+            "text": "2026-10-12 11:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "2222"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:5119e0afed938942772aa4a0f1aa372dda7e131396f9966b512e0764f3db7f80",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-009",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-009",
+        "received_at": "2026-11-12T11:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n삼성카드[합성] 카드(2222) 승인 홍*동\n11,900원 일시불\n2026-11-12 11:00 KST\n밀리의서재\n합성거래 SYN-TX-009"
+      },
+      "expected": {
+        "service_id": "millie",
+        "amount": {
+          "value": 11900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-12T11:00:00+09:00",
+        "payment_last4": "2222",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 70,
+            "end": 75,
+            "text": "밀리의서재"
+          },
+          "amount": {
+            "start": 37,
+            "end": 44,
+            "text": "11,900원"
+          },
+          "event_time": {
+            "start": 49,
+            "end": 65,
+            "text": "2026-11-12 11:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "2222"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:ec73c6b17d7183d3fb82c7ce4fe8be41fab41b3fbcd3e7c9758b10a99317186a",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-010",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-010",
+        "received_at": "2026-09-14T11:30:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n현대카드[합성] 카드(3333) 승인 홍*동\n4,900원 일시불\n2026-09-14 11:30 KST\n네이버플러스 멤버십\n합성거래 SYN-TX-010"
+      },
+      "expected": {
+        "service_id": "naver_plus_membership",
+        "amount": {
+          "value": 4900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-09-14T11:30:00+09:00",
+        "payment_last4": "3333",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 69,
+            "end": 79,
+            "text": "네이버플러스 멤버십"
+          },
+          "amount": {
+            "start": 37,
+            "end": 43,
+            "text": "4,900원"
+          },
+          "event_time": {
+            "start": 48,
+            "end": 64,
+            "text": "2026-09-14 11:30"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "3333"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:9c23a18d9024ce20ab41148436f6a3f4eb6a2e94b417aaf0864f05e3407870db",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-011",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-011",
+        "received_at": "2026-10-14T11:30:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n현대카드[합성] 카드(3333) 승인 홍*동\n4,900원 일시불\n2026-10-14 11:30 KST\n네이버플러스 멤버십\n합성거래 SYN-TX-011"
+      },
+      "expected": {
+        "service_id": "naver_plus_membership",
+        "amount": {
+          "value": 4900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-10-14T11:30:00+09:00",
+        "payment_last4": "3333",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 69,
+            "end": 79,
+            "text": "네이버플러스 멤버십"
+          },
+          "amount": {
+            "start": 37,
+            "end": 43,
+            "text": "4,900원"
+          },
+          "event_time": {
+            "start": 48,
+            "end": 64,
+            "text": "2026-10-14 11:30"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "3333"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:ee019eabfdafde92a6d01f18f037ec1d16b2b60485f94ce0e74524f42dde11c7",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-012",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-012",
+        "received_at": "2026-11-14T11:30:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n현대카드[합성] 카드(3333) 승인 홍*동\n4,900원 일시불\n2026-11-14 11:30 KST\n네이버플러스 멤버십\n합성거래 SYN-TX-012"
+      },
+      "expected": {
+        "service_id": "naver_plus_membership",
+        "amount": {
+          "value": 4900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-14T11:30:00+09:00",
+        "payment_last4": "3333",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 69,
+            "end": 79,
+            "text": "네이버플러스 멤버십"
+          },
+          "amount": {
+            "start": 37,
+            "end": 43,
+            "text": "4,900원"
+          },
+          "event_time": {
+            "start": 48,
+            "end": 64,
+            "text": "2026-11-14 11:30"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "3333"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:6e03a0582d636ebcdebca91cedfea2919bd027c55557d398708896c6e9ff139d",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-013",
+      "requirement_ids": [
+        "R03"
+      ],
+      "description": "SMS-003의 동일 원문·message_id 재반입; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-003",
+        "received_at": "2026-11-05T10:20:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n7,000원 일시불\n2026-11-05 10:20 KST\n넷플릭스\n합성거래 SYN-TX-003"
+      },
+      "expected": {
+        "service_id": "netflix_kr",
+        "amount": {
+          "value": 7000,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-05T10:20:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 71,
+            "end": 75,
+            "text": "넷플릭스"
+          },
+          "amount": {
+            "start": 39,
+            "end": 45,
+            "text": "7,000원"
+          },
+          "event_time": {
+            "start": 50,
+            "end": 66,
+            "text": "2026-11-05 10:20"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:e6b858c8a7b201f28a237617e2140fe87dcf6bf735153390bcc79587cf4bb2f4",
+        "duplicate_of": "SMS-003",
+        "creates_new_event": false,
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-014",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-014",
+        "received_at": "2026-11-10T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n롯데카드[합성] 카드(4444) 승인 홍*동\n11,990원 일시불\n2026-11-10 09:00 KST\nSpotify\n합성거래 SYN-TX-014"
+      },
+      "expected": {
+        "service_id": "spotify_premium_kr",
+        "amount": {
+          "value": 11990,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-10T09:00:00+09:00",
+        "payment_last4": "4444",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 70,
+            "end": 77,
+            "text": "Spotify"
+          },
+          "amount": {
+            "start": 37,
+            "end": 44,
+            "text": "11,990원"
+          },
+          "event_time": {
+            "start": 49,
+            "end": 65,
+            "text": "2026-11-10 09:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "4444"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:9243043403285d75d1c7960811fc684a45df25e3ad5ebab4a6acd1e1a877dbd9",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-015",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-015",
+        "received_at": "2026-11-11T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n롯데카드[합성] 카드(4444) 승인 홍*동\n11,990원 일시불\n2026-11-11 09:00 KST\nSpotify\n합성거래 SYN-TX-015"
+      },
+      "expected": {
+        "service_id": "spotify_premium_kr",
+        "amount": {
+          "value": 11990,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-11T09:00:00+09:00",
+        "payment_last4": "4444",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 70,
+            "end": 77,
+            "text": "Spotify"
+          },
+          "amount": {
+            "start": 37,
+            "end": 44,
+            "text": "11,990원"
+          },
+          "event_time": {
+            "start": 49,
+            "end": 65,
+            "text": "2026-11-11 09:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "4444"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:2dabfcda78dafe3aa3b550fd762f517d09a9a37a0e06f4fd4c53f3c2e3ce1506",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-016",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-016",
+        "received_at": "2026-11-12T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n롯데카드[합성] 카드(4444) 승인 홍*동\n11,990원 일시불\n2026-11-12 09:00 KST\nSpotify\n합성거래 SYN-TX-016"
+      },
+      "expected": {
+        "service_id": "spotify_premium_kr",
+        "amount": {
+          "value": 11990,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-12T09:00:00+09:00",
+        "payment_last4": "4444",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 70,
+            "end": 77,
+            "text": "Spotify"
+          },
+          "amount": {
+            "start": 37,
+            "end": 44,
+            "text": "11,990원"
+          },
+          "event_time": {
+            "start": 49,
+            "end": 65,
+            "text": "2026-11-12 09:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "4444"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:769f47b54e86b5631bbf84170bb6eac46232004fef6629761db45f58fa9de65b",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-017",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-017",
+        "received_at": "2026-10-20T12:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n11,500원 일시불\n2026-10-20 12:00 KST\n디즈니+\n합성거래 SYN-TX-017"
+      },
+      "expected": {
+        "service_id": "disney_plus_kr",
+        "amount": {
+          "value": 11500,
+          "currency": "KRW"
+        },
+        "event_at": "2026-10-20T12:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 72,
+            "end": 76,
+            "text": "디즈니+"
+          },
+          "amount": {
+            "start": 39,
+            "end": 46,
+            "text": "11,500원"
+          },
+          "event_time": {
+            "start": 51,
+            "end": 67,
+            "text": "2026-10-20 12:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:217750ce5141fb441afe728e721561b0ef2540d00feff342e43dae15acac9d8d",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-018",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 cancellation 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-018",
+        "received_at": "2026-10-21T12:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 취소 홍*동\n11,500원 일시불\n2026-10-21 12:00 KST\n디즈니+\n합성거래 SYN-TX-018\n원거래 SYN-TX-017"
+      },
+      "expected": {
+        "service_id": "disney_plus_kr",
+        "amount": {
+          "value": 11500,
+          "currency": "KRW"
+        },
+        "event_at": "2026-10-21T12:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "cancellation",
+        "cash_effect": "credit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 75,
+            "end": 79,
+            "text": "디즈니+"
+          },
+          "amount": {
+            "start": 42,
+            "end": 49,
+            "text": "11,500원"
+          },
+          "event_time": {
+            "start": 54,
+            "end": 70,
+            "text": "2026-10-21 12:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 37,
+            "text": "승인 취소"
+          }
+        },
+        "original_transaction_ref": "SYN-TX-017",
+        "event_fingerprint": "sha256:6c1b341d595d15b7dba3efc89d5f99d60558d66ed3f387791b3f5454e9e05597",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-019",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-019",
+        "received_at": "2026-10-21T13:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n7,900원 일시불\n2026-10-21 13:00 KST\n티빙\n합성거래 SYN-TX-019"
+      },
+      "expected": {
+        "service_id": "tving",
+        "amount": {
+          "value": 7900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-10-21T13:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 71,
+            "end": 73,
+            "text": "티빙"
+          },
+          "amount": {
+            "start": 39,
+            "end": 45,
+            "text": "7,900원"
+          },
+          "event_time": {
+            "start": 50,
+            "end": 66,
+            "text": "2026-10-21 13:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:43ffb3d4152c53e3b44ab6767ae0a8706324885d0a13b21bf232ceb2387af71b",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-020",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 partial_cancellation 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-020",
+        "received_at": "2026-10-22T13:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 부분취소 홍*동\n2,000원 일시불\n2026-10-22 13:00 KST\n티빙\n합성거래 SYN-TX-020\n원거래 SYN-TX-019"
+      },
+      "expected": {
+        "service_id": "tving",
+        "amount": {
+          "value": 2000,
+          "currency": "KRW"
+        },
+        "event_at": "2026-10-22T13:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "partial_cancellation",
+        "cash_effect": "credit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 73,
+            "end": 75,
+            "text": "티빙"
+          },
+          "amount": {
+            "start": 41,
+            "end": 47,
+            "text": "2,000원"
+          },
+          "event_time": {
+            "start": 52,
+            "end": 68,
+            "text": "2026-10-22 13:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 36,
+            "text": "부분취소"
+          }
+        },
+        "original_transaction_ref": "SYN-TX-019",
+        "event_fingerprint": "sha256:b852f993f22682b5a60056161b609cefbcfed696202a82778ff87f2617617a1d",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-021",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 cancellation 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-021",
+        "received_at": "2026-10-23T13:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 취소 홍*동\n7,900원 일시불\n2026-10-23 13:00 KST\n웨이브\n합성거래 SYN-TX-021"
+      },
+      "expected": {
+        "service_id": "wavve",
+        "amount": {
+          "value": 7900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-10-23T13:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "cancellation",
+        "cash_effect": "credit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [
+          "original_transaction_unknown"
+        ],
+        "spans": {
+          "service": {
+            "start": 74,
+            "end": 77,
+            "text": "웨이브"
+          },
+          "amount": {
+            "start": 42,
+            "end": 48,
+            "text": "7,900원"
+          },
+          "event_time": {
+            "start": 53,
+            "end": 69,
+            "text": "2026-10-23 13:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 37,
+            "text": "승인 취소"
+          }
+        },
+        "event_fingerprint": "sha256:ffd1afe4255942db28cda0ce33affee8a5d8a8f55edb347ca53015735142ec93",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-022",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-022",
+        "received_at": "2026-10-01T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(4444) 승인 홍*동\nUSD 10.99 일시불\n2026-10-01 09:00 KST\nSpotify\n합성거래 SYN-TX-022\n해외 승인"
+      },
+      "expected": {
+        "service_id": "spotify_premium_kr",
+        "amount": {
+          "value": 10.99,
+          "currency": "USD"
+        },
+        "event_at": "2026-10-01T09:00:00+09:00",
+        "payment_last4": "4444",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": true,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 74,
+            "end": 81,
+            "text": "Spotify"
+          },
+          "amount": {
+            "start": 39,
+            "end": 48,
+            "text": "USD 10.99"
+          },
+          "event_time": {
+            "start": 53,
+            "end": 69,
+            "text": "2026-10-01 09:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "4444"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:b6f0bdb2d6c1125ef81213450173f70a74fd2ce2d77f14196994cab9ace724ba",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-023",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-023",
+        "received_at": "2026-11-01T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(4444) 승인 홍*동\nUSD 10.99 일시불\n2026-11-01 09:00 KST\nSpotify\n합성거래 SYN-TX-023\n해외 승인"
+      },
+      "expected": {
+        "service_id": "spotify_premium_kr",
+        "amount": {
+          "value": 10.99,
+          "currency": "USD"
+        },
+        "event_at": "2026-11-01T09:00:00+09:00",
+        "payment_last4": "4444",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": true,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 74,
+            "end": 81,
+            "text": "Spotify"
+          },
+          "amount": {
+            "start": 39,
+            "end": 48,
+            "text": "USD 10.99"
+          },
+          "event_time": {
+            "start": 53,
+            "end": 69,
+            "text": "2026-11-01 09:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "4444"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:f8371bbd71e0dc7d9f0981e2973b0eadcaaf3b13da6500fa80cbb0b17c0904b8",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-024",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-024",
+        "received_at": "2026-11-02T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n14,900원 일시불\n2026-11-02 09:00 KST\nSpotify\n합성거래 SYN-TX-024\n해외 원화 결제"
+      },
+      "expected": {
+        "service_id": "spotify_premium_kr",
+        "amount": {
+          "value": 14900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-02T09:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": true,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 72,
+            "end": 79,
+            "text": "Spotify"
+          },
+          "amount": {
+            "start": 39,
+            "end": 46,
+            "text": "14,900원"
+          },
+          "event_time": {
+            "start": 51,
+            "end": 67,
+            "text": "2026-11-02 09:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:1f2277ee02098a1a482c7162001e75ba7c65ab14a2a583bef89584cee3e37986",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-025",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-025",
+        "received_at": "2026-11-03T10:20:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\nUSD 2.99 일시불\n2026-11-03 10:20 KST\n상호 미확인\n합성거래 SYN-TX-025\nApple 청구처만 표시, 콘텐츠 서비스 미확인"
+      },
+      "expected": {
+        "service_id": null,
+        "amount": {
+          "value": 2.99,
+          "currency": "USD"
+        },
+        "event_at": "2026-11-03T10:20:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": true,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "service_id",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "amount": {
+            "start": 39,
+            "end": 47,
+            "text": "USD 2.99"
+          },
+          "event_time": {
+            "start": 52,
+            "end": 68,
+            "text": "2026-11-03 10:20"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:312f710e3fb661ac05bfa9be263b67c29a00a9e464d88d0788b249cb72542d2c",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-026",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 partial_cancellation 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-026",
+        "received_at": "2026-11-03T10:25:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(4444) 부분취소 홍*동\nUSD 1.99 일시불\n2026-11-03 10:25 KST\nSpotify\n합성거래 SYN-TX-026\n해외 부분취소 원거래 SYN-TX-022"
+      },
+      "expected": {
+        "service_id": "spotify_premium_kr",
+        "amount": {
+          "value": 1.99,
+          "currency": "USD"
+        },
+        "event_at": "2026-11-03T10:25:00+09:00",
+        "payment_last4": "4444",
+        "event_type": "partial_cancellation",
+        "cash_effect": "credit",
+        "installment_months": null,
+        "overseas": true,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 75,
+            "end": 82,
+            "text": "Spotify"
+          },
+          "amount": {
+            "start": 41,
+            "end": 49,
+            "text": "USD 1.99"
+          },
+          "event_time": {
+            "start": 54,
+            "end": 70,
+            "text": "2026-11-03 10:25"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "4444"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 36,
+            "text": "부분취소"
+          }
+        },
+        "original_transaction_ref": "SYN-TX-022",
+        "event_fingerprint": "sha256:a1f32e2b2fe22154c894589a236ead7b256053d0b6cb1c986d7a60b558f0b1e5",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-027",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-027",
+        "received_at": "2026-11-04T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n30,000원 할부 3개월\n2026-11-04 10:00 KST\n쿠팡 와우\n합성거래 SYN-TX-027"
+      },
+      "expected": {
+        "service_id": "coupang_wow",
+        "amount": {
+          "value": 30000,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-04T10:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": 3,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [
+          "installment_not_monthly_subscription"
+        ],
+        "spans": {
+          "service": {
+            "start": 75,
+            "end": 80,
+            "text": "쿠팡 와우"
+          },
+          "amount": {
+            "start": 39,
+            "end": 46,
+            "text": "30,000원"
+          },
+          "event_time": {
+            "start": 54,
+            "end": 70,
+            "text": "2026-11-04 10:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:163fb37e1cd1be86580cd8fe71431f8a1d2df02fa51179b1c10df5e6d4e82b24",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-028",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-028",
+        "received_at": "2026-10-25T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n60,000원 할부 6개월\n2026-10-25 10:00 KST\n쿠팡플레이\n합성거래 SYN-TX-028"
+      },
+      "expected": {
+        "service_id": "coupang_play",
+        "amount": {
+          "value": 60000,
+          "currency": "KRW"
+        },
+        "event_at": "2026-10-25T10:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": 6,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [
+          "installment_not_monthly_subscription"
+        ],
+        "spans": {
+          "service": {
+            "start": 75,
+            "end": 80,
+            "text": "쿠팡플레이"
+          },
+          "amount": {
+            "start": 39,
+            "end": 46,
+            "text": "60,000원"
+          },
+          "event_time": {
+            "start": 54,
+            "end": 70,
+            "text": "2026-10-25 10:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:3a1fad53619350f5d0713f4eedc640924b5dedadeb49a2f5bc3de9b0660b9c67",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-029",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-029",
+        "received_at": "2026-11-06T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n카카오페이[합성] 카드(1111) 승인 홍*동\n11,900원 일시불\n2026-11-06 10:00 KST\n쿠팡플레이\n합성거래 SYN-TX-029\n간편결제 완료"
+      },
+      "expected": {
+        "service_id": "coupang_play",
+        "amount": {
+          "value": 11900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-06T10:00:00+09:00",
+        "payment_last4": "1111",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 71,
+            "end": 76,
+            "text": "쿠팡플레이"
+          },
+          "amount": {
+            "start": 38,
+            "end": 45,
+            "text": "11,900원"
+          },
+          "event_time": {
+            "start": 50,
+            "end": 66,
+            "text": "2026-11-06 10:00"
+          },
+          "last4": {
+            "start": 25,
+            "end": 29,
+            "text": "1111"
+          },
+          "event_type": {
+            "start": 31,
+            "end": 33,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:b28c1a357b97b9064cb19ccca02076409d03faaa3c7bb4269978ecfd1cb1d550",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-030",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-030",
+        "received_at": "2026-11-07T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n네이버페이[합성] 카드(3333) 승인 홍*동\n4,900원 일시불\n2026-11-07 10:00 KST\n리디셀렉트\n합성거래 SYN-TX-030\n간편결제 완료"
+      },
+      "expected": {
+        "service_id": "ridi_select",
+        "amount": {
+          "value": 4900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-07T10:00:00+09:00",
+        "payment_last4": "3333",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 70,
+            "end": 75,
+            "text": "리디셀렉트"
+          },
+          "amount": {
+            "start": 38,
+            "end": 44,
+            "text": "4,900원"
+          },
+          "event_time": {
+            "start": 49,
+            "end": 65,
+            "text": "2026-11-07 10:00"
+          },
+          "last4": {
+            "start": 25,
+            "end": 29,
+            "text": "3333"
+          },
+          "event_type": {
+            "start": 31,
+            "end": 33,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:d2de6799bdd3e5d309105d5d2e75f05adf652bbe15a85aaed1d7ae1e4809409e",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-031",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-031",
+        "received_at": "2026-11-08T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n토스페이[합성] 카드(4444) 승인 홍*동\n5,500원 일시불\n2026-11-08 10:00 KST\n티빙\n합성거래 SYN-TX-031\n간편결제 완료"
+      },
+      "expected": {
+        "service_id": "tving",
+        "amount": {
+          "value": 5500,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-08T10:00:00+09:00",
+        "payment_last4": "4444",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 69,
+            "end": 71,
+            "text": "티빙"
+          },
+          "amount": {
+            "start": 37,
+            "end": 43,
+            "text": "5,500원"
+          },
+          "event_time": {
+            "start": 48,
+            "end": 64,
+            "text": "2026-11-08 10:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "4444"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:179291105fef81b7476f8d29b05dcbdd4eecf7d5db4f5412a685c991bf56a58d",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-032",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 cancellation 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-032",
+        "received_at": "2026-11-07T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n카카오페이[합성] 카드(1111) 승인 취소 홍*동\n11,900원 일시불\n2026-11-07 10:00 KST\n쿠팡플레이\n합성거래 SYN-TX-032\n원거래 SYN-TX-029"
+      },
+      "expected": {
+        "service_id": "coupang_play",
+        "amount": {
+          "value": 11900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-07T10:00:00+09:00",
+        "payment_last4": "1111",
+        "event_type": "cancellation",
+        "cash_effect": "credit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 74,
+            "end": 79,
+            "text": "쿠팡플레이"
+          },
+          "amount": {
+            "start": 41,
+            "end": 48,
+            "text": "11,900원"
+          },
+          "event_time": {
+            "start": 53,
+            "end": 69,
+            "text": "2026-11-07 10:00"
+          },
+          "last4": {
+            "start": 25,
+            "end": 29,
+            "text": "1111"
+          },
+          "event_type": {
+            "start": 31,
+            "end": 36,
+            "text": "승인 취소"
+          }
+        },
+        "original_transaction_ref": "SYN-TX-029",
+        "event_fingerprint": "sha256:a0064dae18a56a699f545f79f5e1061005912178a490744b9df96f5ec596da5a",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-033",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 partial_cancellation 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-033",
+        "received_at": "2026-11-08T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n네이버페이[합성] 카드(3333) 부분취소 홍*동\n1,000원 일시불\n2026-11-08 10:00 KST\n리디셀렉트\n합성거래 SYN-TX-033\n원거래 SYN-TX-030"
+      },
+      "expected": {
+        "service_id": "ridi_select",
+        "amount": {
+          "value": 1000,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-08T10:00:00+09:00",
+        "payment_last4": "3333",
+        "event_type": "partial_cancellation",
+        "cash_effect": "credit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 72,
+            "end": 77,
+            "text": "리디셀렉트"
+          },
+          "amount": {
+            "start": 40,
+            "end": 46,
+            "text": "1,000원"
+          },
+          "event_time": {
+            "start": 51,
+            "end": 67,
+            "text": "2026-11-08 10:00"
+          },
+          "last4": {
+            "start": 25,
+            "end": 29,
+            "text": "3333"
+          },
+          "event_type": {
+            "start": 31,
+            "end": 35,
+            "text": "부분취소"
+          }
+        },
+        "original_transaction_ref": "SYN-TX-030",
+        "event_fingerprint": "sha256:10e3fc28e72b0fbe77ee4912dab7417b744fc442c4e2a474bb468644d5dca408",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-034",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 refund 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-034",
+        "received_at": "2026-11-09T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n토스페이[합성] 카드(4444) 환불 완료 홍*동\n5,500원 일시불\n2026-11-09 10:00 KST\n티빙\n합성거래 SYN-TX-034\n원거래 SYN-TX-031"
+      },
+      "expected": {
+        "service_id": "tving",
+        "amount": {
+          "value": 5500,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-09T10:00:00+09:00",
+        "payment_last4": "4444",
+        "event_type": "refund",
+        "cash_effect": "credit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 72,
+            "end": 74,
+            "text": "티빙"
+          },
+          "amount": {
+            "start": 40,
+            "end": 46,
+            "text": "5,500원"
+          },
+          "event_time": {
+            "start": 51,
+            "end": 67,
+            "text": "2026-11-09 10:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "4444"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 35,
+            "text": "환불 완료"
+          }
+        },
+        "original_transaction_ref": "SYN-TX-031",
+        "event_fingerprint": "sha256:d12c25a1a8fec9689753a99a6c6c29bf48f1977646eef654c3ae2248d646240f",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-035",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 failed 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-035",
+        "received_at": "2026-11-13T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 거절 홍*동\n7,000원 일시불\n2026-11-13 10:00 KST\n넷플릭스\n합성거래 SYN-TX-035\n잔액 부족"
+      },
+      "expected": {
+        "service_id": "netflix_kr",
+        "amount": {
+          "value": 7000,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-13T10:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "failed",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 74,
+            "end": 78,
+            "text": "넷플릭스"
+          },
+          "amount": {
+            "start": 42,
+            "end": 48,
+            "text": "7,000원"
+          },
+          "event_time": {
+            "start": 53,
+            "end": 69,
+            "text": "2026-11-13 10:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 37,
+            "text": "승인 거절"
+          }
+        },
+        "event_fingerprint": "sha256:68a1bac7f752b518f0a04e2220d84011a0705e44f1f9d0a040cdcf4253be5b5f",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-036",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 notice 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-036",
+        "received_at": "2026-11-14T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 결제 안내 홍*동\n7,000원 일시불\n2026-11-14 10:00 KST\n넷플릭스\n합성거래 SYN-TX-036\n2026-12-05 결제 예정. 아직 승인 아님"
+      },
+      "expected": {
+        "service_id": "netflix_kr",
+        "amount": {
+          "value": 7000,
+          "currency": "KRW"
+        },
+        "event_at": null,
+        "payment_last4": "1234",
+        "event_type": "notice",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "event_at",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 74,
+            "end": 78,
+            "text": "넷플릭스"
+          },
+          "amount": {
+            "start": 42,
+            "end": 48,
+            "text": "7,000원"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 37,
+            "text": "결제 안내"
+          }
+        },
+        "event_fingerprint": "sha256:2caff1a22f652302be646677c7260ca1e4bbec138b911d082aebf647523ce8d3",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-037",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 notice 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-037",
+        "received_at": "2026-11-14T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 결제 안내 홍*동\n4,900원 일시불\n2026-11-14 10:00 KST\n네이버플러스 멤버십\n합성거래 SYN-TX-037\n환불 요청 접수, 지급 완료 아님"
+      },
+      "expected": {
+        "service_id": "naver_plus_membership",
+        "amount": {
+          "value": 4900,
+          "currency": "KRW"
+        },
+        "event_at": null,
+        "payment_last4": "1234",
+        "event_type": "notice",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "event_at",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 74,
+            "end": 84,
+            "text": "네이버플러스 멤버십"
+          },
+          "amount": {
+            "start": 42,
+            "end": 48,
+            "text": "4,900원"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 37,
+            "text": "결제 안내"
+          }
+        },
+        "event_fingerprint": "sha256:b0786ecf4f90c2be612bcc7aab0897f768813868286e49efc6d8847f506d42d8",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-038",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 otp 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-038",
+        "received_at": "2026-11-14T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX] 인증번호 SYN-OTP. 승인 요청 안내이며 결제 아님"
+      },
+      "expected": {
+        "service_id": null,
+        "amount": null,
+        "event_at": null,
+        "payment_last4": null,
+        "event_type": "otp",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "service_id",
+          "amount",
+          "event_at",
+          "payment_last4",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "event_type": {
+            "start": 12,
+            "end": 16,
+            "text": "인증번호"
+          }
+        },
+        "event_fingerprint": "sha256:f770f11225f54a95745b3c24696dab721795e8dce80511671af6daa0101fe09c",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-039",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 zero_authorization 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-039",
+        "received_at": "2026-11-14T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n0원 일시불\n2026-11-14 10:00 KST\n상호 미확인\n합성거래 SYN-TX-039\nApple 0원 유효성 확인, 유료 청구 아님"
+      },
+      "expected": {
+        "service_id": null,
+        "amount": {
+          "value": 0,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-14T10:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "zero_authorization",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "service_id",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "amount": {
+            "start": 39,
+            "end": 41,
+            "text": "0원"
+          },
+          "event_time": {
+            "start": 46,
+            "end": 62,
+            "text": "2026-11-14 10:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:ea453e3d50ebf9b3b0bcc17f846aafcc0a2baff20563add8636bc58ae5ce295b",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-040",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-040",
+        "received_at": "2026-11-14T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n 일시불\n2026-11-14 10:00 KST\n넷플릭스\n합성거래 SYN-TX-040"
+      },
+      "expected": {
+        "service_id": "netflix_kr",
+        "amount": null,
+        "event_at": "2026-11-14T10:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "amount",
+          "billing_channel"
+        ],
+        "flags": [
+          "amount_unknown"
+        ],
+        "spans": {
+          "service": {
+            "start": 65,
+            "end": 69,
+            "text": "넷플릭스"
+          },
+          "event_time": {
+            "start": 44,
+            "end": 60,
+            "text": "2026-11-14 10:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:ebf53cdc6a93a637ff9f172327239ba4129010baa273765513c0154d16ec801e",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-041",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-041",
+        "received_at": "2026-11-14T10:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n삼성카드[합성] 카드(2222) 승인 홍*동\n7,000원 일시불 / 누적 25,000원\n2026-11-14 10:00 KST\n넷플릭스"
+      },
+      "expected": {
+        "service_id": "netflix_kr",
+        "amount": null,
+        "event_at": "2026-11-14T10:00:00+09:00",
+        "payment_last4": "2222",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "amount",
+          "billing_channel"
+        ],
+        "flags": [
+          "multiple_amounts_require_review"
+        ],
+        "spans": {
+          "service": {
+            "start": 82,
+            "end": 86,
+            "text": "넷플릭스"
+          },
+          "event_time": {
+            "start": 61,
+            "end": 77,
+            "text": "2026-11-14 10:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "2222"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:ab312f08fd43ef550da77bb82ce221a29a0e141b1a73448d5020e28bf253a6a3",
+        "amount_candidates": [
+          {
+            "value": 7000,
+            "currency": "KRW"
+          },
+          {
+            "value": 25000,
+            "currency": "KRW"
+          }
+        ],
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-042",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-042",
+        "received_at": "2026-11-14T12:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n7,000원 일시불\n11/06 10:20 KST\n넷플릭스\n합성거래 SYN-TX-042"
+      },
+      "expected": {
+        "service_id": "netflix_kr",
+        "amount": {
+          "value": 7000,
+          "currency": "KRW"
+        },
+        "event_at": null,
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "event_at",
+          "billing_channel"
+        ],
+        "flags": [
+          "year_missing"
+        ],
+        "spans": {
+          "service": {
+            "start": 66,
+            "end": 70,
+            "text": "넷플릭스"
+          },
+          "amount": {
+            "start": 39,
+            "end": 45,
+            "text": "7,000원"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:712758d7c32df15b3dd6e051a939d59dce08c7016a44e4b0364b14bea599fc9f",
+        "date_fragment": "11/06 10:20",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-043",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-043",
+        "received_at": "2026-11-13T13:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n12,000원 일시불\n2026-11-13 13:00 KST\n상호 미확인\n합성거래 SYN-TX-043"
+      },
+      "expected": {
+        "service_id": null,
+        "amount": {
+          "value": 12000,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-13T13:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "service_id",
+          "billing_channel"
+        ],
+        "flags": [
+          "service_unknown"
+        ],
+        "spans": {
+          "amount": {
+            "start": 39,
+            "end": 46,
+            "text": "12,000원"
+          },
+          "event_time": {
+            "start": 51,
+            "end": 67,
+            "text": "2026-11-13 13:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:0b4532051b358ff0ce6970080ad883bb6fc9e96aa8755c5f5bb320575fcb7a64",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-044",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 input_error 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-044",
+        "received_at": "2026-11-14T12:00:00+09:00",
+        "synthetic": true,
+        "text": null,
+        "access_status": "permission_denied"
+      },
+      "expected": {
+        "service_id": null,
+        "amount": null,
+        "event_at": null,
+        "payment_last4": null,
+        "event_type": "input_error",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "service_id",
+          "amount",
+          "event_at",
+          "payment_last4",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {},
+        "error_code": "INPUT_ACCESS_DENIED",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-045",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 input_error 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-045",
+        "received_at": "2026-11-14T12:00:00+09:00",
+        "synthetic": true,
+        "text": {
+          "synthetic_bad_type": true
+        }
+      },
+      "expected": {
+        "service_id": null,
+        "amount": null,
+        "event_at": null,
+        "payment_last4": null,
+        "event_type": "input_error",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "service_id",
+          "amount",
+          "event_at",
+          "payment_last4",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {},
+        "error_code": "INVALID_TEXT_TYPE",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-046",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-046",
+        "received_at": "2026-11-13T13:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n삼성카드[합성] 카드(2222) 승인 홍*동\n7,900원 일시불\n2026-11-13 13:00 KST\n왓챠\n합성거래 SYN-TX-046\n여러 줄 형식\n정기 승인 후보"
+      },
+      "expected": {
+        "service_id": "watcha",
+        "amount": {
+          "value": 7900,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-13T13:00:00+09:00",
+        "payment_last4": "2222",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 69,
+            "end": 71,
+            "text": "왓챠"
+          },
+          "amount": {
+            "start": 37,
+            "end": 43,
+            "text": "7,900원"
+          },
+          "event_time": {
+            "start": 48,
+            "end": 64,
+            "text": "2026-11-13 13:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "2222"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:6bfdf4fcf7b47f57cdcb786480e7fdf698f19d05b45125a11db885fe207b1ad3",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-047",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-047",
+        "received_at": "2026-11-13T14:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\nJPY 1,299.00 일시불\n2026-11-13 14:00 KST\n상호 미확인\n합성거래 SYN-TX-047\nGoogle 해외 승인, 콘텐츠 미확인"
+      },
+      "expected": {
+        "service_id": null,
+        "amount": {
+          "value": 1299,
+          "currency": "JPY"
+        },
+        "event_at": "2026-11-13T14:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": true,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "service_id",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "amount": {
+            "start": 39,
+            "end": 51,
+            "text": "JPY 1,299.00"
+          },
+          "event_time": {
+            "start": 56,
+            "end": 72,
+            "text": "2026-11-13 14:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:68031023dba4e0bf8d116647cbe8834d9310ac6f4a3795260b46c8fbe6df0f2c",
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-048",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-048",
+        "received_at": "2026-11-13T14:10:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 해외 승인 홍*동\n$9.99\n2026-11-13 14:10 KST\n디즈니+"
+      },
+      "expected": {
+        "service_id": "disney_plus_kr",
+        "amount": null,
+        "event_at": "2026-11-13T14:10:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": true,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "amount",
+          "billing_channel"
+        ],
+        "flags": [
+          "currency_symbol_ambiguous"
+        ],
+        "spans": {
+          "service": {
+            "start": 69,
+            "end": 73,
+            "text": "디즈니+"
+          },
+          "event_time": {
+            "start": 48,
+            "end": 64,
+            "text": "2026-11-13 14:10"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 35,
+            "end": 37,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:e6ac97103db3eb2553996387bf67ca481c23ed61371ed8542d61bf27fbea91e5",
+        "currency_symbol": "$",
+        "untyped_amount_candidate": 9.99,
+        "creates_candidate": true,
+        "eligible_for_recurrence": false,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-049",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 notice 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-049",
+        "received_at": "2026-11-01T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 결제 안내 홍*동\n11,990원 일시불\n2026-11-01 09:00 KST\nSpotify\n합성거래 SYN-TX-049\n무료체험 종료일 2026-11-13, 이후 첫 결제 예정"
+      },
+      "expected": {
+        "service_id": "spotify_premium_kr",
+        "amount": {
+          "value": 11990,
+          "currency": "KRW"
+        },
+        "event_at": null,
+        "payment_last4": "1234",
+        "event_type": "notice",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "event_at",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 75,
+            "end": 82,
+            "text": "Spotify"
+          },
+          "amount": {
+            "start": 42,
+            "end": 49,
+            "text": "11,990원"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 37,
+            "text": "결제 안내"
+          }
+        },
+        "event_fingerprint": "sha256:1ca641caf1f8ca784fe9b9ba0032bc854ff0f834d8516fbf50bc4649868244e1",
+        "trial_ends_at_candidate": "2026-11-13",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-050",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-050",
+        "received_at": "2026-11-13T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n11,990원 일시불\n2026-11-13 09:00 KST\nSpotify\n합성거래 SYN-TX-050\n무료체험 종료 후 첫 정기결제(합성)"
+      },
+      "expected": {
+        "service_id": "spotify_premium_kr",
+        "amount": {
+          "value": 11990,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-13T09:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [
+          "first_charge_after_trial"
+        ],
+        "spans": {
+          "service": {
+            "start": 72,
+            "end": 79,
+            "text": "Spotify"
+          },
+          "amount": {
+            "start": 39,
+            "end": 46,
+            "text": "11,990원"
+          },
+          "event_time": {
+            "start": 51,
+            "end": 67,
+            "text": "2026-11-13 09:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:8a9251364ad089a897a48d34f53ec77b93544f5bd5fd58e2a834570bcc26a789",
+        "first_charge_after_trial_candidate": true,
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-051",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 advertisement 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-051",
+        "received_at": "2026-11-14T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX] (광고) 넷플릭스 멤버십 특가 7,000원 안내\n광고 안내이며 결제·구독 발생 증거 아님"
+      },
+      "expected": {
+        "service_id": "netflix_kr",
+        "amount": null,
+        "event_at": null,
+        "payment_last4": null,
+        "event_type": "advertisement",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "amount",
+          "event_at",
+          "payment_last4",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 17,
+            "end": 21,
+            "text": "넷플릭스"
+          },
+          "event_type": {
+            "start": 12,
+            "end": 16,
+            "text": "(광고)"
+          }
+        },
+        "event_fingerprint": "sha256:ec92c28a156afc09429f2d1839bd55603c17ac009c843b40ff5b76426f949f55",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-052",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 advertisement 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-052",
+        "received_at": "2026-11-14T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX] (광고) Spotify 신규 대상 1개월 혜택 안내\n광고 안내이며 결제·구독 발생 증거 아님"
+      },
+      "expected": {
+        "service_id": "spotify_premium_kr",
+        "amount": null,
+        "event_at": null,
+        "payment_last4": null,
+        "event_type": "advertisement",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "amount",
+          "event_at",
+          "payment_last4",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 17,
+            "end": 24,
+            "text": "Spotify"
+          },
+          "event_type": {
+            "start": 12,
+            "end": 16,
+            "text": "(광고)"
+          }
+        },
+        "event_fingerprint": "sha256:5b6762bbe3223d0ea982d67af703b5776572117a5f2b3d566c3ee22c45e6cf70",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-053",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 advertisement 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-053",
+        "received_at": "2026-11-14T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX] (광고) 밀리의서재 책과 쿠폰 프로모션 안내\n광고 안내이며 결제·구독 발생 증거 아님"
+      },
+      "expected": {
+        "service_id": "millie",
+        "amount": null,
+        "event_at": null,
+        "payment_last4": null,
+        "event_type": "advertisement",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "amount",
+          "event_at",
+          "payment_last4",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 17,
+            "end": 22,
+            "text": "밀리의서재"
+          },
+          "event_type": {
+            "start": 12,
+            "end": 16,
+            "text": "(광고)"
+          }
+        },
+        "event_fingerprint": "sha256:93caff6c7627b4baf2cf59cef4c2dafab513cd489cf0e9961fcddf05c157dc44",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-054",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 advertisement 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-054",
+        "received_at": "2026-11-14T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX] (광고) 네이버플러스 멤버십 4,900원 상당 혜택 안내\n광고 안내이며 결제·구독 발생 증거 아님"
+      },
+      "expected": {
+        "service_id": "naver_plus_membership",
+        "amount": null,
+        "event_at": null,
+        "payment_last4": null,
+        "event_type": "advertisement",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "amount",
+          "event_at",
+          "payment_last4",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 17,
+            "end": 27,
+            "text": "네이버플러스 멤버십"
+          },
+          "event_type": {
+            "start": 12,
+            "end": 16,
+            "text": "(광고)"
+          }
+        },
+        "event_fingerprint": "sha256:a16733d3ac8af668703b920ee2e40894abd7d4bbf7750f496025aafa086ca1ed",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-055",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 advertisement 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-055",
+        "received_at": "2026-11-14T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX] (광고) 디즈니+ 광고형 멤버십 행사 안내\n광고 안내이며 결제·구독 발생 증거 아님"
+      },
+      "expected": {
+        "service_id": "disney_plus_kr",
+        "amount": null,
+        "event_at": null,
+        "payment_last4": null,
+        "event_type": "advertisement",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "amount",
+          "event_at",
+          "payment_last4",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 17,
+            "end": 21,
+            "text": "디즈니+"
+          },
+          "event_type": {
+            "start": 12,
+            "end": 16,
+            "text": "(광고)"
+          }
+        },
+        "event_fingerprint": "sha256:407076a157892f4b6c0e0dd442690df4c86fbdc71e222c83c9de124d0ce72a82",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-056",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 notice 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-056",
+        "received_at": "2026-11-14T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 결제 안내 홍*동\n 일시불\n2026-11-14 09:00 KST\n네이버플러스 멤버십\n합성거래 SYN-TX-056\n구독 해지 접수 완료. 실제 종료·환불·차기 청구 확인은 별도"
+      },
+      "expected": {
+        "service_id": "naver_plus_membership",
+        "amount": null,
+        "event_at": null,
+        "payment_last4": "1234",
+        "event_type": "notice",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "amount",
+          "event_at",
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 68,
+            "end": 78,
+            "text": "네이버플러스 멤버십"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 37,
+            "text": "결제 안내"
+          }
+        },
+        "event_fingerprint": "sha256:ca65bf8826fa127249a53474643a1eb2b92d7ce514304d0e10d819ea95af76aa",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-057",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-057",
+        "received_at": "2026-09-30T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n우리카드[합성] 카드(5555) 승인 홍*동\n2,400원 일시불\n2026-09-30 09:00 KST\nGoogle One\n합성거래 SYN-TX-057"
+      },
+      "expected": {
+        "service_id": "google_one",
+        "amount": {
+          "value": 2400,
+          "currency": "KRW"
+        },
+        "event_at": "2026-09-30T09:00:00+09:00",
+        "payment_last4": "5555",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 69,
+            "end": 79,
+            "text": "Google One"
+          },
+          "amount": {
+            "start": 37,
+            "end": 43,
+            "text": "2,400원"
+          },
+          "event_time": {
+            "start": 48,
+            "end": 64,
+            "text": "2026-09-30 09:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "5555"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:5851675f71cf97eb650d1eefc8664229c82c18b2cafe895df0a056d4e343a90f",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-058",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 approval 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-058",
+        "received_at": "2026-10-31T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\n우리카드[합성] 카드(5555) 승인 홍*동\n2,400원 일시불\n2026-10-31 09:00 KST\nGoogle One\n합성거래 SYN-TX-058"
+      },
+      "expected": {
+        "service_id": "google_one",
+        "amount": {
+          "value": 2400,
+          "currency": "KRW"
+        },
+        "event_at": "2026-10-31T09:00:00+09:00",
+        "payment_last4": "5555",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "billing_channel"
+        ],
+        "flags": [],
+        "spans": {
+          "service": {
+            "start": 69,
+            "end": 79,
+            "text": "Google One"
+          },
+          "amount": {
+            "start": 37,
+            "end": 43,
+            "text": "2,400원"
+          },
+          "event_time": {
+            "start": 48,
+            "end": 64,
+            "text": "2026-10-31 09:00"
+          },
+          "last4": {
+            "start": 24,
+            "end": 28,
+            "text": "5555"
+          },
+          "event_type": {
+            "start": 30,
+            "end": 32,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:166562b9be362fa6edaad0a9f96e595d83801c94a9a2962eb1bb6f5dd3162a3e",
+        "creates_candidate": true,
+        "eligible_for_recurrence": true,
+        "record_status": "candidate"
+      }
+    },
+    {
+      "id": "SMS-059",
+      "requirement_ids": [
+        "R01",
+        "R02"
+      ],
+      "description": "합성 notice 입력; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-059",
+        "received_at": "2026-11-13T09:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX] 바우처 사용금액 4,900원 / 남은금액 10,000원 / 리디셀렉트"
+      },
+      "expected": {
+        "service_id": "ridi_select",
+        "amount": null,
+        "event_at": null,
+        "payment_last4": null,
+        "event_type": "notice",
+        "cash_effect": "none",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "amount",
+          "event_at",
+          "payment_last4",
+          "billing_channel"
+        ],
+        "flags": [
+          "voucher_not_general_card_approval"
+        ],
+        "spans": {
+          "service": {
+            "start": 45,
+            "end": 50,
+            "text": "리디셀렉트"
+          }
+        },
+        "event_fingerprint": "sha256:177df69106f41b4d47f70d2f4a332e1711240607aa2ae23df8d63fa9263a6a00",
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    },
+    {
+      "id": "SMS-060",
+      "requirement_ids": [
+        "R03"
+      ],
+      "description": "SMS-043 동일 원문 재수입; 개인정보 없는 창작 자료",
+      "input": {
+        "source": "synthetic_text",
+        "message_id": "SYN-MSG-043",
+        "received_at": "2026-11-13T13:00:00+09:00",
+        "synthetic": true,
+        "text": "[합성 L1-FIX]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n12,000원 일시불\n2026-11-13 13:00 KST\n상호 미확인\n합성거래 SYN-TX-043"
+      },
+      "expected": {
+        "service_id": null,
+        "amount": {
+          "value": 12000,
+          "currency": "KRW"
+        },
+        "event_at": "2026-11-13T13:00:00+09:00",
+        "payment_last4": "1234",
+        "event_type": "approval",
+        "cash_effect": "debit",
+        "installment_months": null,
+        "overseas": false,
+        "billing_channel": null,
+        "recurrence_confirmed": false,
+        "contract_terminated": false,
+        "needs_review": true,
+        "unknown_fields": [
+          "service_id",
+          "billing_channel"
+        ],
+        "flags": [
+          "service_unknown"
+        ],
+        "spans": {
+          "amount": {
+            "start": 39,
+            "end": 46,
+            "text": "12,000원"
+          },
+          "event_time": {
+            "start": 51,
+            "end": 67,
+            "text": "2026-11-13 13:00"
+          },
+          "last4": {
+            "start": 26,
+            "end": 30,
+            "text": "1234"
+          },
+          "event_type": {
+            "start": 32,
+            "end": 34,
+            "text": "승인"
+          }
+        },
+        "event_fingerprint": "sha256:0b4532051b358ff0ce6970080ad883bb6fc9e96aa8755c5f5bb320575fcb7a64",
+        "duplicate_of": "SMS-043",
+        "creates_new_event": false,
+        "creates_candidate": false,
+        "eligible_for_recurrence": false,
+        "record_status": "classified_excluded"
+      }
+    }
+  ],
+  "status": "ready_for_review"
+}

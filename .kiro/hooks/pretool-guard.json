@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "pretool-guard-shell",
+      "trigger": "PreToolUse",
+      "matcher": "shell",
+      "action": { "type": "command", "command": "node scripts/hooks/pretool-guard.mjs" },
+      "timeout": 20
+    },
+    {
+      "name": "pretool-guard-read",
+      "trigger": "PreToolUse",
+      "matcher": "read",
+      "action": { "type": "command", "command": "node scripts/hooks/pretool-guard.mjs" },
+      "timeout": 20
+    }
+  ]
+}

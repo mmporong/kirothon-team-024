@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "machimpyo": {
+      "command": "node",
+      "args": ["scripts/mcp-launch.mjs"],
+      "env": {},
+      "disabled": false
+    }
+  }
+}

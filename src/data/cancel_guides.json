@@ -1,0 +1,800 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-11-14T14:42:18+09:00",
+  "source_file": "research/L1/Q2-cancel-guide.json",
+  "services": [
+    {
+      "id": "disney_plus_kr",
+      "name": "디즈니+",
+      "category": "ott",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "디즈니+ 웹 구독 관리 안내",
+          "steps": null,
+          "official_url": "https://www.disneyplus.com/account/cancel-subscription",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:54:32+09:00",
+          "notes": "공식 이전 약관에서 확인한 해지 주소이며 원본 조회 시 계정 경로로 이동했습니다; 현재 로그인 이후의 메뉴·최종 취소 단계는 미확인입니다; 재구독 시 기존가 유지 혜택을 잃을 수 있습니다."
+        }
+      ],
+      "refund_note": "취소는 결제 주기 종료 시 자동 갱신 중단을 뜻하며, 즉시 종료·환불 정책 본문은 확인하지 못했습니다.",
+      "source_urls": [
+        "https://www.disneyplus.com/account/cancel-subscription",
+        "https://help.disneyplus.com/",
+        "https://www.disneyplus.com/ko-kr",
+        "https://www.disneyplus.com/account",
+        "https://www.disney.co.kr/notice/update-20261030",
+        "https://www.disneyplus.com/ko-kr/welcome/subscriber-agreement"
+      ]
+    },
+    {
+      "id": "netflix_kr",
+      "name": "넷플릭스",
+      "category": "ott",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "넷플릭스 웹 구독 관리 안내",
+          "steps": [
+            "Netflix 계정",
+            "멤버십 관리",
+            "해지",
+            "해지 완료"
+          ],
+          "official_url": "https://www.netflix.com/cancelplan",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:39:00+09:00",
+          "notes": "웹 결제 안내입니다; 타사 청구는 해당 파트너에서 해지하며, 계정 인증 후 화면과 해지 완료 여부를 확인해야 합니다."
+        },
+        {
+          "channel": "partner",
+          "label": "넷플릭스 제휴사에서 청구되는 경우",
+          "steps": null,
+          "official_url": "https://help.netflix.com/ko/node/41049",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:39:00+09:00",
+          "notes": "공식 안내의 제휴 결제 분기입니다; 링크는 도움말이며, 파트너별 해지 주소와 메뉴 순서는 미확인입니다."
+        }
+      ],
+      "refund_note": "해지해도 현재 결제 주기 종료일까지 이용하며, 타사 결제는 해당 파트너에서 해지합니다.",
+      "source_urls": [
+        "https://www.netflix.com/cancelplan",
+        "https://help.netflix.com/ko/node/407",
+        "https://www.netflix.com/kr/",
+        "https://help.netflix.com/ko/node/54896",
+        "https://help.netflix.com/ko/node/41049"
+      ]
+    },
+    {
+      "id": "youtube_premium_kr",
+      "name": "YouTube Premium",
+      "category": "ott",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "YouTube Premium 웹 구독 관리 안내",
+          "steps": [
+            "youtube.com/paid_memberships",
+            "멤버십 관리",
+            "비활성화",
+            "취소하려면 계속",
+            "취소 사유 선택",
+            "다음",
+            "취소"
+          ],
+          "official_url": "https://www.youtube.com/paid_memberships",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:53:00+09:00",
+          "notes": "웹 결제 안내입니다; Apple·Google Play 청구는 일치하는 platform_channels 안내를 사용하며, 취소와 환불 지급은 별도로 확인해야 합니다."
+        }
+      ],
+      "refund_note": "취소 후 결제 기간 마지막 날까지 혜택을 유지하며, 환불 지급은 별도로 확인해야 합니다.",
+      "source_urls": [
+        "https://www.youtube.com/paid_memberships",
+        "https://support.google.com/youtube/answer/6308278?hl=ko",
+        "https://www.youtube.com/premium",
+        "https://support.google.com/youtube/answer/16475192?hl=ko",
+        "https://support.google.com/googleplay/answer/11174377?hl=ko",
+        "https://support.google.com/youtube/answer/10217125?hl=ko"
+      ]
+    },
+    {
+      "id": "tving",
+      "name": "티빙",
+      "category": "ott",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "티빙 웹 구독 관리 안내",
+          "steps": [
+            "MY",
+            "나의 이용권",
+            "정기결제 해지 신청"
+          ],
+          "official_url": "https://www.tving.com/my/subscription",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:53:00+09:00",
+          "notes": "공식 공개 UI의 메뉴를 옮겼으며 실제 계정 해지는 미실행입니다; 구매·청구 채널을 먼저 확인해야 합니다."
+        }
+      ],
+      "refund_note": null,
+      "source_urls": [
+        "https://www.tving.com/my/subscription",
+        "https://www.tving.com/",
+        "https://www.tving.com/my"
+      ]
+    },
+    {
+      "id": "wavve",
+      "name": "웨이브",
+      "category": "ott",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "웨이브 웹 구독 관리 안내",
+          "steps": [
+            "MY",
+            "이용권 내역",
+            "이용권 변경 또는 구독 취소"
+          ],
+          "official_url": "https://www.wavve.com/my/subscription_ticket",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:53:00+09:00",
+          "notes": "공식 공개 프런트엔드 문자열의 메뉴를 옮겼으며 실제 계정 해지는 미실행입니다; source_urls의 JS 파일은 출처 자료이며 사용자 이동용 링크가 아닙니다."
+        }
+      ],
+      "refund_note": null,
+      "source_urls": [
+        "https://www.wavve.com/my/subscription_ticket",
+        "https://www.wavve.com/static/index-82bfb078.js",
+        "https://www.wavve.com/",
+        "https://www.wavve.com/my"
+      ]
+    },
+    {
+      "id": "coupang_play",
+      "name": "쿠팡플레이",
+      "category": "ott",
+      "channels": [
+        {
+          "channel": null,
+          "label": "쿠팡플레이 공식 FAQ(청구 채널 확인 필요)",
+          "steps": null,
+          "official_url": "https://news.coupang.com/archives/64216/",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:39:00+09:00",
+          "notes": "공식 FAQ 안내 링크이며 해지 화면이 아닙니다; 최신 FAQ는 와우 해지와 함께 패스 해지 또는 쿠팡플레이 앱에서 패스 별도 해지를 안내. 앱 내 최종 메뉴 순서 미확인."
+        }
+      ],
+      "refund_note": null,
+      "source_urls": [
+        "https://news.coupang.com/archives/64216/",
+        "https://news.coupang.com/archives/52981/",
+        "https://news.coupang.com/archives/54044/",
+        "https://news.coupang.com/archives/64775/"
+      ]
+    },
+    {
+      "id": "coupang_wow",
+      "name": "쿠팡 와우 멤버십",
+      "category": "shopping",
+      "channels": [
+        {
+          "channel": null,
+          "label": "쿠팡 와우 멤버십 공식 FAQ(청구 채널 확인 필요)",
+          "steps": null,
+          "official_url": "https://news.coupang.com/archives/64216/",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:39:00+09:00",
+          "notes": "공식 FAQ 안내 링크이며 해지 화면이 아닙니다; 최신 FAQ는 와우 해지와 패스 동시 해지 가능성만 안내. 와우의 전체 메뉴 순서는 미확인; 추정 URL은 403이라 실행 링크에서 제외."
+        }
+      ],
+      "refund_note": null,
+      "source_urls": [
+        "https://news.coupang.com/archives/64216/",
+        "https://news.coupang.com/archives/38866/",
+        "https://www.coupang.com/np/membership/withdrawal"
+      ]
+    },
+    {
+      "id": "spotify_premium_kr",
+      "name": "Spotify Premium",
+      "category": "music",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "Spotify Premium 웹 구독 관리 안내",
+          "steps": [
+            "Spotify 계정 페이지",
+            "요금제 관리하기",
+            "요금제 변경",
+            "Spotify 구독 해지로 스크롤",
+            "Premium 해지"
+          ],
+          "official_url": "https://www.spotify.com/kr-ko/account/subscription/",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:53:00+09:00",
+          "notes": "웹 결제 안내입니다; 제휴사 청구는 제휴사에서 해지하며, 공유 요금제 구성원 탈퇴와 관리자 요금제 해지를 구분해야 합니다."
+        },
+        {
+          "channel": "partner",
+          "label": "Spotify Premium 제휴사에서 청구되는 경우",
+          "steps": null,
+          "official_url": "https://support.spotify.com/kr-ko/article/cancel-premium/",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:53:00+09:00",
+          "notes": "공식 안내의 제휴 결제 분기입니다; 링크는 도움말이며, 파트너별 해지 주소와 메뉴 순서는 미확인입니다."
+        }
+      ],
+      "refund_note": "Premium은 다음 결제일까지 유지된 뒤 Free로 전환하며, 취소와 환불은 별개입니다.",
+      "source_urls": [
+        "https://www.spotify.com/kr-ko/account/subscription/",
+        "https://support.spotify.com/kr-ko/article/cancel-premium/",
+        "https://www.spotify.com/kr-ko/premium/",
+        "https://support.spotify.com/kr-ko/article/payment-methods/",
+        "https://support.spotify.com/kr-ko/article/billing-date/"
+      ]
+    },
+    {
+      "id": "naver_plus_membership",
+      "name": "네이버플러스 멤버십",
+      "category": "shopping",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "네이버플러스 멤버십 웹 구독 관리 안내",
+          "steps": [
+            "네이버플러스 마이 멤버십",
+            "오른쪽 위 설정(톱니바퀴)",
+            "네이버플러스 멤버십 관리",
+            "네이버플러스 멤버십 해지하기",
+            "이번 이용 기간 확인 후 정기결제 해지",
+            "해지하기"
+          ],
+          "official_url": "https://nid.naver.com/membership/subscribe",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:56:02+09:00",
+          "notes": "갱신 중단과 즉시 종료·환불은 다른 처리입니다; 연간 구독과 무료 이용권 연장, 콘텐츠 업그레이드의 별도 청구 여부를 확인해야 합니다."
+        }
+      ],
+      "refund_note": "월간 갱신 해지는 현재 회차까지 유지하며, 연간 중도해지·즉시 종료·환불과 콘텐츠 업그레이드 청구는 별도 조건을 확인해야 합니다.",
+      "source_urls": [
+        "https://nid.naver.com/membership/subscribe",
+        "https://help.naver.com/service/23168/contents/13775?lang=ko",
+        "https://help.naver.com/service/23168/contents/11768?lang=ko",
+        "https://help.naver.com/service/23168/contents/22358",
+        "https://help.naver.com/service/23168/category/5712",
+        "https://help.naver.com/service/30016/contents/22496?lang=ko&osType=COMMONOS",
+        "https://help.naver.com/service/23168/contents/21564?lang=ko",
+        "https://nid.naver.com/nidlogin.login"
+      ]
+    },
+    {
+      "id": "watcha",
+      "name": "왓챠",
+      "category": "ott",
+      "channels": [
+        {
+          "channel": null,
+          "label": "왓챠 모바일 해지 안내",
+          "steps": [
+            "모바일: 프로필",
+            "구독 정보",
+            "해지하기",
+            "해지할게요"
+          ],
+          "official_url": "https://help.watcha.com/hc/ko/articles/900002284046-%EB%8B%A4%EB%A5%B8-%EA%B0%9C%EC%9B%94-%EC%88%98-1-12%EA%B0%9C%EC%9B%94-%EC%9D%98-%EA%B5%AC%EB%8F%85%EA%B6%8C%EC%9C%BC%EB%A1%9C-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%B3%80%EA%B2%BD%ED%95%98%EB%82%98%EC%9A%94",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:39:00+09:00",
+          "notes": "공식 도움말 링크이며 계정 해지 화면 주소는 미확인입니다; 기본 프로필에서만 해지할 수 있고 Apple 청구는 Apple 구독 경로를 사용합니다. 모바일 안내만으로 App Store·Google Play 청구를 확정하지 않습니다."
+        },
+        {
+          "channel": "web",
+          "label": "왓챠 PC 해지 안내",
+          "steps": [
+            "프로필",
+            "나의 왓챠",
+            "구독권 변경 및 해지",
+            "구독을 해지하고 싶어요",
+            "해지할게요"
+          ],
+          "official_url": "https://help.watcha.com/hc/ko/articles/900002284046-%EB%8B%A4%EB%A5%B8-%EA%B0%9C%EC%9B%94-%EC%88%98-1-12%EA%B0%9C%EC%9B%94-%EC%9D%98-%EA%B5%AC%EB%8F%85%EA%B6%8C%EC%9C%BC%EB%A1%9C-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%B3%80%EA%B2%BD%ED%95%98%EB%82%98%EC%9A%94",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:39:00+09:00",
+          "notes": "공식 도움말 링크이며 계정 해지 화면 주소는 미확인입니다; 기본 프로필에서만 해지할 수 있고 Apple 청구는 Apple 구독 경로를 사용합니다."
+        }
+      ],
+      "refund_note": null,
+      "source_urls": [
+        "https://help.watcha.com/hc/ko/articles/900002284046-%EB%8B%A4%EB%A5%B8-%EA%B0%9C%EC%9B%94-%EC%88%98-1-12%EA%B0%9C%EC%9B%94-%EC%9D%98-%EA%B5%AC%EB%8F%85%EA%B6%8C%EC%9C%BC%EB%A1%9C-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%B3%80%EA%B2%BD%ED%95%98%EB%82%98%EC%9A%94",
+        "https://watcha.com/ko-KR/legals/play_agreement"
+      ]
+    },
+    {
+      "id": "millie",
+      "name": "밀리의서재",
+      "category": "etc",
+      "channels": [
+        {
+          "channel": null,
+          "label": "밀리의서재 앱 관리 안내(구매 채널 확인 필요)",
+          "steps": [
+            "밀리",
+            "관리",
+            "나의 정기구독",
+            "정기구독 해지 또는 환불"
+          ],
+          "official_url": "https://www.millie.co.kr/v3/preview",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:55:41+09:00",
+          "notes": "공식 공개 안내 페이지이며 계정 해지 화면 주소는 미확인입니다; 원본은 앱 관리 경로를 안내하므로 web·App Store·Google Play로 단정하지 않습니다; 스토어 구매·제휴 상품은 해당 구매 채널과 조건을 확인해야 합니다."
+        }
+      ],
+      "refund_note": "해지예약은 다음 자동결제를 막고 남은 기간 이용을 유지하며, 즉시해지 환불은 콘텐츠 이용·구매 채널·상품별 조건을 확인해야 합니다.",
+      "source_urls": [
+        "https://www.millie.co.kr/v3/preview",
+        "https://www.millie.co.kr/v4/product?nav_hidden=y",
+        "https://corp.millie.co.kr/policy/terms/",
+        "https://corp.millie.co.kr/policy/terms/20250203/"
+      ]
+    },
+    {
+      "id": "ridi_select",
+      "name": "리디셀렉트",
+      "category": "etc",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "리디 카드 구독의 셀렉트 해지 예약 안내",
+          "steps": [
+            "리디 계정 로그인",
+            "셀렉트",
+            "설정",
+            "구독 관리",
+            "구독 해지 예약"
+          ],
+          "official_url": "https://ridihelp.ridibooks.com/support/solutions/articles/154000207870--%EC%85%80%EB%A0%89%ED%8A%B8-%EA%B5%AC%EB%8F%85-%EC%9B%94%EC%A0%95%EC%95%A1-%ED%95%B4%EC%A7%80-%EB%B0%A9%EB%B2%95",
+          "login_required": true,
+          "checked_at": "2026-11-14T14:07:44+09:00",
+          "notes": "공식 도움말 링크입니다; 원본의 설정 진입 URL은 비로그인 403으로 실제 화면 표시가 미검증이므로 이동 링크로 사용하지 않았습니다; 제휴 구독권은 판매처 조건을 확인하고, 인앱결제 해지 주체는 미확인입니다."
+        }
+      ],
+      "refund_note": "해지 예약 후 표시된 이용기간까지 이용할 수 있으며, 월정액 환불 세부 요건은 별도 확인해야 합니다.",
+      "source_urls": [
+        "https://ridihelp.ridibooks.com/support/solutions/articles/154000207870--%EC%85%80%EB%A0%89%ED%8A%B8-%EA%B5%AC%EB%8F%85-%EC%9B%94%EC%A0%95%EC%95%A1-%ED%95%B4%EC%A7%80-%EB%B0%A9%EB%B2%95",
+        "https://ridihelp.ridibooks.com/support/solutions/articles/154000204606",
+        "https://ridihelp.ridibooks.com/support/solutions/articles/154000204325--%EC%85%80%EB%A0%89%ED%8A%B8-%EA%B5%AC%EB%8F%85%EA%B8%B0%EA%B0%84-%EC%9E%90%EB%8F%99-%EA%B2%B0%EC%A0%9C-%EC%98%88%EC%A0%95%EC%9D%BC-%ED%99%95%EC%9D%B8-%EB%B0%A9%EB%B2%95",
+        "https://ridihelp.ridibooks.com/support/solutions/articles/154000204325",
+        "https://select.ridibooks.com/settings"
+      ]
+    },
+    {
+      "id": "baemin_club",
+      "name": "배민클럽",
+      "category": "delivery",
+      "channels": [
+        {
+          "channel": null,
+          "label": "배민클럽 해지 경로 미확인",
+          "steps": null,
+          "official_url": null,
+          "login_required": null,
+          "checked_at": "2026-11-14T13:55:41+09:00",
+          "notes": "현행 소비자 구독의 해지 주소·단계·청구 채널·인증 요건을 확인하지 못했습니다; source_urls의 홈페이지·앱 소개·과거 이벤트·가맹점 자료는 해지 경로로 사용하지 않습니다."
+        }
+      ],
+      "refund_note": null,
+      "source_urls": [
+        "https://www.baemin.com/",
+        "https://event-view.baemin.com/apps/d3371c9",
+        "https://apps.apple.com/kr/app/id378084485"
+      ]
+    },
+    {
+      "id": "yogipass",
+      "name": "요기패스 / 요기패스X",
+      "category": "delivery",
+      "channels": [
+        {
+          "channel": null,
+          "label": "요기패스 / 요기패스X 해지 경로 미확인",
+          "steps": null,
+          "official_url": null,
+          "login_required": null,
+          "checked_at": "2026-11-14T13:55:41+09:00",
+          "notes": "현행 소비자 구독의 해지 주소·단계·청구 채널·인증 요건을 확인하지 못했습니다; source_urls의 홈페이지·앱 소개·과거 이벤트·가맹점 자료는 해지 경로로 사용하지 않습니다."
+        }
+      ],
+      "refund_note": null,
+      "source_urls": [
+        "https://www.yogiyo.co.kr/",
+        "https://rev-static.yogiyo.co.kr/owners/YGY_INFO_%28OD%29OL.pdf",
+        "https://rev-static.yogiyo.co.kr/owners/2409_YGY_INFO_OL.pdf",
+        "https://apps.apple.com/kr/app/id543831532"
+      ]
+    },
+    {
+      "id": "kurly_membership",
+      "name": "컬리멤버스",
+      "category": "shopping",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "컬리멤버스 웹 구독 관리 안내(청구 채널 확인 필요)",
+          "steps": null,
+          "official_url": "https://www.kurly.com/mypage/membership/unsubscribe",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:55:41+09:00",
+          "notes": "공개 프런트엔드에서 구독 해지 진입점과 예약 후 이용 문구만 확인했습니다; 최종 메뉴 순서와 구매·청구 채널은 미확인입니다."
+        }
+      ],
+      "refund_note": "해지 예약 후 다음 결제일까지 유지되지만, 환불 가능 여부·산식은 확인하지 못했습니다.",
+      "source_urls": [
+        "https://www.kurly.com/mypage/membership/unsubscribe",
+        "https://www.kurly.com/",
+        "https://www.kurly.com/member/membership",
+        "https://www.kurly.com/member/membership/terms",
+        "https://www.kurly.com/mypage/membership",
+        "https://ir.kurly.com/api/files/Kurly_Company-Presentation_Kor_2Q24-vS.pdf",
+        "https://helloworld.kurly.com/blog/prod-design-quick-menu/",
+        "https://www.kurly.com/mypage/membership/auto-payment",
+        "https://apps.apple.com/kr/app/id1080244833"
+      ]
+    },
+    {
+      "id": "melon",
+      "name": "멜론",
+      "category": "music",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "멜론 PC 웹에서 결제한 경우",
+          "steps": [
+            "구매 채널 확인",
+            "PC 웹이면 내정보",
+            "멜론이용권/결제정보",
+            "멜론이용권",
+            "이용권 해지신청"
+          ],
+          "official_url": "https://faqs2.melon.com/web/faq/content.htm?faqId=2212",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:41:42+09:00",
+          "notes": "공식 FAQ 링크이며 계정 해지 화면 주소는 미확인입니다; App Store·Google Play 인앱결제는 각 플랫폼에서 처리합니다."
+        },
+        {
+          "channel": null,
+          "label": "멜론 Android 앱·모바일 웹의 멜론 결제 안내",
+          "steps": [
+            "구매 채널 확인",
+            "Android 앱·모바일 웹이면 내정보",
+            "이용권/쿠폰/캐시",
+            "변경/해지",
+            "결제방법 변경/해지",
+            "해지"
+          ],
+          "official_url": "https://faqs2.melon.com/web/faq/content.htm?faqId=2212",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:41:42+09:00",
+          "notes": "공식 FAQ의 자체 결제 경로입니다; Android 앱이라는 이유로 Google Play 청구로 분류하지 않습니다; 인앱결제는 각 플랫폼에서 처리합니다."
+        }
+      ],
+      "refund_note": "정기결제 해지와 중도해지는 구분되며, 미사용 7일 이내 환불과 사용량에 따른 환불에는 이용권별 예외가 있어 공식 FAQ를 확인해야 합니다.",
+      "source_urls": [
+        "https://faqs2.melon.com/web/faq/content.htm?faqId=2212",
+        "https://faqs2.melon.com/web/faq/content.htm?faqId=QUES20140619000021",
+        "https://search.melon.com/buy/pamphlet/discount.htm"
+      ]
+    },
+    {
+      "id": "genie",
+      "name": "지니",
+      "category": "music",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "지니에서 정기결제한 경우",
+          "steps": [
+            "구매 채널 확인",
+            "지니 앱 또는 웹사이트",
+            "우측 상단 사람 아이콘",
+            "이용권 정보",
+            "정기결제 해지 또는 취소 신청"
+          ],
+          "official_url": "https://pay.genie.co.kr/cancel/myProductCancel",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:41:42+09:00",
+          "notes": "공식 지니 결제 관리 페이지이며 원본은 앱·웹 경로를 함께 안내합니다; 통신사 상품은 아래 carrier 안내를 사용해야 합니다; 알뜰 음악감상 등은 해지 시 당월 사용금액이 청구될 수 있습니다."
+        },
+        {
+          "channel": "carrier",
+          "label": "지니 통신사 부가서비스·멤버십 이용권",
+          "steps": [
+            "구매 채널 확인",
+            "통신사 부가서비스·멤버십 이용권이면 통신사 고객센터 또는 홈페이지에서 해지·환불 신청"
+          ],
+          "official_url": null,
+          "login_required": true,
+          "checked_at": "2026-11-14T13:41:42+09:00",
+          "notes": "지니 공식 페이지가 안내한 통신사 분기입니다; 통신사별 실제 관리 URL은 미확인으로 null이며 통신사 정책이 적용됩니다."
+        }
+      ],
+      "refund_note": "갱신 해지 뒤 만료일까지 이용하며, 환불은 미사용·사용량·상품·통신사별 조건에 따라 달라집니다.",
+      "source_urls": [
+        "https://pay.genie.co.kr/cancel/myProductCancel"
+      ]
+    },
+    {
+      "id": "apple_one_icloud_plus",
+      "name": "Apple One / iCloud+",
+      "category": "cloud",
+      "channels": [
+        {
+          "channel": "app_store",
+          "label": "Apple One · iPhone/iPad",
+          "steps": [
+            "설정",
+            "Apple 계정 이름",
+            "구독",
+            "Apple One",
+            "구독 취소"
+          ],
+          "official_url": "https://support.apple.com/ko-kr/118428",
+          "login_required": true,
+          "checked_at": "2026-11-14T14:04:23+09:00",
+          "notes": "Apple 계정 청구의 상품·OS별 공식 도움말입니다; 공통 App Store 관리 링크와 메뉴가 다를 수 있습니다; 실제 계정 변경은 미실행입니다."
+        },
+        {
+          "channel": "app_store",
+          "label": "iCloud+ · iOS/iPadOS 18.4 이상",
+          "steps": [
+            "설정",
+            "Apple 계정 이름",
+            "구독",
+            "iCloud+",
+            "구독 취소"
+          ],
+          "official_url": "https://support.apple.com/ko-kr/108318?device-type=iphone",
+          "login_required": true,
+          "checked_at": "2026-11-14T14:04:23+09:00",
+          "notes": "Apple 계정 청구의 상품·OS별 공식 도움말입니다; 공통 App Store 관리 링크와 메뉴가 다를 수 있습니다; 실제 계정 변경은 미실행입니다."
+        },
+        {
+          "channel": "app_store",
+          "label": "iCloud+ · iOS/iPadOS 18~18.3",
+          "steps": [
+            "설정",
+            "Apple 계정 이름",
+            "iCloud",
+            "요금제 관리",
+            "다운그레이드 옵션",
+            "새 요금제 선택",
+            "완료"
+          ],
+          "official_url": "https://support.apple.com/ko-kr/108318?device-type=iphone",
+          "login_required": true,
+          "checked_at": "2026-11-14T14:04:23+09:00",
+          "notes": "Apple 계정 청구의 상품·OS별 공식 도움말입니다; 공통 App Store 관리 링크와 메뉴가 다를 수 있습니다; 취소 목적이면 무료 5GB 선택. 유료 하위 요금제 변경과 구분"
+        },
+        {
+          "channel": "app_store",
+          "label": "iCloud+ · iOS/iPadOS 17 이하",
+          "steps": [
+            "설정",
+            "Apple 계정 이름",
+            "iCloud",
+            "계정 저장 공간 관리",
+            "다운그레이드 옵션",
+            "새 요금제 선택",
+            "완료"
+          ],
+          "official_url": "https://support.apple.com/ko-kr/108318?device-type=iphone",
+          "login_required": true,
+          "checked_at": "2026-11-14T14:04:23+09:00",
+          "notes": "Apple 계정 청구의 상품·OS별 공식 도움말입니다; 공통 App Store 관리 링크와 메뉴가 다를 수 있습니다; 취소 목적이면 무료 5GB 선택"
+        },
+        {
+          "channel": "app_store",
+          "label": "iCloud+ · macOS Tahoe 26 이상",
+          "steps": [
+            "Apple 메뉴",
+            "시스템 설정",
+            "Apple 계정",
+            "iCloud",
+            "요금제 관리",
+            "구독 취소"
+          ],
+          "official_url": "https://support.apple.com/ko-kr/108318?device-type=mac",
+          "login_required": true,
+          "checked_at": "2026-11-14T14:04:18+09:00",
+          "notes": "Apple 계정 청구의 상품·OS별 공식 도움말입니다; 공통 App Store 관리 링크와 메뉴가 다를 수 있습니다; 실제 계정 변경은 미실행입니다."
+        },
+        {
+          "channel": "app_store",
+          "label": "iCloud+ · macOS Sequoia",
+          "steps": [
+            "Apple 메뉴",
+            "시스템 설정",
+            "Apple 계정",
+            "iCloud",
+            "요금제 관리",
+            "다운그레이드 옵션",
+            "Apple 계정 암호 입력 후 관리",
+            "무료 5GB 선택",
+            "완료"
+          ],
+          "official_url": "https://support.apple.com/ko-kr/108318?device-type=mac",
+          "login_required": true,
+          "checked_at": "2026-11-14T14:04:18+09:00",
+          "notes": "Apple 계정 청구의 상품·OS별 공식 도움말입니다; 공통 App Store 관리 링크와 메뉴가 다를 수 있습니다; 무료 5GB가 취소, 다른 유료 용량은 다운그레이드. 새 요금제의 파란 체크 확인"
+        },
+        {
+          "channel": "app_store",
+          "label": "iCloud+ · macOS Sonoma(공식 본문의 이전 버전 분기 포함)",
+          "steps": [
+            "Apple 메뉴",
+            "시스템 설정",
+            "Apple 계정",
+            "iCloud",
+            "관리",
+            "저장 공간 요금제 변경",
+            "다운그레이드 옵션",
+            "Apple 계정 암호 입력 후 관리",
+            "무료 5GB 선택",
+            "완료"
+          ],
+          "official_url": "https://support.apple.com/ko-kr/108318?device-type=mac",
+          "login_required": true,
+          "checked_at": "2026-11-14T14:04:18+09:00",
+          "notes": "Apple 계정 청구의 상품·OS별 공식 도움말입니다; 공통 App Store 관리 링크와 메뉴가 다를 수 있습니다; 공식 본문은 Sonoma 및 이전 버전의 관리 > 저장 공간 요금제 변경 분기를 제시. 설치 버전별 실제 표시는 재확인"
+        },
+        {
+          "channel": "app_store",
+          "label": "iCloud+ · Windows PC / Windows용 iCloud",
+          "steps": [
+            "Windows용 iCloud",
+            "관리",
+            "저장 공간 요금제 변경",
+            "다운그레이드 옵션",
+            "Apple 계정 암호 입력 후 관리",
+            "무료 5GB 선택",
+            "완료"
+          ],
+          "official_url": "https://support.apple.com/ko-kr/108318?device-type=windows",
+          "login_required": true,
+          "checked_at": "2026-11-14T14:04:23+09:00",
+          "notes": "Apple 계정 청구의 상품·OS별 공식 도움말입니다; 공통 App Store 관리 링크와 메뉴가 다를 수 있습니다; 새 요금제의 파란 체크 확인. 실제 계정 변경은 미실행"
+        }
+      ],
+      "refund_note": "Apple One은 결제한 기간까지 이용할 수 있고, iCloud+ 취소·다운그레이드는 청구 기간 종료 후 적용되며 저장공간 초과 시 동기화·백업이 중단될 수 있습니다.",
+      "source_urls": [
+        "https://apps.apple.com/account/subscriptions",
+        "https://support.apple.com/ko-kr/108318?device-type=iphone",
+        "https://www.apple.com/kr/apple-one/",
+        "https://www.apple.com/kr/icloud/",
+        "https://support.apple.com/ko-kr/108047",
+        "https://support.apple.com/ko-kr/121290",
+        "https://support.apple.com/ko-kr/118428",
+        "https://support.apple.com/ko-kr/108318",
+        "https://support.apple.com/ko-kr/108318?device-type=mac",
+        "https://support.apple.com/ko-kr/108318?device-type=windows"
+      ]
+    },
+    {
+      "id": "google_one",
+      "name": "Google One",
+      "category": "cloud",
+      "channels": [
+        {
+          "channel": "web",
+          "label": "Google One 컴퓨터에서 취소하는 경우",
+          "steps": [
+            "컴퓨터에서 Google One 로그인",
+            "설정",
+            "멤버십 취소",
+            "멤버십 취소로 확인"
+          ],
+          "official_url": "https://support.google.com/googleone/answer/9056360?co=GENIE.Platform%3DDesktop&hl=ko-KR",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:53:00+09:00",
+          "notes": "공식 도움말 링크이며 계정 해지 화면 주소는 미확인입니다; 판매 제휴사를 통해 결제했다면 해당 제휴사에서 확인해야 합니다."
+        },
+        {
+          "channel": null,
+          "label": "Google One · Android",
+          "steps": [
+            "Google One 앱",
+            "메뉴",
+            "설정",
+            "멤버십 취소",
+            "멤버십 취소 확인"
+          ],
+          "official_url": "https://support.google.com/googleone/answer/9056360?hl=ko-KR",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:53:00+09:00",
+          "notes": "공식 도움말의 Android 분기입니다; Android 앱 경로이며 Google Play 청구로 단정하지 않습니다."
+        },
+        {
+          "channel": "app_store",
+          "label": "Google One · App Store 청구",
+          "steps": [
+            "Apple 구독 관리",
+            "Google One",
+            "구독 취소"
+          ],
+          "official_url": "https://support.google.com/googleone/answer/9056360?hl=ko-KR",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:53:00+09:00",
+          "notes": "공식 도움말의 App Store 청구 분기입니다; Apple 청구가 확인된 경우에만 적용합니다."
+        }
+      ],
+      "refund_note": "취소 후 결제 주기 끝까지 혜택을 이용하며, 종료 후 기본 저장공간을 초과하면 일부 기능이 제한될 수 있어 한국 개별 청구의 환불은 별도 확인해야 합니다.",
+      "source_urls": [
+        "https://support.google.com/googleone/answer/9056360?co=GENIE.Platform%3DDesktop&hl=ko-KR",
+        "https://one.google.com/about/plans?gl=KR&hl=ko",
+        "https://support.google.com/googleone/answer/2375123?co=GENIE.Platform%3DDesktop&hl=ko",
+        "https://support.google.com/googleone/answer/15801606?hl=ko-KR",
+        "https://support.google.com/googleone/answer/9056360?hl=ko-KR",
+        "https://one.google.com/"
+      ]
+    },
+    {
+      "id": "carrier_addon_examples",
+      "name": "통신사 부가서비스 (SKT·KT·LG U+ 예시)",
+      "category": "etc",
+      "channels": [
+        {
+          "channel": "carrier",
+          "label": "SKT 특정 상품의 부가서비스 안내(다른 통신사 경로 미확인)",
+          "steps": null,
+          "official_url": "https://m.tworld.co.kr/product/callplan?prod_id=NA00002666",
+          "login_required": true,
+          "checked_at": "2026-11-14T13:41:42+09:00",
+          "notes": "SKT 특정 상품의 가입·해지 채널 안내 링크입니다; KT·LG U+와 전체 부가서비스에 적용되는 공통 관리 URL·메뉴 순서는 미확인입니다."
+        }
+      ],
+      "refund_note": null,
+      "source_urls": [
+        "https://m.tworld.co.kr/product/callplan?prod_id=NA00002666",
+        "https://m.tworld.co.kr/customer/faq/view?faq_Id=0000000071",
+        "https://pay.genie.co.kr/cancel/myProductCancel",
+        "https://product.kt.com/",
+        "https://www.lguplus.com/",
+        "https://www.tworld.co.kr/"
+      ]
+    }
+  ],
+  "platform_channels": {
+    "app_store": {
+      "channel": "app_store",
+      "label": "Apple 계정에서 청구되는 구독",
+      "steps": [
+        "설정",
+        "Apple 계정",
+        "구독",
+        "해당 항목",
+        "구독 취소"
+      ],
+      "official_url": "https://apps.apple.com/account/subscriptions",
+      "login_required": true,
+      "checked_at": "2026-11-14T13:41:21+09:00",
+      "notes": "가족의 다른 Apple 계정 구독은 구매 계정 소유자가 취소해야 함; 실제 청구 채널이 일치하는 경우에만 사용하는 공통 안내이며, 서비스별 지원 여부를 뜻하지 않습니다."
+    },
+    "google_play": {
+      "channel": "google_play",
+      "label": "Google Play에서 청구되는 정기 결제",
+      "steps": [
+        "Play 스토어",
+        "프로필",
+        "결제 및 정기 결제",
+        "정기 결제",
+        "해당 항목",
+        "정기 결제 취소"
+      ],
+      "official_url": "https://play.google.com/store/account/subscriptions",
+      "login_required": true,
+      "checked_at": "2026-11-14T13:41:21+09:00",
+      "notes": "앱 삭제는 해지가 아니며 환불·기간 종료·약정 잔여 대금과 구분; 실제 청구 채널이 일치하는 경우에만 사용하는 공통 안내이며, 서비스별 지원 여부를 뜻하지 않습니다."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "구독 마침표",
+  "short_name": "마침표",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "ko",
+  "icons": [{ "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
