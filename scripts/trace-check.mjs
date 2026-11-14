@@ -34,9 +34,9 @@ const missing = rows.filter((r) => r.tests.length === 0 && !['R06', 'R14', 'R15'
 const lines = [
   '# 요구사항 추적표 (자동 생성)',
   '',
-  `생성: \`node scripts/trace-check.mjs\` · 요구 ${rows.length}개 · 테스트로 직접 검사하는 요구 ${rows.filter((r) => r.tests.length).length}개`,
+  `생성: \`node scripts/trace-check.mjs\` · 요구 ${rows.length}개 · 테스트에 연결된 요구 ${rows.filter((r) => r.tests.length).length}개`,
   '',
-  '테스트 대신 다른 증거로 확인하는 요구: R06(화면 문구), R14(PreToolUse 훅 → `docs/evidence/policy-denials.jsonl`), R15(오류 처리 코드), R17(배포 주소), R18(훅·봇 영수증), R26(`docs/evidence/bot-runs/`).',
+  '테스트 외 증거가 필요한 요구: R06(화면 문구), R14(PreToolUse 설정·`docs/evidence/hook-log.jsonl`, 합성 입력 검사는 `docs/evidence/hook-check.json`), R15(오류 처리), R17(README의 배포 주소), R18(훅·봇 영수증·검토 기록), R26(`docs/evidence/bot-runs/`). 훅 합성 입력 검사를 Kiro 실행 증거로 설명하지 않는다.',
   '',
   '| 요구 | spec | 제목 | 코드 | 테스트 |',
   '|---|---|---|---|---|',

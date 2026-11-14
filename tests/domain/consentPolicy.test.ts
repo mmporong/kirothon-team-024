@@ -78,6 +78,19 @@ describe('R08 동의 무효화', () => {
 });
 
 describe('R16 단일 정책 관문', () => {
+  it('가족 동의가 완료돼도 지원하지 않는 경로 변경 인계는 보류한다', () => {
+    const agreed = run(newCase('c1', sub),
+      { type: 'request_family_review', actor: 'bot', terms: terms(2) },
+      { type: 'cast_vote', actor: 'mom', version: 1, value: 'agree' },
+      { type: 'cast_vote', actor: 'bro', version: 1, value: 'agree' }).s;
+    const d = evaluateAction(agreed, { type: 'prepare_owner_handoff', actor: 'bot', switchTo: 'app_store' }, NOW);
+    expect(d.allowed).toBe(false);
+    expect(d.reasons).toContain('family_switch_not_supported');
+    expect(d.next.stage).toBe('family_review');
+    expect(d.next.closure.switchTo).toBeNull();
+    expect(tally(d.next.proposal!).allAgreed).toBe(true);
+  });
+
   it('해지 요청 기록은 결제자만 할 수 있다', () => {
     const { out } = run(newCase('c1', sub),
       { type: 'request_family_review', actor: 'bot', terms: terms(3) },

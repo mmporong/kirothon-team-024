@@ -17,6 +17,8 @@ export interface ChannelPrice {
   source_kind: string | null;
   checked_at: string | null;
   evidence?: string | null;
+  comparable?: boolean;
+  comparison_note?: string | null;
 }
 
 export interface ServicePrices {
@@ -59,7 +61,7 @@ export interface ChannelComparison {
   reasons: string[];
 }
 
-const usable = (p: ChannelPrice): boolean => p.status === 'verified' && typeof p.monthly === 'number' && Number.isSafeInteger(p.monthly) && p.monthly > 0;
+const usable = (p: ChannelPrice): boolean => p.status === 'verified' && p.comparable !== false && (p.currency ?? 'KRW') === 'KRW' && typeof p.monthly === 'number' && Number.isSafeInteger(p.monthly) && p.monthly > 0;
 
 /**
  * 지금 결제 경로와 다른 검증된 경로의 월 가격을 비교한다.

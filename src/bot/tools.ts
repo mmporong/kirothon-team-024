@@ -11,7 +11,7 @@ import { getPlan, getPolicy, PLAN_LABEL } from '../domain/pricePolicy';
 import { decisionDeadline, REVIEW_LABEL, reviewStatus } from '../domain/reminders';
 import { computeScenario, type Scenario } from '../domain/resubBreakeven';
 import { CHANNEL_LABEL, CHANNEL_SHORT, josa, withRo, type Channel, type Subscription } from '../domain/types';
-import { chargesOnNewChannel, CLOSURE_LABEL, closureStatus } from '../domain/verification';
+import { chargesAfterRequest, chargesOnNewChannel, CLOSURE_LABEL, closureStatus } from '../domain/verification';
 import { hoursBetween, labelOf, memberOf, nextId, openCaseFor, replaceCase, todayOf, TX_EFFECT_LABEL, type BotState, type Message } from './state';
 
 export interface ToolOutcome {
@@ -181,7 +181,9 @@ export const TOOLS: ToolDef[] = [
           deadline: dl.kind === 'trial_end' ? '무료체험 종료(유료 전환)' : '정기결제',
           decideBy: dl.cancelBy,
           decideByNote: dl.leadDays ? `${CHANNEL_SHORT[sub.channel!]}는 결제 ${dl.leadDays * 24}시간 전까지 자동 갱신을 꺼야 해요` : null,
-          daysToDecide: r.days,
+          daysToDecide: r.daysToDecision,
+          daysToChargeOrTrialEnd: r.daysToChargeOrTrialEnd,
+          reviewBasis: 'cancel_deadline',
           review: REVIEW_LABEL[r.status],
           dueWithin3Days: ['d3', 'd2', 'd1', 'today'].includes(r.status),
           cheaperChannel: cc.status === 'cheaper_available' ? `${josa(CHANNEL_SHORT[cc.cheapest!.channel], '이/가')} 월 ${formatWon(cc.monthlyDiff!)} 쌈 — compare_channels로 확인` : null,
@@ -195,7 +197,7 @@ export const TOOLS: ToolDef[] = [
       });
       const unread = s.messages.filter((m) => m.to === 'bot' && !m.readByBot);
       for (const m of unread) m.readByBot = true;
-      return ok(`구독 ${subscriptions.length}개, 3일 안 결제 ${subscriptions.filter((x) => x.dueWithin3Days).length}개, 새 답장 ${unread.length}개`, {
+      return ok(`구독 ${subscriptions.length}개, 3일 안 취소 결정 마감 ${subscriptions.filter((x) => x.dueWithin3Days).length}개, 새 답장 ${unread.length}개`, {
         now: s.clock,
         today: t,
         members: s.household.members.map((m) => ({ id: m.id, label: m.label, role: m.role === 'owner' ? '결제자' : '구성원' })),
@@ -435,11 +437,12 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: 'request_handoff',
-    description: '결제자 인계를 정책 관문에 요청한다. 가족 공유 구독은 현재 버전 제안에 공유 구성원 전원이 동의해야 허용된다. 거부되면 사유(미응답·반대와 반대 의견·보류)를 돌려준다. 허용되면 결제자에게 공식 해지 경로를 보낸다. 결제 경로를 옮기는 경우 switchTo(새 경로)를 주면 옮기는 단계를 보낸다.',
+    description: '결제자 인계를 정책 관문에 요청한다. 가족 공유 해지는 현재 버전 제안에 공유 구성원 전원이 동의해야 한다. 가족 결제 경로 변경은 경로·가격 조건 동의를 지원할 때까지 보류한다. 개인 구독의 절약 목적 switchTo는 현재보다 싼 공식 확인 가격의 경로만 허용한다. 허용되면 결제자에게 공식 절차를 보낸다.',
     inputSchema: { type: 'object', properties: { caseId: { type: 'string' }, switchTo: { type: 'string', enum: ['web', 'app_store', 'google_play'], description: '결제 경로를 옮길 때 새 경로(compare_channels의 cheapest.channelId)' } }, required: ['caseId'] },
     handler(s, a) {
       const c = caseOf(s, a.caseId);
       if (!c) return fail(['unknown_case'], '사건을 찾지 못했어요');
+      if (a.switchTo !== undefined && !['web', 'app_store', 'google_play'].includes(str(a.switchTo))) return fail(['invalid_switch_target'], '옮길 결제 경로를 확인해 주세요');
       const switchTo = (['web', 'app_store', 'google_play'].includes(str(a.switchTo)) ? str(a.switchTo) : undefined) as Channel | undefined;
       const d = evaluateAction(c, { type: 'prepare_owner_handoff', actor: 'bot', ...(switchTo ? { switchTo } : {}) }, s.clock);
       replaceCase(s, d.next);
@@ -448,8 +451,8 @@ export const TOOLS: ToolDef[] = [
       const sub = d.next.subscription;
       const lead = sub.sharedWith.length ? `가족 모두 동의했어요(제안 v${d.next.proposal?.version ?? '-'}: ${d.next.proposal?.terms.sentence ?? ''}).` : '말씀하신 대로 진행할게요.';
       if (switchTo && sub.channel) {
-        const cc = compareChannels(CHANNEL_PRICES, sub.serviceId, sub.planId, sub.channel, sub.monthlyWon);
-        const signup = switchTo === 'web' && cc.cheapest?.channel === 'web' ? cc.cheapest.source_url : null;
+        const target = findPrices(CHANNEL_PRICES, sub.serviceId, sub.planId)?.prices.find((p) => p.channel === switchTo);
+        const signup = switchTo === 'web' ? target?.source_url ?? null : null;
         const steps = switchSteps(sub.serviceId, sub.channel, switchTo, signup, { trial: !!sub.trialEndsAt });
         const text = `${lead} ${sub.name}을 ${CHANNEL_SHORT[sub.channel]}에서 ${withRo(CHANNEL_SHORT[switchTo])} 옮기는 방법이에요. ${steps.map((x, i) => `${i + 1}) ${x}`).join(' ')} ${CHANNEL_SHORT[sub.channel]} 쪽을 끄면 앱에서 '해지 신청함'을 눌러 주세요.`;
         send(s, { to: sub.ownerId, kind: 'route', text, subscriptionId: sub.id, caseId: c.caseId });
@@ -462,16 +465,19 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: 'send_cancel_route',
-    description: '결제자에게 공식 해지 경로를 보낸다. channel을 주면 그 결제 채널(web, app_store, google_play, carrier, partner) 기준이고, 없으면 해지 후 청구에서 확인된 채널 → 구독에 등록된 채널 순으로 고른다. 같은 사건·채널로 이미 보냈으면 다시 보내지 않는다.',
+    description: '결제자에게 공식 해지·환불 경로를 보낸다. 해지 후 문제 청구에서 경로를 고르며 정상 새 경로 청구는 제외한다. channel을 지정하면 실제 문제 청구와 일치해야 한다. 문제 청구가 없으면 등록 경로를 사용하고 정상 새 경로 청구만 있으면 보류한다. 같은 사건·채널 안내는 반복하지 않는다.',
     inputSchema: { type: 'object', properties: { subscriptionId: { type: 'string' }, channel: { type: 'string', enum: ['web', 'app_store', 'google_play', 'carrier', 'partner'] } }, required: ['subscriptionId'] },
     handler(s, a) {
       const sub = subOf(s, a.subscriptionId);
       if (!sub) return fail(['unknown_subscription'], '구독을 찾지 못했어요');
       const c = openCaseFor(s, sub.id);
-      const req = c?.closure.requestedAt?.slice(0, 10) ?? null;
-      const after = c && req ? c.closure.observedCharges.filter((x) => x.date >= req) : [];
-      const lastAfter = after.at(-1) ?? null;
-      const channel = (['web', 'app_store', 'google_play', 'carrier', 'partner'].includes(str(a.channel)) ? str(a.channel) : lastAfter?.channel ?? sub.channel) as Channel | null;
+      if (a.channel !== undefined && !['web', 'app_store', 'google_play', 'carrier', 'partner'].includes(str(a.channel))) return fail(['invalid_channel'], '결제 경로를 확인해 주세요');
+      const explicitChannel = a.channel === undefined ? undefined : str(a.channel) as Channel;
+      const after = c ? chargesAfterRequest(c.closure) : [];
+      if (explicitChannel && after.length && !after.some((x) => x.channel === explicitChannel)) return fail(['problem_charge_channel_mismatch'], '지정한 경로가 실제 문제 청구의 경로와 달라 안내를 보류해요');
+      const lastAfter = (explicitChannel ? after.filter((x) => x.channel === explicitChannel) : after).at(-1) ?? null;
+      if (!lastAfter && c && chargesOnNewChannel(c.closure).length) return fail(['no_unexpected_charge'], '옮긴 새 경로의 정상 청구만 있어 해지·환불 안내를 보류해요');
+      const channel = lastAfter ? lastAfter.channel : explicitChannel ?? sub.channel;
       if (s.messages.some((m) => m.kind === 'route' && m.caseId === (c?.caseId ?? null) && m.text.includes(channel ? CHANNEL_LABEL[channel] : '먼저 확인해 주세요') && m.at >= (c?.closure.requestedAt ?? ''))) return fail(['duplicate_route'], '같은 해지 경로를 이미 보냈어요');
       const dup = c ? chargesOnNewChannel(c.closure).filter((x) => lastAfter && x.date.slice(0, 7) === lastAfter.date.slice(0, 7)) : [];
       const dupNote = dup.length ? ` 같은 달에 ${dup[0]!.channel ? CHANNEL_SHORT[dup[0]!.channel] : '새 경로'} 결제(${formatWon(dup[0]!.amountWon)})도 있어 이중 결제예요.` : '';
@@ -482,7 +488,7 @@ export const TOOLS: ToolDef[] = [
       const msg = routeMessage(s, sub, channel, lead);
       const text = refund ? `${msg.text} 환불 요청: ${[refund.url, ...refund.steps].filter(Boolean).join(' → ')}` : msg.text;
       send(s, { to: sub.ownerId, kind: 'route', text, subscriptionId: sub.id, caseId: c?.caseId ?? null });
-      return ok(`${labelOf(s, sub.ownerId)}에게 ${channel ? CHANNEL_LABEL[channel] : '결제 채널 확인'} 경로를 보냈어요`, { routeStatus: msg.status, officialUrl: msg.url, channel });
+      return ok(`${labelOf(s, sub.ownerId)}에게 ${channel ? CHANNEL_LABEL[channel] : '결제 채널 확인'} 경로를 보냈어요`, { routeStatus: msg.status, officialUrl: msg.url, channel, problemCharge: lastAfter });
     },
   },
   {

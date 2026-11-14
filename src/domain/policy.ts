@@ -1,5 +1,6 @@
 // 단일 정책 관문. UI·도메인 명령의 모든 상태 변경은 evaluateAction 을 거친다. [R16][R07][R08][R11][R12]
 import { castVote, createProposal, reviseProposal, revokeVote, tally, type Proposal, type Terms, type VoteValue } from './consent';
+import { CHANNEL_PRICES, compareChannels, findPrices } from './channelPrice';
 import { routeFor } from './guides';
 import { kstDate, type Channel, type Subscription } from './types';
 import { closureStatus, EMPTY_CLOSURE, type Charge, type ClosureRecord } from './verification';
@@ -82,6 +83,10 @@ export type Reason =
   | 'provider_unconfirmed'
   | 'invalid_amount'
   | 'charge_on_new_channel'
+  | 'family_switch_not_supported'
+  | 'switch_target_unverified'
+  | 'switch_comparison_unavailable'
+  | 'switch_not_cheaper'
   | 'same_channel';
 
 export const REASON_TEXT: Record<Reason, string> = {
@@ -108,6 +113,10 @@ export const REASON_TEXT: Record<Reason, string> = {
   provider_unconfirmed: '사업자 해지 확인이 아직 없어요(요청만 기록됨)',
   invalid_amount: '청구 금액이 올바르지 않아요',
   charge_on_new_channel: '옮긴 결제 경로의 청구라 예상된 청구로 기록했어요',
+  family_switch_not_supported: '가족 경로 변경은 이동 경로·가격·조건을 묶은 동의가 필요해 현재 인계를 보류해요',
+  switch_target_unverified: '옮길 경로의 월 가격이 공식 확인되지 않아 인계를 보류해요',
+  switch_comparison_unavailable: '현재 경로와 목적지의 가격을 비교할 수 없어 인계를 보류해요',
+  switch_not_cheaper: '옮길 경로가 지금보다 저렴하지 않아 절약 목적 인계를 보류해요',
   same_channel: '지금과 같은 결제 경로로는 옮길 수 없어요',
 };
 
@@ -180,6 +189,8 @@ function decide(state: CaseState, action: Action, now: string): { allowed: boole
 
     case 'prepare_owner_handoff': {
       const reasons: Reason[] = [];
+      // 현재 가족 제안은 해지·휴지 조건만 담는다. 경로·가격 동의를 지원할 때까지 변경 인계를 보류한다.
+      if (shared && action.switchTo) return deny('family_switch_not_supported');
       if (shared) {
         if (state.stage !== 'family_review') return deny(state.proposal ? 'wrong_stage' : 'no_proposal');
         reasons.push(...consentReasons(state.proposal));
@@ -190,6 +201,16 @@ function decide(state: CaseState, action: Action, now: string): { allowed: boole
       const route = routeFor(sub.serviceId, sub.channel);
       if (route.status === 'channel_unknown') reasons.push('channel_unknown');
       if (action.switchTo && action.switchTo === sub.channel) reasons.push('same_channel');
+      if (action.switchTo && action.switchTo !== sub.channel) {
+        const target = findPrices(CHANNEL_PRICES, sub.serviceId, sub.planId)?.prices.find((p) => p.channel === action.switchTo);
+        if (!target || target.status !== 'verified' || target.comparable === false || (target.currency ?? 'KRW') !== 'KRW' || target.monthly === null || !Number.isSafeInteger(target.monthly) || target.monthly <= 0 || !['official', 'store_listing'].includes(target.source_kind ?? '')) {
+          reasons.push('switch_target_unverified');
+        } else {
+          const comparison = compareChannels(CHANNEL_PRICES, sub.serviceId, sub.planId, sub.channel, sub.monthlyWon);
+          if (comparison.status === 'not_comparable' || comparison.currentMonthly === null) reasons.push('switch_comparison_unavailable');
+          else if (comparison.status !== 'cheaper_available' || target.monthly >= comparison.currentMonthly) reasons.push('switch_not_cheaper');
+        }
+      }
       if (reasons.length) return deny(...reasons);
       return { allowed: true, reasons: route.status === 'no_guide' ? ['no_guide'] : [], patch: { stage: 'handoff_ready', closure: { ...state.closure, switchTo: action.switchTo ?? null } } };
     }

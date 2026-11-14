@@ -5,6 +5,23 @@ import { evaluateAction, newCase } from '../../src/domain/policy';
 import { decisionDeadline, reviewStatus } from '../../src/domain/reminders';
 import type { Subscription } from '../../src/domain/types';
 
+// 인계 정책의 가격은 합성 가정이다. 실제 YT iOS 기간·판매 가격 검증과 구분한다.
+vi.mock('../../src/domain/channelPrice', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../src/domain/channelPrice')>();
+  const synthetic: PriceTable = {
+    generated_at: 'synthetic-fixture',
+    services: [{
+      id: 'youtube_premium_kr', name: '합성 YT 경로 정책 시험', plan: 'individual', plan_label: '합성 월간 개인',
+      note: '정책 회귀시험용 합성 월간 가격이며 실제 판매 가격·기간 확인과 무관함',
+      prices: [
+        { channel: 'web', status: 'verified', monthly: 14900, annual: null, source_url: 'https://example.invalid/synthetic/yt/web', source_kind: 'official', checked_at: 'synthetic-fixture' },
+        { channel: 'app_store', status: 'verified', monthly: 19500, annual: null, source_url: 'https://example.invalid/synthetic/yt/ios', source_kind: 'store_listing', checked_at: 'synthetic-fixture' },
+      ],
+    }],
+  };
+  return { ...actual, CHANNEL_PRICES: synthetic };
+});
+
 // 시험용 합성 가격표(실제 데이터는 src/data/channel_prices.json)
 const T: PriceTable = {
   generated_at: 'test',
@@ -76,6 +93,16 @@ describe('R28 결제 경로 가격 차이', () => {
     expect(d.map((x) => x.service.id)).toEqual(['svc_a']);
     expect(d[0]!.monthlyDiff).toBe(3000);
   });
+  it('표시값이 공식 출처여도 기간·세금 조건을 보류한 가격은 비교하지 않는다', () => {
+    const table: PriceTable = { ...T, services: [{ ...T.services[0]!, prices: T.services[0]!.prices.map((p) => ({ ...p, comparable: false })) }] };
+    expect(compareChannels(table, 'svc_a', 'individual', 'app_store').status).toBe('not_comparable');
+    expect(listDifferences(table)).toEqual([]);
+  });
+  it('다른 통화의 표시가격을 원화 청구액과 비교하지 않는다', () => {
+    const table: PriceTable = { ...T, services: [{ ...T.services[0]!, prices: T.services[0]!.prices.map((p) => ({ ...p, currency: p.channel === 'app_store' ? 'KRW' : 'USD' })) }] };
+    expect(compareChannels(table, 'svc_a', 'individual', 'app_store').status).toBe('not_comparable');
+    expect(listDifferences(table)).toEqual([]);
+  });
 });
 
 const base: Subscription = { id: 'sub-yt', serviceId: 'youtube_premium_kr', planId: 'individual', name: '유튜브 프리미엄', monthlyWon: null, nextChargeDate: '2026-11-15', channel: 'app_store', ownerId: 'me', sharedWith: [], sourceKind: 'demo', usage: null, trialEndsAt: '2026-11-15' };
@@ -92,7 +119,7 @@ describe('R29 무료체험·결제 경로별 결정 마감', () => {
   });
 });
 
-describe('R30 경로를 옮기는 사건의 청구 구분', () => {
+describe('R30 합성 월간 가격으로 경로를 옮기는 사건의 청구 구분', () => {
   it('새 경로(웹) 청구는 예상된 청구, 이전 경로(App Store) 청구는 사건 재개방', () => {
     let s = newCase('c-yt', base);
     let d = evaluateAction(s, { type: 'prepare_owner_handoff', actor: 'bot', switchTo: 'web' }, '2026-11-14T09:30:00+09:00');

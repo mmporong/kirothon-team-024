@@ -30,23 +30,35 @@ export const REVIEW_LABEL: Record<ReviewStatus, string> = {
   overdue: '결정 마감 지남',
 };
 
+export interface ReviewResult {
+  status: ReviewStatus;
+  /** 이전 호출자 호환: 취소 결정 마감까지 남은 일수. */
+  days: number | null;
+  daysToDecision: number | null;
+  daysToChargeOrTrialEnd: number | null;
+}
+
 /** 결정 마감(cancelBy)까지 남은 일수로 검토 상태를 정한다. 무료체험·결제 경로 여유를 반영한다. [R05][R29] */
-export function reviewStatus(sub: Pick<Subscription, 'nextChargeDate'> & Partial<Pick<Subscription, 'trialEndsAt' | 'channel'>>, todayYmd: string): { status: ReviewStatus; days: number | null } {
+export function reviewStatus(sub: Pick<Subscription, 'nextChargeDate'> & Partial<Pick<Subscription, 'trialEndsAt' | 'channel'>>, todayYmd: string): ReviewResult {
   const dl = decisionDeadline({ nextChargeDate: sub.nextChargeDate, trialEndsAt: sub.trialEndsAt ?? null, channel: sub.channel ?? null });
-  if (!dl.cancelBy) return { status: 'no_date', days: null };
-  const d = daysBetween(todayYmd, dl.cancelBy);
-  if (d < 0) return { status: 'overdue', days: d };
-  if (d === 0) return { status: 'today', days: 0 };
-  if (d === 1) return { status: 'd1', days: 1 };
-  if (d === 2) return { status: 'd2', days: 2 };
-  if (d === 3) return { status: 'd3', days: 3 };
-  return { status: 'later', days: d };
+  if (!dl.base || !dl.cancelBy) return { status: 'no_date', days: null, daysToDecision: null, daysToChargeOrTrialEnd: null };
+  const daysToDecision = daysBetween(todayYmd, dl.cancelBy);
+  const daysToChargeOrTrialEnd = daysBetween(todayYmd, dl.base);
+  const result = (status: ReviewStatus): ReviewResult => ({ status, days: daysToDecision, daysToDecision, daysToChargeOrTrialEnd });
+  if (daysToDecision < 0) return result('overdue');
+  if (daysToDecision === 0) return result('today');
+  if (daysToDecision === 1) return result('d1');
+  if (daysToDecision === 2) return result('d2');
+  if (daysToDecision === 3) return result('d3');
+  return result('later');
 }
 
 export interface InboxItem {
   subscriptionId: string;
   status: ReviewStatus;
   days: number | null;
+  daysToDecision: number | null;
+  daysToChargeOrTrialEnd: number | null;
 }
 
 /** 검토함: 결제 3일 이내·오늘·지난 기한·결제일 미확인만 올린다. 같은 구독은 한 번만. */
@@ -58,7 +70,13 @@ export function reviewInbox(subs: Subscription[], todayYmd: string): InboxItem[]
     seen.add(s.id);
     const r = reviewStatus(s, todayYmd);
     if (r.status === 'later') continue;
-    items.push({ subscriptionId: s.id, status: r.status, days: r.days });
+    items.push({
+      subscriptionId: s.id,
+      status: r.status,
+      days: r.days,
+      daysToDecision: r.daysToDecision,
+      daysToChargeOrTrialEnd: r.daysToChargeOrTrialEnd,
+    });
   }
   const rank = (i: InboxItem) => (i.days === null ? 99 : i.days);
   return items.sort((a, b) => rank(a) - rank(b));

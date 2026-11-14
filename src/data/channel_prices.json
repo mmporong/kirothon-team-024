@@ -1,6 +1,6 @@
 {
   "_note": "결제 경로별 공개 가격. status=verified(공식·스토어 목록 근거)만 차액 계산에 쓴다. 조사: research/L1/channel-prices-*.md",
-  "generated_at": "2026-11-14T15:45:23.272+09:00",
+  "generated_at": "2026-11-14T16:24:38.343+09:00",
   "services": [
     {
       "id": "youtube_premium_kr",
@@ -17,7 +17,9 @@
           "source_url": "https://www.youtube.com/premium?gl=KR&hl=ko",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:40+09:00",
-          "evidence": "₩14,900⁠/⁠월 • VAT 포함"
+          "evidence": "₩14,900⁠/⁠월 • VAT 포함",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -28,7 +30,9 @@
           "source_url": "https://apps.apple.com/kr/app/youtube/id544007664",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:38:13+09:00",
-          "evidence": "YouTube Premium ￦19,500"
+          "evidence": "YouTube Premium ￦19,500",
+          "comparable": false,
+          "comparison_note": "App Store 목록의 월간 기간·대상 SKU·세금 대응 미확인"
         },
         {
           "channel": "google_play",
@@ -39,7 +43,9 @@
           "source_url": "https://blog.youtube/intl/ko-kr/news-and-events/yt-premium-lite-kr/",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:38:14+09:00",
-          "evidence": "월 14,900원"
+          "evidence": "월 14,900원",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "신규 정규 월간. web VAT 포함을 ytInitialData 공개 가격 문자열에서 확인; iOS/Google Play VAT 별도 문구는 미확인. Android 가격은 공식 블로그와 Google Play 청구 도움말로 교차 확인. 체험 자격·최종 가입 가능 여부는 계정별, 연간권 미확인. 월×12를annual로 넣지 않음.",
@@ -60,7 +66,9 @@
           "source_url": "https://www.youtube.com/premiumlite?gl=KR&hl=ko",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:41+09:00",
-          "evidence": "₩8,500⁠/⁠월 • VAT 포함"
+          "evidence": "₩8,500⁠/⁠월 • VAT 포함",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -71,7 +79,9 @@
           "source_url": "https://apps.apple.com/kr/app/youtube/id544007664",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:38:13+09:00",
-          "evidence": "Premium Lite ￦10,900"
+          "evidence": "Premium Lite ￦10,900",
+          "comparable": false,
+          "comparison_note": "App Store 목록의 월간 기간·대상 SKU·세금 대응 미확인"
         },
         {
           "channel": "google_play",
@@ -82,7 +92,9 @@
           "source_url": "https://blog.youtube/intl/ko-kr/news-and-events/yt-premium-lite-kr/",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:38:14+09:00",
-          "evidence": "월 8,500원"
+          "evidence": "월 8,500원",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "신규 정규 월간. web VAT 포함을 ytInitialData 공개 가격 문자열에서 확인; iOS/Google Play VAT 별도 문구는 미확인. Android 가격은 공식 블로그와 Google Play 청구 도움말로 교차 확인. 체험 자격·최종 가입 가능 여부는 계정별, 연간권 미확인. 월×12를annual로 넣지 않음.",
@@ -103,7 +115,9 @@
           "source_url": "https://support.google.com/youtube/answer/7507349?hl=ko",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:39:13+09:00",
-          "evidence": "대한민국에서는 가족 요금제를 사용할 수 없습니다."
+          "evidence": "대한민국에서는 가족 요금제를 사용할 수 없습니다.",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -114,7 +128,9 @@
           "source_url": "https://support.google.com/youtube/answer/7507349?hl=ko",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:39:13+09:00",
-          "evidence": "대한민국에서는 가족 요금제를 사용할 수 없습니다."
+          "evidence": "대한민국에서는 가족 요금제를 사용할 수 없습니다.",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -125,7 +141,9 @@
           "source_url": "https://support.google.com/youtube/answer/7507349?hl=ko",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:39:13+09:00",
-          "evidence": "대한민국에서는 가족 요금제를 사용할 수 없습니다."
+          "evidence": "대한민국에서는 가족 요금제를 사용할 수 없습니다.",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "한국 미제공을 공식 가족 도움말로 확인. 해외 가족 요금·계정 우회 가격을 넣지 않음. VAT 비해당.",
@@ -145,8 +163,10 @@
           "currency": "KRW",
           "source_url": "https://www.disney.co.kr/notice/update-20261030",
           "source_kind": "official",
-          "checked_at": "2026-11-14T15:39:12+09:00",
-          "evidence": "11,500원"
+          "checked_at": "2026-11-14T15:54:45+09:00",
+          "evidence": "11,500 원 … 115,000 원",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -156,8 +176,10 @@
           "currency": "KRW",
           "source_url": "https://apps.apple.com/kr/app/disney/id1446075923",
           "source_kind": "store_listing",
-          "checked_at": "2026-11-14T15:38:13+09:00",
-          "evidence": "디즈니+ 스탠다드 ￦11,500"
+          "checked_at": "2026-11-14T15:54:48+09:00",
+          "evidence": "￦11,500 … ￦115,000",
+          "comparable": false,
+          "comparison_note": "App Store 가격의 월·연 기간과 신규·기존 대상 대응 미확인"
         },
         {
           "channel": "google_play",
@@ -168,7 +190,9 @@
           "source_url": "https://www.disney.co.kr/notice/update-20261030",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:39:12+09:00",
-          "evidence": "파트너사에서 제공하는 정보와 안내"
+          "evidence": "파트너사에서 제공하는 정보와 안내",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "2026-11-10 이후 신규/유효구독 없는 재가입 기준. App Store 동일명 월/연 SKU를 공식표의 기간별 금액과 대조. US ONLY 13,900원 SKU 제외. VAT는 광고형 웹만 명시 확인, 나머지 및 iOS 별도 명시 미확인. Google Play 가격을 웹에서 전용하지 않음.",
@@ -188,8 +212,10 @@
           "currency": "KRW",
           "source_url": "https://www.disney.co.kr/notice/update-20261030",
           "source_kind": "official",
-          "checked_at": "2026-11-14T15:39:12+09:00",
-          "evidence": "16,500원"
+          "checked_at": "2026-11-14T15:54:45+09:00",
+          "evidence": "16,500 원 … 165,000 원",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -199,8 +225,10 @@
           "currency": "KRW",
           "source_url": "https://apps.apple.com/kr/app/disney/id1446075923",
           "source_kind": "store_listing",
-          "checked_at": "2026-11-14T15:38:13+09:00",
-          "evidence": "디즈니+ 프리미엄 ￦16,500"
+          "checked_at": "2026-11-14T15:54:48+09:00",
+          "evidence": "￦16,500 … ￦165,000",
+          "comparable": false,
+          "comparison_note": "App Store 가격의 월·연 기간과 신규·기존 대상 대응 미확인"
         },
         {
           "channel": "google_play",
@@ -211,7 +239,9 @@
           "source_url": "https://www.disney.co.kr/notice/update-20261030",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:39:12+09:00",
-          "evidence": "파트너사에서 제공하는 정보와 안내"
+          "evidence": "파트너사에서 제공하는 정보와 안내",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "2026-11-10 이후 신규/유효구독 없는 재가입 기준. App Store 동일명 월/연 SKU를 공식표의 기간별 금액과 대조. US ONLY 13,900원 SKU 제외. VAT는 광고형 웹만 명시 확인, 나머지 및 iOS 별도 명시 미확인. Google Play 가격을 웹에서 전용하지 않음.",
@@ -232,7 +262,9 @@
           "source_url": "https://www.disney.co.kr/notice/update-20261030",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:39:12+09:00",
-          "evidence": "7,000 원 ( 부가세 포함 )"
+          "evidence": "7,000 원 ( 부가세 포함 )",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -243,7 +275,9 @@
           "source_url": "https://apps.apple.com/kr/app/disney/id1446075923",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:38:13+09:00",
-          "evidence": "디즈니+ 스탠다드"
+          "evidence": "디즈니+ 스탠다드",
+          "comparable": false,
+          "comparison_note": "App Store 가격의 월·연 기간과 신규·기존 대상 대응 미확인"
         },
         {
           "channel": "google_play",
@@ -254,7 +288,9 @@
           "source_url": "https://www.disney.co.kr/notice/update-20261030",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:39:12+09:00",
-          "evidence": "파트너사에서 제공하는 정보와 안내"
+          "evidence": "파트너사에서 제공하는 정보와 안내",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "2026-11-10 순차 출시, 11-17 전체 제공 예정. 웹 월7,000원 VAT 포함. App Store 상위 구입목록에 광고형 확인 안 됨은 미판매 증거가 아니므로 unknown. Google Play 별도 가격 미확인.",
@@ -275,7 +311,9 @@
           "source_url": "https://www.tving.com/bill/subscription/plan",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "월간 이용권 5,500원"
+          "evidence": "월간 이용권 5,500원",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -286,7 +324,9 @@
           "source_url": "https://apps.apple.com/kr/app/tving/id400101401?platform=ipad",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "광고형 스탠다드 (iOS) ￦6,300"
+          "evidence": "광고형 스탠다드 (iOS) ￦6,300",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -297,10 +337,12 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=net.cj.cjhv.gs.tving",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
-      "note": "신규 정규 월간. web VAT 별도 명시 미확인; App Store 설명은 모든 이용권 VAT 포함. 공개 웹 JSON-LD/스토어 목록 대조. 연간 미확인, Google Play 가격 미노출.",
+      "note": "한국 공개 기본 월간 가격·같은 등급·원화·VAT 포함을 공식 웹과 App Store에서 확인. 기존 할인·프로모션·개인 가입 자격과 최종 결제 총액은 별도 확인. 12개월 환산은 월 차액의 12배이며 연간 이용권 가격이 아님.",
       "researcher": "Codex w1:p6 / PRICE-A"
     },
     {
@@ -318,7 +360,9 @@
           "source_url": "https://www.tving.com/bill/subscription/plan",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "월간 이용권 9,500원"
+          "evidence": "월간 이용권 9,500원",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -329,7 +373,9 @@
           "source_url": "https://apps.apple.com/kr/app/tving/id400101401?platform=ipad",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "베이직 (iOS) ￦10,900"
+          "evidence": "베이직 (iOS) ￦10,900",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -340,10 +386,12 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=net.cj.cjhv.gs.tving",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
-      "note": "신규 정규 월간. web VAT 별도 명시 미확인; App Store 설명은 모든 이용권 VAT 포함. 공개 웹 JSON-LD/스토어 목록 대조. 연간 미확인, Google Play 가격 미노출.",
+      "note": "한국 공개 기본 월간 가격·같은 등급·원화·VAT 포함을 공식 웹과 App Store에서 확인. 기존 할인·프로모션·개인 가입 자격과 최종 결제 총액은 별도 확인. 12개월 환산은 월 차액의 12배이며 연간 이용권 가격이 아님.",
       "researcher": "Codex w1:p6 / PRICE-A"
     },
     {
@@ -361,7 +409,9 @@
           "source_url": "https://www.tving.com/bill/subscription/plan",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "월간 이용권 13,500원"
+          "evidence": "월간 이용권 13,500원",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -372,7 +422,9 @@
           "source_url": "https://apps.apple.com/kr/app/tving/id400101401?platform=ipad",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "스탠다드 (iOS) ￦15,500"
+          "evidence": "스탠다드 (iOS) ￦15,500",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -383,10 +435,12 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=net.cj.cjhv.gs.tving",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
-      "note": "신규 정규 월간. web VAT 별도 명시 미확인; App Store 설명은 모든 이용권 VAT 포함. 공개 웹 JSON-LD/스토어 목록 대조. 연간 미확인, Google Play 가격 미노출.",
+      "note": "한국 공개 기본 월간 가격·같은 등급·원화·VAT 포함을 공식 웹과 App Store에서 확인. 기존 할인·프로모션·개인 가입 자격과 최종 결제 총액은 별도 확인. 12개월 환산은 월 차액의 12배이며 연간 이용권 가격이 아님.",
       "researcher": "Codex w1:p6 / PRICE-A"
     },
     {
@@ -404,7 +458,9 @@
           "source_url": "https://www.tving.com/bill/subscription/plan",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "월간 이용권 17,000원"
+          "evidence": "월간 이용권 17,000원",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -415,7 +471,9 @@
           "source_url": "https://apps.apple.com/kr/app/tving/id400101401?platform=ipad",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "프리미엄 (iOS) ￦19,500"
+          "evidence": "프리미엄 (iOS) ￦19,500",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -426,10 +484,12 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=net.cj.cjhv.gs.tving",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
-      "note": "신규 정규 월간. web VAT 별도 명시 미확인; App Store 설명은 모든 이용권 VAT 포함. 공개 웹 JSON-LD/스토어 목록 대조. 연간 미확인, Google Play 가격 미노출.",
+      "note": "한국 공개 기본 월간 가격·같은 등급·원화·VAT 포함을 공식 웹과 App Store에서 확인. 기존 할인·프로모션·개인 가입 자격과 최종 결제 총액은 별도 확인. 12개월 환산은 월 차액의 12배이며 연간 이용권 가격이 아님.",
       "researcher": "Codex w1:p6 / PRICE-A"
     },
     {
@@ -447,7 +507,9 @@
           "source_url": "https://apis.wavve.com/passes/v1/service/wavve/pc",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "1개월 5500"
+          "evidence": "1개월 5500",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         },
         {
           "channel": "app_store",
@@ -458,7 +520,9 @@
           "source_url": "https://apps.apple.com/kr/app/wavve-%EC%9B%A8%EC%9D%B4%EB%B8%8C/id987782077",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "앱 내 구입"
+          "evidence": "앱 내 구입",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         },
         {
           "channel": "google_play",
@@ -469,7 +533,9 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=kr.co.captv.pooq.tv",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         }
       ],
       "note": "웹 API VAT 필드 미확인. iOS 앱 설명은 App Store 결제 1개월 단위·모든 이용권 VAT 포함을 명시. iOS 연간/광고형 SKU 미노출은 미제공 증거가 아님. 웹 annual은 공식12개월 상품값.",
@@ -490,7 +556,9 @@
           "source_url": "https://apis.wavve.com/passes/v1/service/wavve/pc",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "1개월 7900, 12개월 79000"
+          "evidence": "1개월 7900, 12개월 79000",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         },
         {
           "channel": "app_store",
@@ -501,7 +569,9 @@
           "source_url": "https://apps.apple.com/kr/app/wavve-%EC%9B%A8%EC%9D%B4%EB%B8%8C/id987782077",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "wavve Basic ￦9,000"
+          "evidence": "wavve Basic ￦9,000",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         },
         {
           "channel": "google_play",
@@ -512,7 +582,9 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=kr.co.captv.pooq.tv",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         }
       ],
       "note": "웹 API VAT 필드 미확인. iOS 앱 설명은 App Store 결제 1개월 단위·모든 이용권 VAT 포함을 명시. iOS 연간/광고형 SKU 미노출은 미제공 증거가 아님. 웹 annual은 공식12개월 상품값.",
@@ -533,7 +605,9 @@
           "source_url": "https://apis.wavve.com/passes/v1/service/wavve/pc",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "1개월 10900, 12개월 109000"
+          "evidence": "1개월 10900, 12개월 109000",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         },
         {
           "channel": "app_store",
@@ -544,7 +618,9 @@
           "source_url": "https://apps.apple.com/kr/app/wavve-%EC%9B%A8%EC%9D%B4%EB%B8%8C/id987782077",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "wavve Standard ￦12,500"
+          "evidence": "wavve Standard ￦12,500",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         },
         {
           "channel": "google_play",
@@ -555,7 +631,9 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=kr.co.captv.pooq.tv",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         }
       ],
       "note": "웹 API VAT 필드 미확인. iOS 앱 설명은 App Store 결제 1개월 단위·모든 이용권 VAT 포함을 명시. iOS 연간/광고형 SKU 미노출은 미제공 증거가 아님. 웹 annual은 공식12개월 상품값.",
@@ -576,7 +654,9 @@
           "source_url": "https://apis.wavve.com/passes/v1/service/wavve/pc",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "1개월 13900, 12개월 139000"
+          "evidence": "1개월 13900, 12개월 139000",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         },
         {
           "channel": "app_store",
@@ -587,7 +667,9 @@
           "source_url": "https://apps.apple.com/kr/app/wavve-%EC%9B%A8%EC%9D%B4%EB%B8%8C/id987782077",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "wavve Premium ￦16,000"
+          "evidence": "wavve Premium ￦16,000",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         },
         {
           "channel": "google_play",
@@ -598,7 +680,9 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=kr.co.captv.pooq.tv",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": false,
+          "comparison_note": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류"
         }
       ],
       "note": "웹 API VAT 필드 미확인. iOS 앱 설명은 App Store 결제 1개월 단위·모든 이용권 VAT 포함을 명시. iOS 연간/광고형 SKU 미노출은 미제공 증거가 아님. 웹 annual은 공식12개월 상품값.",
@@ -619,7 +703,9 @@
           "source_url": "https://www.melon.com/buy/pamphlet/all.htm",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "스트리밍클럽 정기결제 8,690원"
+          "evidence": "스트리밍클럽 정기결제 8,690원",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -630,7 +716,9 @@
           "source_url": "https://apps.apple.com/kr/app/%EB%A9%9C%EB%A1%A0-melon/id415597317",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "앱 내 구입"
+          "evidence": "앱 내 구입",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -641,7 +729,9 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=com.iloen.melon",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "웹 모든 이용권 가격 VAT10% 포함 명시. iOS i-스트리밍30일 티켓과 동일 권리/자동결제 상품이라는 공식 대응 근거 없어 별도 plan. 가격 차이 확정 사례에서 제외.",
@@ -662,7 +752,9 @@
           "source_url": "https://www.melon.com/buy/pamphlet/all.htm",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "스트리밍 플러스 정기결제 11,990원"
+          "evidence": "스트리밍 플러스 정기결제 11,990원",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -673,7 +765,9 @@
           "source_url": "https://apps.apple.com/kr/app/%EB%A9%9C%EB%A1%A0-melon/id415597317",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "앱 내 구입"
+          "evidence": "앱 내 구입",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -684,7 +778,9 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=com.iloen.melon",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "웹 모든 이용권 가격 VAT10% 포함 명시. iOS i-스트리밍30일 티켓과 동일 권리/자동결제 상품이라는 공식 대응 근거 없어 별도 plan. 가격 차이 확정 사례에서 제외.",
@@ -705,7 +801,9 @@
           "source_url": "https://www.melon.com/buy/pamphlet/all.htm",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "이용권 구매"
+          "evidence": "이용권 구매",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -716,7 +814,9 @@
           "source_url": "https://apps.apple.com/kr/app/%EB%A9%9C%EB%A1%A0-melon/id415597317",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "i-스트리밍 티켓 30일 ￦11,000"
+          "evidence": "i-스트리밍 티켓 30일 ￦11,000",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -727,7 +827,9 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=com.iloen.melon",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "스키마 monthly에는 공시된30일 기간권 가격을 기록. 달력1개월 자동결제·VAT 명시는 미확인. 웹 정기결제와 동일상품/기간으로 가격 차이를 계산하지 않음. 화면에도30일권으로 표시해야 함.",
@@ -748,7 +850,9 @@
           "source_url": "https://www.melon.com/buy/pamphlet/all.htm",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "이용권 구매"
+          "evidence": "이용권 구매",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -759,7 +863,9 @@
           "source_url": "https://apps.apple.com/kr/app/%EB%A9%9C%EB%A1%A0-melon/id415597317",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "i-스트리밍 플러스 티켓 30일 ￦15,000"
+          "evidence": "i-스트리밍 플러스 티켓 30일 ￦15,000",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -770,10 +876,845 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=com.iloen.melon",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:45+09:00",
-          "evidence": "인앱 구매"
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "스키마 monthly에는 공시된30일 기간권 가격을 기록. 달력1개월 자동결제·VAT 명시는 미확인. 웹 정기결제와 동일상품/기간으로 가격 차이를 계산하지 않음. 화면에도30일권으로 표시해야 함.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "youtube_music_premium_kr",
+      "name": "유튜브 뮤직",
+      "plan": "individual",
+      "plan_label": "Music Premium 개인",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 11990,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://www.youtube.com/musicpremium?gl=KR&hl=ko",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "₩11,990/월 • VAT 포함",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/youtube-music/id1017492454",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "YouTube Music ￦15,500",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "verified",
+          "monthly": 11990,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://blog.youtube/intl/ko-kr/news-and-events/yt-premium-lite-kr/",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "월 11,990원",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "web VAT 포함. Android 월11,990을 공식블로그+신규 Android GooglePlay청구 도움말로 확인. iOS에는15,500과11,500 SKU가 동시노출되어 신규가/적용자격/주기를 확정하지 못함. iOS 숫자·연간권은null.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "genie_kr",
+      "name": "지니",
+      "plan": "unlimited_streaming",
+      "plan_label": "음악감상 30일(기기제한 없음)",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 9240,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://pay.genie.co.kr/product/f_Product_Main",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:51:28+09:00",
+          "evidence": "음악감상 9,240원",
+          "comparable": false,
+          "comparison_note": "30일 이용권을 달력상 월간·12개월로 비교하지 않음"
+        },
+        {
+          "channel": "app_store",
+          "status": "verified",
+          "monthly": 9900,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/%EC%A7%80%EB%8B%88%EB%AE%A4%EC%A7%81-genie/id858266085",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:51:03+09:00",
+          "evidence": "음악감상 30일 ￦9,900",
+          "comparable": false,
+          "comparison_note": "30일 이용권을 달력상 월간·12개월로 비교하지 않음"
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?hl=ko&id=com.ktmusic.geniemusic",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "인앱 구매",
+          "comparable": false,
+          "comparison_note": "30일 이용권을 달력상 월간·12개월로 비교하지 않음"
+        }
+      ],
+      "note": "웹 음악감상 전기기 정상가 9,240원은 VAT 포함이며 30일마다 자동결제. 초기 회차 할인·모바일 전용 8,140원은 제외. iOS 음악감상 30일권 9,900원과 비교하며 iOS VAT 명시는 미확인. monthly는 30일권 금액이고 12회는 360일. Google Play 상품 가격 미공개.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "flo_kr",
+      "name": "FLO",
+      "plan": "mobile_unlimited_streaming",
+      "plan_label": "모바일 무제한 듣기",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://kind.krx.co.kr/external/2026/05/14/000355/20260514000754/11013.htm",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "모바일 이용권 | 모바일 무제한 듣기",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "verified",
+          "monthly": 9900,
+          "annual": 107000,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/flo-%ED%94%8C%EB%A1%9C/id1129048043",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:54:47+09:00",
+          "evidence": "1개월 ￦9,900 … 12개월 ￦107,000",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?hl=ko&id=skplanet.musicmate",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "웹 현행 월가 미확인. KRX 공시의 천원/VAT별도 단가를 현재 판매가로 추정하지 않음. iOS12개월107,000 공시도 확인; iOS VAT 명시 미확인. 모바일 전용이며 전기기 상품과 혼합금지.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "spotify_kr",
+      "name": "스포티파이",
+      "plan": "individual",
+      "plan_label": "Premium 개인",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 11990,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://www.spotify.com/kr-ko/premium/",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:45:25+09:00",
+          "evidence": "매월 ₩11,990 (부가세 포함)",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/spotify/id324684580",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "무료",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?gl=kr&hl=ko&id=com.spotify.music",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "웹 VAT 포함. 학생은 자격인증, 듀오는 같은 주소지2인, 베이직 다운로드 불가. App Store에 IAP목록 없음만으로 미판매를 확정하지 않아unknown. GP 상품별 금액/연간권 미확인.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "spotify_kr",
+      "name": "스포티파이",
+      "plan": "basic",
+      "plan_label": "Premium 베이직",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 8690,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://www.spotify.com/kr-ko/premium/",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:45:25+09:00",
+          "evidence": "매월 ₩8,690 (부가세 포함)",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/spotify/id324684580",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "무료",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?gl=kr&hl=ko&id=com.spotify.music",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "웹 VAT 포함. 학생은 자격인증, 듀오는 같은 주소지2인, 베이직 다운로드 불가. App Store에 IAP목록 없음만으로 미판매를 확정하지 않아unknown. GP 상품별 금액/연간권 미확인.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "spotify_kr",
+      "name": "스포티파이",
+      "plan": "student",
+      "plan_label": "Premium 학생",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 6600,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://www.spotify.com/kr-ko/premium/",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:45:25+09:00",
+          "evidence": "매월 ₩6,600 (부가세 포함)",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/spotify/id324684580",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "무료",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?gl=kr&hl=ko&id=com.spotify.music",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "웹 VAT 포함. 학생은 자격인증, 듀오는 같은 주소지2인, 베이직 다운로드 불가. App Store에 IAP목록 없음만으로 미판매를 확정하지 않아unknown. GP 상품별 금액/연간권 미확인.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "spotify_kr",
+      "name": "스포티파이",
+      "plan": "duo",
+      "plan_label": "Premium 듀오",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 17985,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://www.spotify.com/kr-ko/premium/",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:45:25+09:00",
+          "evidence": "매월 ₩17,985 (부가세 포함)",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/spotify/id324684580",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "무료",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?gl=kr&hl=ko&id=com.spotify.music",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:21+09:00",
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "웹 VAT 포함. 학생은 자격인증, 듀오는 같은 주소지2인, 베이직 다운로드 불가. App Store에 IAP목록 없음만으로 미판매를 확정하지 않아unknown. GP 상품별 금액/연간권 미확인.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "netflix_kr",
+      "name": "넷플릭스",
+      "plan": "ad_standard",
+      "plan_label": "광고형 스탠다드",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 7000,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://www.netflix.com/kr/title/81781792?s=i&trg=cp&vlang=ko",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:51:04+09:00",
+          "evidence": "7,000원 /mo",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "not_offered",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://help.netflix.com/ko/node/25097",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:42:42+09:00",
+          "evidence": "신규 고객 또는 재가입 고객은",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "not_offered",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://help.netflix.com/ko/node/112419",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:45:02+09:00",
+          "evidence": "브라우저를 사용하여 가입을 완료",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "신규·재가입 기준. Apple 결제 신규·재가입 불가라는 공식 안내를 적용하며 App Store의 기존 SKU를 신규가로 쓰지 않음. Google Play 설치 앱은 브라우저에서 가입 완료. 기존 Apple 갱신·Galaxy Store 예외와 구분. VAT·연간권 명시 미확인.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "netflix_kr",
+      "name": "넷플릭스",
+      "plan": "standard",
+      "plan_label": "스탠다드",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 13500,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://www.netflix.com/kr/title/81781792?s=i&trg=cp&vlang=ko",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:51:04+09:00",
+          "evidence": "13,500원 /mo",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "not_offered",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://help.netflix.com/ko/node/25097",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:42:42+09:00",
+          "evidence": "신규 고객 또는 재가입 고객은",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "not_offered",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://help.netflix.com/ko/node/112419",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:45:02+09:00",
+          "evidence": "브라우저를 사용하여 가입을 완료",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "신규·재가입 기준. Apple 결제 신규·재가입 불가라는 공식 안내를 적용하며 App Store의 기존 SKU를 신규가로 쓰지 않음. Google Play 설치 앱은 브라우저에서 가입 완료. 기존 Apple 갱신·Galaxy Store 예외와 구분. VAT·연간권 명시 미확인.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "netflix_kr",
+      "name": "넷플릭스",
+      "plan": "premium",
+      "plan_label": "프리미엄",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 17000,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://www.netflix.com/kr/title/81781792?s=i&trg=cp&vlang=ko",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:51:04+09:00",
+          "evidence": "17,000원 /mo",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "not_offered",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://help.netflix.com/ko/node/25097",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:42:42+09:00",
+          "evidence": "신규 고객 또는 재가입 고객은",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "not_offered",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://help.netflix.com/ko/node/112419",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:45:02+09:00",
+          "evidence": "브라우저를 사용하여 가입을 완료",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "신규·재가입 기준. Apple 결제 신규·재가입 불가라는 공식 안내를 적용하며 App Store의 기존 SKU를 신규가로 쓰지 않음. Google Play 설치 앱은 브라우저에서 가입 완료. 기존 Apple 갱신·Galaxy Store 예외와 구분. VAT·연간권 명시 미확인.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "coupang_play_kr",
+      "name": "쿠팡플레이",
+      "plan": "basic_content",
+      "plan_label": "기본 콘텐츠(쿠팡 회원)",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.coupang.com/faq",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:42:48+09:00",
+          "evidence": "free content streaming service",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/coupangplay/id1536885649",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:42:48+09:00",
+          "evidence": "다채로운 콘텐츠를 무료로 시청",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?hl=ko&id=com.coupang.mobile.play",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:42:48+09:00",
+          "evidence": "다채로운 콘텐츠를 무료로 시청",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "일부 기본 콘텐츠 무료 제공은 유료 월 구독권 가격의 근거가 아니므로 세 경로의 월·연 금액을 비움. 스포츠·제휴 패스·대여·구매와 와우 회비는 별도. VAT는 해당 유료 상품에서 확인해야 함.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "coupang_play_kr",
+      "name": "쿠팡플레이",
+      "plan": "sports_pass_wow",
+      "plan_label": "스포츠 패스(와우회원가)",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 12400,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.coupang.com/promotion/sportspass",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:42:48+09:00",
+          "evidence": "와우할인가 12,400원/ 월",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/coupangplay/id1536885649",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:35+09:00",
+          "evidence": "스포츠 패스 / 정기구독 ￦13,900",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?hl=ko&id=com.coupang.mobile.play",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:35+09:00",
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "와우/일반회원조건을분리,와우회비별도. iOS관측SKU13,900에는와우조건이표기되지않아웹12,400/19,300에매핑하지않음. webVAT명시미확인. 부모HTTP403,분담자의공식웹본문회수근거사용.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "coupang_play_kr",
+      "name": "쿠팡플레이",
+      "plan": "sports_pass_regular",
+      "plan_label": "스포츠 패스(일반회원가)",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 19300,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.coupang.com/promotion/sportspass",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:42:48+09:00",
+          "evidence": "쿠팡 일반 회원가 19,300원/ 월",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/coupangplay/id1536885649",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:35+09:00",
+          "evidence": "스포츠 패스 / 정기구독 ￦13,900",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?hl=ko&id=com.coupang.mobile.play",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:35+09:00",
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "와우/일반회원조건을분리,와우회비별도. iOS관측SKU13,900에는와우조건이표기되지않아웹12,400/19,300에매핑하지않음. webVAT명시미확인. 부모HTTP403,분담자의공식웹본문회수근거사용.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "watcha_kr",
+      "name": "왓챠",
+      "plan": "basic",
+      "plan_label": "베이직 구독권",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 7900,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://help.watcha.com/hc/ko/articles/12820787376409",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:42:48+09:00",
+          "evidence": "1개월 베이직 구독권: 월 7,900원",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "verified",
+          "monthly": 9500,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/watcha/id1096493180",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:35+09:00",
+          "evidence": "베이직 구독권 ￦9,500",
+          "comparable": false,
+          "comparison_note": "App Store 가격의 이용 기간·대상 SKU 대응 미확인"
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?hl=ko&id=com.frograms.wplay",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:35+09:00",
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "VAT 명시 미확인. AppStore 판매중단7,900/13,000 SKU는제외,판매중단표시없는9,500만반영. 웹FAQ는분담자본문확인,리더HTTP403. 계정별가능여부는최종확인.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "watcha_kr",
+      "name": "왓챠",
+      "plan": "premium",
+      "plan_label": "프리미엄 구독권",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 12900,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://watcha.com/ko-KR/promotions/ibk_narasarang_card",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:57:26+09:00",
+          "evidence": "월 12,900원",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/watcha/id1096493180",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:35+09:00",
+          "evidence": "(판매중단) 프리미엄 구독권",
+          "comparable": false,
+          "comparison_note": "App Store 가격의 이용 기간·대상 SKU 대응 미확인"
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?hl=ko&id=com.frograms.wplay",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:35+09:00",
+          "evidence": "인앱 구매",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "2026년 공식 IBK 프로모션의 PC·모바일 웹 프리미엄 1개월 정상가 12,900원. 조건부 9,030원 할인가는 제외. 약관의 12개월 129,900원은 환불 예시여서 annual=null. iOS 판매중단 13,000원 SKU 제외. VAT 명시 미확인.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "millie_kr",
+      "name": "밀리의서재",
+      "plan": "ebook_subscription",
+      "plan_label": "전자책 정기구독",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 11900,
+          "annual": 119000,
+          "currency": "KRW",
+          "source_url": "https://apis.millie.co.kr/v2/product/",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:54:45+09:00",
+          "evidence": "11900.0 … 119000.0",
+          "comparable": false,
+          "comparison_note": "양쪽 세금 조건 확인 전 최종 비교 보류"
+        },
+        {
+          "channel": "app_store",
+          "status": "verified",
+          "monthly": 14900,
+          "annual": 149000,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/millie/id1213788923",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:54:47+09:00",
+          "evidence": "￦14,900 … ￦149,000",
+          "comparable": false,
+          "comparison_note": "양쪽 세금 조건 확인 전 최종 비교 보류"
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?hl=ko&id=kr.co.millie.millieshelf",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:35+09:00",
+          "evidence": "인앱 구매",
+          "comparable": false,
+          "comparison_note": "양쪽 세금 조건 확인 전 최종 비교 보류"
+        }
+      ],
+      "note": "월/연동일전자책정기구독. 웹실판매product_amount119,000과비교표시142,800구분. iOS연149,000공시확인. VAT별도명시미확인. GP금액을iOS/웹에서복사하지않음.",
+      "researcher": "Codex w1:p6 / PRICE-A"
+    },
+    {
+      "id": "ridi_select_kr",
+      "name": "리디셀렉트",
+      "plan": "subscription",
+      "plan_label": "리디셀렉트 월정액",
+      "prices": [
+        {
+          "channel": "web",
+          "status": "verified",
+          "monthly": 4900,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://ridihelp.ridibooks.com/support/solutions/articles/154000204606",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:51:00+09:00",
+          "evidence": "첫 구독 시 4,900원($4.99)가 결제",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "app_store",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://apps.apple.com/kr/app/ridi/id338813698",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:35+09:00",
+          "evidence": "앱 내 구입",
+          "comparable": true,
+          "comparison_note": null
+        },
+        {
+          "channel": "google_play",
+          "status": "unknown",
+          "monthly": null,
+          "annual": null,
+          "currency": "KRW",
+          "source_url": "https://play.google.com/store/apps/details?hl=ko&id=com.initialcoms.ridi",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:42:48+09:00",
+          "evidence": "월 4,900원으로 즐기는, 리디셀렉트",
+          "comparable": true,
+          "comparison_note": null
+        }
+      ],
+      "note": "공식 월정액 안내의 국내 카드 KRW 4,900원. 해외 USD 4.99와 분리. Play 설명의 월 4,900원은 일반 상품 홍보 문구여서 Play 결제 가격으로 쓰지 않음. iOS 캐시 구매를 셀렉트 구독으로 보지 않음. VAT·연간권 미확인.",
       "researcher": "Codex w1:p6 / PRICE-A"
     },
     {
@@ -790,8 +1731,10 @@
           "currency": "KRW",
           "source_url": "https://chatgpt.com/ko-KR/plans/plus/",
           "source_kind": "official",
-          "checked_at": "2026-11-14T15:41:05+09:00",
-          "evidence": "/월"
+          "checked_at": "2026-11-14T15:42:20+09:00",
+          "evidence": "/월",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -799,10 +1742,12 @@
           "monthly": null,
           "annual": null,
           "currency": "KRW",
-          "source_url": null,
-          "source_kind": null,
-          "checked_at": null,
-          "evidence": null
+          "source_url": "https://apps.apple.com/kr/app/chatgpt/id6448311069",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:42:20+09:00",
+          "evidence": "ChatGPT Plus ￦29,000",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -810,13 +1755,15 @@
           "monthly": null,
           "annual": null,
           "currency": "KRW",
-          "source_url": null,
-          "source_kind": null,
-          "checked_at": null,
-          "evidence": null
+          "source_url": "https://play.google.com/store/apps/details?hl=ko&id=com.openai.chatgpt",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:42:20+09:00",
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         }
       ],
-      "note": "한국 웹 KRW 최종가 공개 미표시; 일반 도움말 USD 20이나 비공식 KRW값을 대입하지 않음; iOS Plus 두 금액의 기간은 추가 확인 중.",
+      "note": "한국 웹 KRW 숫자 미노출; iOS Plus 29,000·299,000원은 기간 불명; Google Play는 한국어이나 미국 국가 표기로 KR 가격 미확인.",
       "researcher": "w1:p1"
     },
     {
@@ -831,21 +1778,25 @@
           "monthly": null,
           "annual": null,
           "currency": "KRW",
-          "source_url": null,
-          "source_kind": null,
-          "checked_at": null,
-          "evidence": null
+          "source_url": "https://claude.com/pricing",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:42:20+09:00",
+          "evidence": "$20 if billed monthly.",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
-          "status": "unknown",
-          "monthly": null,
-          "annual": null,
+          "status": "verified",
+          "monthly": 33000,
+          "annual": 349000,
           "currency": "KRW",
-          "source_url": null,
-          "source_kind": null,
-          "checked_at": null,
-          "evidence": null
+          "source_url": "https://apps.apple.com/kr/app/claude-by-anthropic/id6473753684",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:42:20+09:00",
+          "evidence": "Claude Pro - Monthly ￦33,000",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -853,13 +1804,15 @@
           "monthly": null,
           "annual": null,
           "currency": "KRW",
-          "source_url": null,
-          "source_kind": null,
-          "checked_at": null,
-          "evidence": null
+          "source_url": "https://play.google.com/store/apps/details?hl=ko&id=com.anthropic.claude",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:42:20+09:00",
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         }
       ],
-      "note": "조사 중; 미확인 값은 null이며 KRW는 조사 대상 통화입니다.",
+      "note": "웹 USD20/월·USD200/년은 세금 별도 글로벌 참고가이며 한국 KRW로 환산하지 않음; iOS 월·연 라벨 확인; GP 한국 국가 범위 미확인.",
       "researcher": "w1:p1"
     },
     {
@@ -874,10 +1827,12 @@
           "monthly": null,
           "annual": null,
           "currency": "KRW",
-          "source_url": null,
-          "source_kind": null,
-          "checked_at": null,
-          "evidence": null
+          "source_url": "https://join.duolingo.com/plus",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:43:10+09:00",
+          "evidence": "Try 1 week free",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -885,10 +1840,12 @@
           "monthly": null,
           "annual": null,
           "currency": "KRW",
-          "source_url": null,
-          "source_kind": null,
-          "checked_at": null,
-          "evidence": null
+          "source_url": "https://apps.apple.com/kr/app/id570060128",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:10+09:00",
+          "evidence": "Super Duolingo",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -896,13 +1853,15 @@
           "monthly": null,
           "annual": null,
           "currency": "KRW",
-          "source_url": null,
-          "source_kind": null,
-          "checked_at": null,
-          "evidence": null
+          "source_url": "https://play.google.com/store/apps/details?gl=kr&hl=ko&id=com.duolingo",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:10+09:00",
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         }
       ],
-      "note": "조사 중; 미확인 값은 null이며 KRW는 조사 대상 통화입니다.",
+      "note": "Super 개인만 대상; iOS 100,000·125,000원 목록은 기간 미표시; Family 155,000원·Max와 혼합하지 않음.",
       "researcher": "w1:p1"
     },
     {
@@ -920,7 +1879,9 @@
           "source_url": "https://one.google.com/intl/ko_kr/about/",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:00+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -931,7 +1892,9 @@
           "source_url": "https://apps.apple.com/kr/app/google-gemini/id6477489729",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:00+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -942,7 +1905,9 @@
           "source_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.subscriptions.red&hl=ko&gl=KR",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:00+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "AI Premium의 후속 AI Pro 현재 5TB 표기; iOS 29,000·290,000원 목록은 기간 라벨 추가 검증 전 unknown.",
@@ -963,7 +1928,9 @@
           "source_url": "https://www.microsoft.com/ko-kr/microsoft-365/buy/compare-all-microsoft-365-products",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:40:00+09:00",
-          "evidence": "₩12,500/월"
+          "evidence": "₩12,500/월",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -974,7 +1941,9 @@
           "source_url": "https://apps.apple.com/kr/app/microsoft-copilot/id541164041",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:43:09+09:00",
-          "evidence": "Microsoft 365 Personal"
+          "evidence": "Microsoft 365 Personal",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -985,7 +1954,9 @@
           "source_url": "https://play.google.com/store/apps/details?id=com.microsoft.office.officehubrow&hl=ko&gl=KR",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:00+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "Personal 1인만 비교; iOS 12,500·125,000원 목록은 기간 미표시로 월/연 매핑 보류; 웹 VAT 범위 추가 확인.",
@@ -1006,7 +1977,9 @@
           "source_url": "https://www.notion.com/ko/pricing",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:43:05+09:00",
-          "evidence": "\"unit_amount\":16800"
+          "evidence": "\"unit_amount\":16800",
+          "comparable": false,
+          "comparison_note": "웹 VAT·워크스페이스 가입 자격 확인 전 최종 비교 보류"
         },
         {
           "channel": "app_store",
@@ -1017,7 +1990,9 @@
           "source_url": "https://apps.apple.com/kr/app/id1232780281",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:43:07+09:00",
-          "evidence": "Notion – 월간 플러스 요금제"
+          "evidence": "Notion – 월간 플러스 요금제",
+          "comparable": false,
+          "comparison_note": "웹 VAT·워크스페이스 가입 자격 확인 전 최종 비교 보류"
         },
         {
           "channel": "google_play",
@@ -1028,7 +2003,9 @@
           "source_url": "https://play.google.com/store/apps/details?id=notion.id&hl=ko&gl=KR",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:40:00+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": false,
+          "comparison_note": "웹 VAT·워크스페이스 가입 자격 확인 전 최종 비교 보류"
         }
       ],
       "note": "Plus 1좌석 표시가만 비교: 웹 VAT 포함 여부 unknown이므로 200원/월·11,000원/년 차이는 최종 절감액이 아님; Business와 혼합하지 않음.",
@@ -1049,7 +2026,9 @@
           "source_url": "https://help.naver.com/service/23168/contents/11768?lang=ko",
           "source_kind": "official",
           "checked_at": "2026-11-14T15:43:05+09:00",
-          "evidence": "연간 이용권: 46,800원 (VAT 포함)"
+          "evidence": "연간 이용권: 46,800원 (VAT 포함)",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -1060,7 +2039,9 @@
           "source_url": "https://apps.apple.com/kr/app/id393499958",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:39:06+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -1071,7 +2052,9 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=com.nhn.android.search",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:39:06+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         }
       ],
       "note": "웹·Npay 일반 정가이며 VAT 포함; 월간 12회 합계 58,800원은 연간 이용권 46,800원과 다른 값.",
@@ -1085,14 +2068,16 @@
       "prices": [
         {
           "channel": "web",
-          "status": "unknown",
-          "monthly": null,
+          "status": "verified",
+          "monthly": 7890,
           "annual": null,
           "currency": "KRW",
-          "source_url": "https://news.coupang.com/archives/64216/",
+          "source_url": "https://play.coupang.com/faq",
           "source_kind": "official",
-          "checked_at": "2026-11-14T15:39:06+09:00",
-          "evidence": null
+          "checked_at": "2026-11-14T15:43:33+09:00",
+          "evidence": "7,890원",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -1103,7 +2088,9 @@
           "source_url": "https://apps.apple.com/kr/app/id454434967",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:39:06+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -1114,28 +2101,32 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=com.coupang.mobile",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:39:06+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         }
       ],
-      "note": "현행 FAQ는 쿠페이 월자동결제를 명시하나 금액은 미표시; 2024년 7,890원 공지를 현재 확정 가격으로 전용하지 않음.",
+      "note": "현행 공식 쿠팡플레이 FAQ에서 와우 월 7,890원 확인; 쿠페이 자체 청구이며 App Store·Google Play 과금과 구분; 연간 상품 미확인.",
       "researcher": "w1:p1"
     },
     {
       "id": "baemin_club",
       "name": "배민클럽",
-      "plan": "individual",
-      "plan_label": "개인 일반 멤버십",
+      "plan": "edition2_new",
+      "plan_label": "에디션2 신규 가입 일반",
       "prices": [
         {
           "channel": "web",
-          "status": "unknown",
-          "monthly": null,
+          "status": "reported",
+          "monthly": 3990,
           "annual": null,
           "currency": "KRW",
-          "source_url": "https://www.baemin.com/",
-          "source_kind": "official",
-          "checked_at": "2026-11-14T15:39:06+09:00",
-          "evidence": null
+          "source_url": "https://www.vop.co.kr/A00001696981.html",
+          "source_kind": "news",
+          "checked_at": "2026-11-14T15:43:33+09:00",
+          "evidence": "3990",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -1146,7 +2137,9 @@
           "source_url": "https://apps.apple.com/kr/app/id378084485",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:39:06+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -1157,10 +2150,12 @@
           "source_url": "https://play.google.com/store/apps/details?gl=kr&hl=ko&id=com.sampleapp",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:39:06+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         }
       ],
-      "note": "2024년 정상가·프로모션 공지를 현행 가격으로 채택하지 않음; 앱 존재는 스토어 과금 증거가 아님.",
+      "note": "2026-10-02 보도의 신규 에디션2 월 3,990원; 공식 소비자 정가 미확보이므로 reported; 기존 1,990원 유지분과 혼합하지 않음.",
       "researcher": "w1:p1"
     },
     {
@@ -1171,14 +2166,16 @@
       "prices": [
         {
           "channel": "web",
-          "status": "unknown",
-          "monthly": null,
+          "status": "verified",
+          "monthly": 1900,
           "annual": null,
           "currency": "KRW",
-          "source_url": "https://www.kurly.com/member/membership",
+          "source_url": "https://newsroom.kurlycorp.com/?p=9390",
           "source_kind": "official",
-          "checked_at": "2026-11-14T15:39:06+09:00",
-          "evidence": null
+          "checked_at": "2026-11-14T15:43:33+09:00",
+          "evidence": "1,900원",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -1189,7 +2186,9 @@
           "source_url": "https://apps.apple.com/kr/app/id1080244833",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:39:06+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
@@ -1200,28 +2199,32 @@
           "source_url": "https://play.google.com/store/apps/details?hl=ko&gl=KR&id=com.dbs.kurly.m2",
           "source_kind": "store_listing",
           "checked_at": "2026-11-14T15:39:06+09:00",
-          "evidence": null
+          "evidence": null,
+          "comparable": true,
+          "comparison_note": null
         }
       ],
-      "note": "공개 현행 가격 미확인; 2024년 IR의 월 1,900원을 현재 정가로 채택하지 않음.",
+      "note": "2026-02-19 공식 뉴스룸의 일반 월 1,900원; 적립금 2,000원을 구독료 할인으로 공제하지 않음; 스토어 청구·연간 상품 미확인.",
       "researcher": "w1:p1"
     },
     {
       "id": "kakao_emoticon_plus",
       "name": "카카오 이모티콘 플러스",
-      "plan": "individual",
-      "plan_label": "개인 일반 멤버십",
+      "plan": "individual_current_web_sale",
+      "plan_label": "개인 현재 웹판매가(20% 할인)",
       "prices": [
         {
           "channel": "web",
-          "status": "unknown",
-          "monthly": null,
+          "status": "verified",
+          "monthly": 3900,
           "annual": null,
           "currency": "KRW",
-          "source_url": null,
-          "source_kind": null,
-          "checked_at": null,
-          "evidence": null
+          "source_url": "https://e.kakao.com/my/product/001?f=p_s&t=omg-are-you-crazy&t_obj=item_plus_btn",
+          "source_kind": "official",
+          "checked_at": "2026-11-14T15:54:37+09:00",
+          "evidence": "\"price\":3900",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "app_store",
@@ -1229,24 +2232,28 @@
           "monthly": null,
           "annual": null,
           "currency": "KRW",
-          "source_url": null,
-          "source_kind": null,
-          "checked_at": null,
-          "evidence": null
+          "source_url": "https://apps.apple.com/kr/app/id362057947",
+          "source_kind": "store_listing",
+          "checked_at": "2026-11-14T15:43:10+09:00",
+          "evidence": "이모티콘 플러스",
+          "comparable": true,
+          "comparison_note": null
         },
         {
           "channel": "google_play",
-          "status": "unknown",
-          "monthly": null,
+          "status": "reported",
+          "monthly": 5700,
           "annual": null,
           "currency": "KRW",
-          "source_url": null,
-          "source_kind": null,
-          "checked_at": null,
-          "evidence": null
+          "source_url": "https://it.donga.com/107044/",
+          "source_kind": "news",
+          "checked_at": "2026-11-14T15:43:10+09:00",
+          "evidence": "안드로이드 구글 플레이의 전용가는 월 5700원입니다.",
+          "comparable": true,
+          "comparison_note": null
         }
       ],
-      "note": "조사 중; 미확인 값은 null이며 KRW는 조사 대상 통화입니다.",
+      "note": "웹 현재 판매가 3,900원(구조화 데이터 확인); 기본가 4,900원과 구분하며 할인 종료·개인 자격 미확인; iOS 6,900원 기간 불명·GP 5,700원은 2025년 보도.",
       "researcher": "w1:p1"
     }
   ]

@@ -1,0 +1,224 @@
+{
+  "at": "2026-11-14T07:36:12.506Z",
+  "results": [
+    {
+      "name": "five real chapters",
+      "passed": true
+    },
+    {
+      "name": "animated mascot loads",
+      "passed": true
+    },
+    {
+      "name": "mascot frame changes",
+      "passed": true
+    },
+    {
+      "name": "mascot pause control",
+      "passed": true
+    },
+    {
+      "name": "keyboard selects final chapter",
+      "passed": true
+    },
+    {
+      "name": "final case states match replay",
+      "passed": true,
+      "detail": {
+        "caseText": "유유튜브 프리미엄예상 밖 청구 — 사건 다시 열림사건 다시 열림디디즈니+ 스탠다드해지 요청만 기록됨 (종료 확인 아님)제안 2 · 동의 2명 / 미응답 0명해지 요청 기록됨",
+        "expectedStages": [
+          "사건 다시 열림",
+          "해지 요청 기록됨"
+        ]
+      }
+    },
+    {
+      "name": "family message switching",
+      "passed": true
+    },
+    {
+      "name": "message disclosure opens",
+      "passed": true
+    },
+    {
+      "name": "next button advances one chapter",
+      "passed": true
+    },
+    {
+      "name": "price channel control updates amount",
+      "passed": true
+    },
+    {
+      "name": "invalid monthly amount has feedback",
+      "passed": true
+    },
+    {
+      "name": "valid monthly amount restores comparison",
+      "passed": true
+    },
+    {
+      "name": "family handoff waits for consent",
+      "passed": true
+    },
+    {
+      "name": "family agreement unlocks handoff",
+      "passed": true
+    },
+    {
+      "name": "withdrawal locks handoff again",
+      "passed": true
+    },
+    {
+      "name": "unexpected charge reopens case in live simulator",
+      "passed": true
+    },
+    {
+      "name": "family reset restores input",
+      "passed": true
+    },
+    {
+      "name": "calculator keyboard input changes result",
+      "passed": true
+    },
+    {
+      "name": "calculator details open with keyboard",
+      "passed": true
+    },
+    {
+      "name": "no page overflow bot 1440",
+      "passed": true,
+      "detail": {
+        "viewport": 1440,
+        "content": 1440
+      }
+    },
+    {
+      "name": "no page overflow channel 1440",
+      "passed": true,
+      "detail": {
+        "viewport": 1440,
+        "content": 1440
+      }
+    },
+    {
+      "name": "no page overflow family 1440",
+      "passed": true,
+      "detail": {
+        "viewport": 1440,
+        "content": 1440
+      }
+    },
+    {
+      "name": "no page overflow calc 1440",
+      "passed": true,
+      "detail": {
+        "viewport": 1440,
+        "content": 1440
+      }
+    },
+    {
+      "name": "no page overflow kiro 1440",
+      "passed": true,
+      "detail": {
+        "viewport": 1440,
+        "content": 1440
+      }
+    },
+    {
+      "name": "no page overflow bot 820",
+      "passed": true,
+      "detail": {
+        "viewport": 820,
+        "content": 820
+      }
+    },
+    {
+      "name": "no page overflow channel 820",
+      "passed": true,
+      "detail": {
+        "viewport": 820,
+        "content": 820
+      }
+    },
+    {
+      "name": "no page overflow family 820",
+      "passed": true,
+      "detail": {
+        "viewport": 820,
+        "content": 820
+      }
+    },
+    {
+      "name": "no page overflow calc 820",
+      "passed": true,
+      "detail": {
+        "viewport": 820,
+        "content": 820
+      }
+    },
+    {
+      "name": "no page overflow kiro 820",
+      "passed": true,
+      "detail": {
+        "viewport": 820,
+        "content": 820
+      }
+    },
+    {
+      "name": "no page overflow bot 390",
+      "passed": true,
+      "detail": {
+        "viewport": 390,
+        "content": 390
+      }
+    },
+    {
+      "name": "no page overflow channel 390",
+      "passed": true,
+      "detail": {
+        "viewport": 390,
+        "content": 390
+      }
+    },
+    {
+      "name": "no page overflow family 390",
+      "passed": true,
+      "detail": {
+        "viewport": 390,
+        "content": 390
+      }
+    },
+    {
+      "name": "no page overflow calc 390",
+      "passed": true,
+      "detail": {
+        "viewport": 390,
+        "content": 390
+      }
+    },
+    {
+      "name": "no page overflow kiro 390",
+      "passed": true,
+      "detail": {
+        "viewport": 390,
+        "content": 390
+      }
+    },
+    {
+      "name": "200 percent equivalent reflow",
+      "passed": true
+    },
+    {
+      "name": "reduced motion starts still",
+      "passed": true
+    },
+    {
+      "name": "no browser errors",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "browserClosed": true,
+  "temporaryProfileRemoved": true
+}

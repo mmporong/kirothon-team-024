@@ -1,22 +1,86 @@
 # BUILD REPORT
 
-<!-- Kiro를 개발 과정의 어느 단계에서, 어떤 기능으로, 무엇을 했는지 기록해 주세요.
-     1차 AI 심사는 이 문서와 .kiro/ 폴더를 보고 Kiro 활용을 평가해요. -->
-
 ## Kiro 활용 내역
+
+똑Pay(똑페이)의 초기 기획·설계·구현과 점검 봇 똑이의 녹화 실행에 Kiro를 사용했습니다. 조사·문서 초안·발표 덱 등 보조 작업은 Codex가 맡았습니다. 인계 이후의 결함 수정·최신 가격 데이터 통합·최종 문서 수정과 검증도 Codex가 맡았습니다.
+
+아래 표의 설정·산출물과 실제 실행 기록을 구분합니다. 메인 녹화는 당시 29개 요금제 자료와 소스에서 실행한 기록입니다. 현재의 46개 요금제 통합본과 후속 소스 수정에 대해 Kiro를 다시 실행하지는 못했습니다.
 
 | 단계 | 사용한 Kiro 기능 | 무엇을 했는지 | 결과물 위치 |
 |---|---|---|---|
-| 기획 | <!-- 예: Spec (requirements) --> | <!-- 예: 사용자 스토리 4개와 인수 조건 작성 --> | <!-- 예: .kiro/specs/xxx/requirements.md --> |
-| 설계 | | | |
-| 구현 | | | |
-| 검증 | | | |
-| 기타 | <!-- Steering, Hooks, MCP 등 --> | | |
+| 기획 | Spec 2개, EARS 요구사항 | 구독의 발견·검토·가족 동의·해지 후 확인과 봇 행동을 R01~R27로 정리. 숫자 계산과 사람 결정의 경계를 인수 조건으로 작성 | `.kiro/specs/subscription-closure/requirements.md`, `.kiro/specs/subs-bot/requirements.md` |
+| 설계 | Spec design, Steering | 순수 TypeScript 도메인과 UI·MCP 경계를 나누고 같은 사건 상태에 `evaluateAction` 적용. 손익·버전·재청구·원문 제외의 정확성 속성과 봇 권한 정의 | 두 Spec의 `design.md`, `src/domain/`, `.kiro/steering/` |
+| 구현 | Spec tasks, Kiro CLI | 도메인 규칙·React 화면·MCP 도구·점검 실행기를 작업 단위로 구현. tasks의 요구 ID와 커밋 참조로 연결 | 두 Spec의 `tasks.md`, `src/`, `mcp/server.ts`, `scripts/bot-patrol.ts`, `scripts/demo-scenario.ts` |
+| 검증 | Hooks 4개 설정, 도메인·봇 도구 시험, 실제 Kiro 점검 | 결정적 코드의 단위·속성·golden·원문 canary 검사와 실제 모델 실행을 분리. 합성 데모의 거부 후 재계획·이전 경로 재청구 기록 | `tests/domain/`, `tests/bot/`, `docs/evidence/hook-log.jsonl`, `docs/evidence/bot-runs/`, `docs/evidence/traceability.md` |
+| 기타 | Steering 7개, 커스텀 에이전트 2개, MCP `household` | 제품·기술·구조·한국 해지·가족·개인정보·봇 규칙 분리. 똑이는 MCP만 허용하고 파일·셸을 거부. reviewer는 읽기 전용으로 설정 | `.kiro/steering/`, `.kiro/agents/subs-bot.json`, `.kiro/agents/reviewer.json`, `.kiro/settings/mcp.json`, `src/bot/tools.ts` |
+
+### Spec에서 코드·시험으로 연결
+
+- `subscription-closure`는 손익 항등식·휴지 기간에 따른 단조성·엄격한 양수 손익분기, 제안 버전 무효화·인계 잠금, 재청구 재개방·원문 제외를 정의합니다. P1~P8은 속성 시험·Python golden 대조·예제 검사로 나눴습니다.
+- 메인 재정렬 뒤 현행 Spec에는 R28 결제 경로 가격, R29 무료체험·경로별 결정 마감, R30 이동 중 청구 구분과 P9 경로 차액 속성이 추가됐습니다. 해당 소스·데이터의 후속 검증과 과거 Kiro 녹화는 별도로 봅니다.
+- `subs-bot`은 사람 결정 도구 미제공, 질문·알림·제안 메모의 원화 금액 검증, 원문 비노출, 질문·경로 안내 중복 방지, 거부 후 재계획을 정의합니다. `household`에는 `compare_channels`를 포함한 도구 13개가 있습니다.
+- `tasks.md`에는 완료 체크와 요구·커밋 참조가 있습니다. 체크만으로 실행 성공을 대신하지 않습니다. [추적표](docs/evidence/traceability.md)는 요구별 코드·시험 위치를 찾는 자료이며 각 요구의 종단 간 통과를 뜻하지 않습니다.
+
+### 메인 시나리오의 실제 Kiro 실행 기록
+
+집계 기준은 [전체 재생 기록](docs/evidence/bot-runs/20261114154741-demo-replay.json)의 P1~P5 영수증입니다. [배포용 재생 파일](public/replay/demo.json)과 내용·SHA-256이 같습니다. 선행 smoke·reviewer·이전 시나리오는 이 합계에 넣지 않았습니다.
+
+| 점검 | 당시 확인된 행동 | 실행시간 | 도구 호출 | 도구 거부 | 실행 영수증 |
+|---|---|---:|---:|---:|---|
+| P1 | 무료체험 결정 마감·정기결제 점검, 당시 자료의 경로 가격·보조 손익을 담아 결제자에게 질문 | 99,744ms | 8회 | 0회 | [P1](docs/evidence/bot-runs/20261114154741-P1-demo.receipt.json) |
+| P2 | 결제자의 웹 이동 선택 반영·이동 안내. 디즈니+ v1 제안 뒤 미응답으로 인계 거부 | 189,644ms | 10회 | 1회 | [P2](docs/evidence/bot-runs/20261114154921-P2-demo.receipt.json) |
+| P3 | 반대 의견의 2개월 조건으로 v2 생성. 사업자 확인이 없어 해지 종료 확정 보류 | 135,305ms | 6회 | 2회 | [P3](docs/evidence/bot-runs/20261114155231-P3-demo.receipt.json) |
+| P4 | 현재 v2 전원 동의 뒤 결제자 인계·해지 경로 안내. 다른 사건의 종료 확인은 보류 | 143,353ms | 4회 | 1회 | [P4](docs/evidence/bot-runs/20261114155446-P4-demo.receipt.json) |
+| P5 | 합성 웹 예상 청구와 이전 App Store 청구 구분·사건 재개방·해당 경로 안내 | 143,862ms | 6회 | 1회 | [P5](docs/evidence/bot-runs/20261114155709-P5-demo.receipt.json) |
+| 합계 | 점검 5회 | 711,908ms | 34회 | 5회 | 위 5개 영수증 |
+
+- 실행시간 합계는 **711.908초**입니다. 5개 프로세스의 실행시간 합계이며 단일 응답 지연·사람의 작업 시간·절감 효과가 아닙니다.
+- 도구 거부는 `consent_missing` 1회·`objection_present` 1회·`provider_unconfirmed` 3회입니다. 기대한 보류 결과이며 5개 프로세스 종료 코드는 모두 0입니다.
+- 합성 사람 입력은 8건으로 허용 7건·`stale_version` 거부 1건입니다. 옛 v1 응답을 거부한 사람 입력은 도구 거부 5회와 별도입니다.
+- 5회 모두 실제 모델은 `claude-opus-5.5`, 엔진은 `v3`, `fallback=false`입니다. 대응 이벤트 로그는 `runFinished / success / end_turn`으로 끝납니다.
+- 재생 JSON에 든 각 점검의 영수증·도구 로그는 개별 원본과 일치합니다. 가구·문자·사람 응답·청구는 합성 자료이며 사람 입력은 시나리오 스크립트가 주입했습니다. 실가족 응답이나 원 서비스의 실제 해지를 관측한 사례가 아닙니다.
+- 녹화의 유튜브 가격 차이는 당시 29개 자료와 합성 입력에 따른 계산입니다. iOS 가격의 월간 SKU·VAT 매핑이 미확인이므로 현재 검증된 절감 예시로 사용하지 않습니다. 후속 가격·소스 수정의 Kiro 재실행은 없습니다.
+- 이전 시나리오는 [메인 재정렬 전 보존 폴더](docs/evidence/bot-runs/v1-before-pivot/)에 남겼습니다. 현재 메인 합계에는 섞지 않습니다.
+
+### 훅 설정과 확인한 실행
+
+| 이벤트 | 설정·실행 코드 | 메인 영수증에서 확인한 범위 |
+|---|---|---|
+| SessionStart | `.kiro/hooks/session-context.json`, `scripts/hooks/session-context.mjs` | `session-context` 완료 5회 |
+| PostFileSave | `.kiro/hooks/test-on-save.json`, `scripts/hooks/test-on-save.mjs` | 설정과 실행 코드 존재. 실제 실행 기록은 확인하지 못함 |
+| PreToolUse | `.kiro/hooks/pretool-guard.json`, `scripts/hooks/pretool-guard.mjs` | `pretool-guard-read` 완료 43회. 훅 완료와 위험 요청 차단 실증은 구분 |
+| Stop | `.kiro/hooks/stop-summary.json`, `scripts/hooks/stop-summary.mjs` | `stop-summary` 완료 5회. 시점별 테스트 요약·기준 SHA 기록 |
+
+[hook-log.jsonl](docs/evidence/hook-log.jsonl)에는 smoke·수동 점검도 섞여 있습니다. 위 횟수는 전체 로그 행 수가 아닌 메인 영수증 5개의 완료 기록입니다. 반복된 시험 요약을 합산하지 않았고, SHA 기록만으로 실행 당시 소스 전체가 고정됐다고 주장하지 않습니다. PostFileSave는 실행 실증으로 계산하지 않습니다.
+
+### Reviewer와 인계 후 검증
+
+[reviewer 기록](docs/evidence/review.md)은 `exit 1`이며 검토 본문이 없습니다. 도구 호출 35회는 검토 완료나 승인 근거가 아닙니다. 기존 실행기가 stderr를 보존하지 않아 종료 원인은 미확인입니다. 같은 시각 총괄 Kiro 세션의 월간 사용 한도 오류는 확인됐지만 reviewer의 원인으로 단정하지 않습니다.
+
+인계 후 결함 수정과 최종 검수는 Codex가 맡았습니다. Kiro reviewer 승인이나 수정 소스의 Kiro 재실행을 최종 검증 근거로 쓰지 않습니다. 결정적 코드 시험, 문서·근거 대조, 과거 실제 에이전트 실행의 범위를 나눠 기록합니다.
+
+테스트 수: `npm test` **402/402 통과**. 별도 훅 검사 **7/7 통과**는 Codex 하네스의 합성 입력 검사이며, Kiro의 훅 자동 실행 실증과 구분합니다.
+
+실브라우저 **37/37 통과·오류 0건**, `npm run build` **통과**(앱·Node 타입 검사 포함). 추적 검사는 **요구 30개·시험 연결 24개·미설명 누락 0개**입니다. 동결 소스 **73개**의 현재 해시도 일치합니다.
+
+[최종 검증 기록](docs/evidence/validation.json) · [독립 검수](docs/evidence/final-review.md) · [실브라우저 기록](docs/evidence/front-qa.json) · [동결 소스 목록](docs/evidence/source-manifest.json)
 
 ## 개발 과정에서 바뀐 점
 
-<!-- Kiro와 작업하면서 처음 계획에서 바뀐 부분, 그 이유 -->
+1. **재가입 손익을 보조로 옮겼습니다.** 무료체험·정기결제 전에 묻기, 결제 경로 가격, 경로별 해지·이동, 다음 청구 대조를 메인으로 뒀습니다. 기존가 유지 자격이 걸린 경우에만 해지·재가입 손익을 경고로 붙입니다. 화면에도 "재가입 손익(보조)"로 표시합니다.
+2. **무료체험과 결제 경로 비교를 구현했습니다.** `reminders.ts`는 체험 종료일을 우선하고 App Store 결정 마감을 하루 앞당깁니다. `channelPrice.ts`는 같은 서비스·플랜의 확인된 표시 월가와 입력 청구액을 사용합니다. 이동한 새 경로의 청구와 이전 경로의 재청구는 `verification.ts`에서 구분합니다.
+3. **가격 자료를 최신 원본으로 통합했습니다.** PRICE-A 15:59:55의 35개·PRICE-B 15:56:34의 11개 요금제를 `scripts/merge-research.mjs`로 병합한 현행 자료는 46개입니다. 출처·확인 시각·가격 상태를 `src/data/channel_prices.json`에 남기고, 공식 취소·환불 절차는 `src/data/store_procedures.json`에 분리했습니다. 후속 가격 검수의 보류 사유는 `src/data/channel_price_review.json`에 두고 병합 시 `comparable` 판정을 붙였습니다. 녹화 당시 29개 스냅샷은 보존합니다.
+4. **공식 표시값과 비교 가능 판정을 분리했습니다.** `verified` 가격이어도 `comparable=false`이면 공개 가격의 차액 권고에서 제외합니다. TVING 4등급은 기본 공개 월간가격을 비교하고, 유튜브 iOS·지니 30일권·왓챠 iOS·디즈니+ iOS·웨이브·밀리의서재·Notion은 조건 미확인으로 보류합니다. 사용자가 월 단위로 확인한 실제 청구액은 현재 가격의 보조 입력으로 쓸 수 있습니다. 계정 적용 조건과 최종 청구액, 월 차액×12와 실제 연간권 가격은 구분합니다.
+5. **결정 로직은 코드에, 다음 행동 선택은 에이전트에 뒀습니다.** 금액·날짜·사건 전이는 도구가 계산·검사하고 똑이는 어떤 도구를 언제 부를지 정합니다. 미응답을 찬성으로 바꾸거나 사람의 결정을 대신 기록하지 않습니다. 거부 사유를 읽고 재요청 또는 개정안을 고릅니다.
+6. **개발용 Kiro와 제품의 똑이를 구분했습니다.** 웹앱의 수동 기능·녹화 재생은 Kiro 없이 확인하고, 새 점검 실행에는 Kiro CLI 로그인·모델 연결이 필요합니다. 상시 예약 서비스나 실제 가족에게 메시지를 보내는 연동을 구현한 것으로 설명하지 않습니다.
+7. **기여와 검증 시점을 기록했습니다.** 임주영이 Kiro를 사용해 초기 제품 개발과 봇 녹화를 진행했습니다. 조사·문서 초안·덱, 인계 이후 수정·데이터 통합·최종 검증은 Codex 작업입니다. 최신 소스의 품질 검증을 과거 Kiro 실행 실적으로 소급하지 않습니다.
 
 ## 어려웠던 점과 해결 방법
 
-<!-- 막혔던 부분과 어떻게 풀었는지 -->
+- **429와 모델 자동 전환:** 사전 런타임 탐색과 개발 인계에서 동시 실행의 429·세션 중 모델 전환이 보고됐습니다. 실행기는 모델·엔진·종료 코드·전환 여부를 영수증에 남깁니다. 위 메인 5회는 같은 모델이며 전환이 없었습니다. 이 5회의 기록으로 전체 개발 과정의 오류 유무를 판단하지 않습니다.
+- **프로젝트 위치에 따른 훅 로드:** 프로젝트 설정을 읽는 위치에서 실행해야 훅이 로드됐습니다. `scripts/bot-patrol.ts`는 `cwd`를 프로젝트 루트로 고정합니다. 설정 존재와 실제 훅 완료 기록을 구분해 확인했습니다.
+- **MCP 상대 경로:** `scripts/mcp-launch.mjs`가 자기 파일 위치에서 루트를 구하고 `tsx`·서버 절대 경로·작업 폴더를 고정합니다. `.kiro/settings/mcp.json`의 서버 이름은 `household`로 맞췄습니다.
+- **확인되지 않은 금액을 쓰는 문제:** `src/bot/tools.ts`는 질문·알림·제안 메모의 `N원` 금액을 계산·정책·청구 값 집합과 대조해 `unverified_number`로 거부합니다. [도구 시험](tests/bot/tools.test.ts)에 반례가 있습니다. 모든 숫자·날짜·자유 문장까지 검사하는 기능은 아니며, 메인 녹화의 거부 5회에는 이 사유가 없습니다.
+- **공개 가격의 조건 차이:** `verified`만으로 기간·세금·계정 자격의 동등성까지 확정할 수 없었습니다. `channel_price_review.json`의 사유와 `comparable` 필드로 표시값 보존과 비교 보류를 분리했습니다. 코드가 보류된 공개 가격을 차액 권고에서 제외하며, 티빙도 신규·기존 계정 적용 조건과 최종 청구액은 별도 확인 사항으로 남깁니다.
+- **재생과 실행의 혼동:** `src/ui/BotReplay.tsx`는 정적 기록을 재생하고 `npm run bot:demo`는 새 Kiro 실행·영수증을 만듭니다. 현재 소스·결정적 코드 시험·과거 에이전트 녹화·개인 사용 효과를 서로 다른 근거로 남겼습니다.
+- **프로세스 성공과 업무 성공의 차이:** 점검 프로세스가 성공해도 필요한 가족 응답·인계·재청구 상태가 빠질 수 있었습니다. `scripts/demo-validation.ts`에서 사람 행동의 허용 여부와 사유, 최종 사건과 안내 경로를 검사합니다. 실패하면 기존 공개 재생을 유지하고 실패 영수증을 남깁니다. 새 데모의 YouTube 월 19,500원은 합성 입력이며 공식 월 가격 검증으로 사용하지 않습니다.

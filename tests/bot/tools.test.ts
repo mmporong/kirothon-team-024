@@ -3,6 +3,25 @@ import seed from '../../bot-state/seed/household.json';
 import { addSms, humanRecordCancel, humanReply, humanVote, setClock } from '../../src/bot/human';
 import type { BotState } from '../../src/bot/state';
 import { runTool, TOOL_NAMES, unverifiedNumbers } from '../../src/bot/tools';
+import { CHANNEL_PRICES, findPrices, type ServicePrices } from '../../src/domain/channelPrice';
+
+// 경로 정책 시험의 월간 가격은 합성 가정이다. 실제 YT 가격·기간 검증 실적이 아니다.
+vi.mock('../../src/domain/channelPrice', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../src/domain/channelPrice')>();
+  const synthetic: ServicePrices = {
+    id: 'youtube_premium_kr', name: '합성 YT 경로 정책 시험', plan: 'individual', plan_label: '합성 월간 개인',
+    note: '정책 회귀시험용 합성 월간 가격이며 실제 판매 가격·기간 확인과 무관함',
+    prices: [
+      { channel: 'web', status: 'verified', monthly: 14900, annual: null, currency: 'KRW', source_url: 'https://example.invalid/synthetic/yt/web', source_kind: 'official', checked_at: 'synthetic-fixture' },
+      { channel: 'app_store', status: 'verified', monthly: 19500, annual: null, currency: 'KRW', source_url: 'https://example.invalid/synthetic/yt/ios', source_kind: 'store_listing', checked_at: 'synthetic-fixture' },
+      { channel: 'google_play', status: 'verified', monthly: 14900, annual: null, currency: 'KRW', source_url: 'https://example.invalid/synthetic/yt/android', source_kind: 'official', checked_at: 'synthetic-fixture' },
+    ],
+  };
+  return {
+    ...actual,
+    CHANNEL_PRICES: { ...actual.CHANNEL_PRICES, services: [...actual.CHANNEL_PRICES.services.filter((s) => s.id !== synthetic.id || s.plan !== synthetic.plan), synthetic] },
+  };
+});
 
 const fresh = () => structuredClone(seed) as unknown as BotState;
 function call(s: BotState, name: string, args: Record<string, unknown> = {}) {
@@ -18,7 +37,7 @@ describe('R23 사람만 할 수 있는 일은 도구가 없다', () => {
 });
 
 describe('R22 점검: 결제 3일 전 먼저 묻기', () => {
-  it('결정 마감 3일 안의 구독(유튜브 체험 D-1·디즈니+ D-3)을 찾고, 계산한 숫자로만 질문한다', () => {
+  it('결정 마감 3일 안의 구독(유튜브 취소 결정 D-1·디즈니+ D-3)을 찾고, 계산한 숫자로만 질문한다', () => {
     let s = fresh();
     let r = call(s, 'get_status');
     s = r.s;
@@ -116,8 +135,127 @@ describe('B2 숫자 검증', () => {
   });
 });
 
-describe('R28·R29·R30 결제 경로 갈아타기: App Store 체험 → 웹, 이중 결제 감지', () => {
-  it('App Store 19,500원 vs 웹 14,900원 → 월 4,600원 차이, 옮긴 뒤 App Store 청구가 오면 재개방·환불 경로', () => {
+function youtubeCase(state = fresh()) {
+  const s = call(state, 'ask_member', { to: 'me', subscriptionId: 'sub-youtube', text: '다음 결제 전에 확인해 주세요.' }).s;
+  return { s, caseId: s.cases.find((c) => c.subscription.id === 'sub-youtube')!.caseId };
+}
+
+function switchedYoutube() {
+  const { s, caseId } = youtubeCase();
+  const handoff = call(s, 'request_handoff', { caseId, switchTo: 'web' });
+  expect(handoff.o.ok).toBe(true);
+  return { s: setClock(humanRecordCancel(handoff.s, 'me', caseId).state, '2026-11-16T10:00:00+09:00'), caseId };
+}
+
+const oldAppleCharge = '[합성]\n19,500원 승인\n2026-11-16 00:12 KST\nAPPLE.COM/BILL';
+const newWebCharge = '[합성]\n14,900원 승인\n2026-11-16 08:10 KST\n유튜브 프리미엄 웹결제';
+
+describe('FINAL-CORE 문제 청구의 환불 경로', () => {
+  it.each([[oldAppleCharge, newWebCharge], [newWebCharge, oldAppleCharge]])('수집 순서와 무관하게 기존 Apple 문제 청구만 안내한다', (...texts) => {
+    let { s } = switchedYoutube();
+    for (const text of texts) s = addSms(s, text, '2026-11-16T09:00:00+09:00');
+    s = call(s, 'ingest_sms').s;
+    const r = call(s, 'send_cancel_route', { subscriptionId: 'sub-youtube' });
+    expect(r.o.ok).toBe(true);
+    expect(r.o.result.channel).toBe('app_store');
+    const message = r.s.messages.at(-1)!.text;
+    expect(message).toContain('App Store로 19,500원이 청구됐어요');
+    expect(message).toContain('reportaproblem.apple.com');
+    expect(message).toContain('이중 결제');
+  });
+  it('정상 신규 경로를 환불 대상으로 지정하면 거부하고 안내를 보내지 않는다', () => {
+    let { s } = switchedYoutube();
+    s = call(addSms(addSms(s, oldAppleCharge, '2026-11-16T09:00:00+09:00'), newWebCharge, '2026-11-16T09:00:01+09:00'), 'ingest_sms').s;
+    const r = call(s, 'send_cancel_route', { subscriptionId: 'sub-youtube', channel: 'web' });
+    expect(r.o.ok).toBe(false);
+    expect(r.o.reasons).toContain('problem_charge_channel_mismatch');
+    expect(r.s.messages).toEqual(s.messages);
+  });
+  it('정상 새 경로 청구만 있으면 환불·해지 안내를 보류한다', () => {
+    let { s } = switchedYoutube();
+    s = call(addSms(s, newWebCharge, '2026-11-16T09:00:00+09:00'), 'ingest_sms').s;
+    const r = call(s, 'send_cancel_route', { subscriptionId: 'sub-youtube' });
+    expect(r.o.ok).toBe(false);
+    expect(r.o.reasons).toContain('no_unexpected_charge');
+    expect(r.s.messages).toEqual(s.messages);
+  });
+  it('문제 청구의 경로가 미확인이면 등록 경로로 추정하지 않는다', () => {
+    const { s, caseId } = switchedYoutube();
+    s.cases.find((c) => c.caseId === caseId)!.closure.observedCharges.push({ date: '2026-11-16', amountWon: 19500, channel: null, synthetic: true });
+    const r = call(s, 'send_cancel_route', { subscriptionId: 'sub-youtube' });
+    expect(r.o.result.channel).toBeNull();
+    expect(r.o.result.routeStatus).toBe('channel_unknown');
+    expect(r.s.messages.at(-1)!.text).not.toContain('reportaproblem.apple.com');
+  });
+});
+
+describe('FINAL-CORE 절약 목적 인계의 가격·가족 조건', () => {
+  it('현재 웹 가격보다 비싼 App Store 이동을 거부한다', () => {
+    const state = fresh();
+    Object.assign(state.subscriptions.find((s) => s.id === 'sub-youtube')!, { channel: 'web', monthlyWon: 14900, trialEndsAt: null });
+    const { s, caseId } = youtubeCase(state);
+    const r = call(s, 'request_handoff', { caseId, switchTo: 'app_store' });
+    expect(r.o.ok).toBe(false);
+    expect(r.o.reasons).toContain('switch_not_cheaper');
+    expect(r.s.messages).toEqual(s.messages);
+    expect(r.s.cases.find((c) => c.caseId === caseId)!.stage).toBe('reviewing');
+  });
+  it.each(['unknown', 'reported', 'not_offered'] as const)('%s 목적지는 다른 경로가 저렴해도 이동 대상으로 쓰지 않는다', (status) => {
+    const target = findPrices(CHANNEL_PRICES, 'youtube_premium_kr', 'individual')!.prices.find((p) => p.channel === 'web')!;
+    const previous = target.status;
+    try {
+      target.status = status;
+      const { s, caseId } = youtubeCase();
+      const r = call(s, 'request_handoff', { caseId, switchTo: 'web' });
+      expect(r.o.ok).toBe(false);
+      expect(r.o.reasons).toContain('switch_target_unverified');
+      expect(r.s.messages).toEqual(s.messages);
+      expect(r.s.cases.find((c) => c.caseId === caseId)!.closure.switchTo).toBeNull();
+    } finally {
+      target.status = previous;
+    }
+  });
+  it('현재 가격·비교 자료를 확인할 수 없으면 이동을 보류한다', () => {
+    const state = fresh();
+    state.subscriptions.find((s) => s.id === 'sub-youtube')!.serviceId = 'unknown_service';
+    const { s, caseId } = youtubeCase(state);
+    const r = call(s, 'request_handoff', { caseId, switchTo: 'web' });
+    expect(r.o.ok).toBe(false);
+    expect(r.s.messages).toEqual(s.messages);
+    expect(r.s.cases.find((c) => c.caseId === caseId)!.stage).toBe('reviewing');
+  });
+  it('잘못된 switchTo를 일반 해지 요청으로 바꾸지 않는다', () => {
+    const { s, caseId } = youtubeCase();
+    const r = call(s, 'request_handoff', { caseId, switchTo: 'unverified_store' });
+    expect(r.o.ok).toBe(false);
+    expect(r.o.reasons).toContain('invalid_switch_target');
+    expect(r.s.messages).toEqual(s.messages);
+  });
+  it('가족의 해지·휴지 동의를 경로 변경 동의로 재사용하지 않는다', () => {
+    let r = call(fresh(), 'propose_family_plan', { subscriptionId: 'sub-disney', choice: 'pause', pauseMonths: 2 });
+    const s = humanVote(humanVote(r.s, 'mom', 'agree').state, 'bro', 'agree').state;
+    r = call(s, 'request_handoff', { caseId: r.o.result.caseId, switchTo: 'app_store' });
+    expect(r.o.ok).toBe(false);
+    expect(r.o.reasons).toContain('family_switch_not_supported');
+    expect(r.s.messages).toEqual(s.messages);
+    expect(r.s.cases[0]!.stage).toBe('family_review');
+    expect(r.s.cases[0]!.closure.switchTo).toBeNull();
+  });
+});
+
+describe('FINAL-CORE 체험 종료와 취소 결정 마감', () => {
+  it('체험 종료 D-2와 결정 마감 D-1을 별도로 전달한다', () => {
+    const r = call(fresh(), 'get_status');
+    const yt = (r.o.result.subscriptions as Record<string, unknown>[]).find((s) => s.id === 'sub-youtube')!;
+    expect(yt.daysToChargeOrTrialEnd).toBe(2);
+    expect(yt.daysToDecide).toBe(1);
+    expect(yt.trialEndsAt).toBe('2026-11-16');
+    expect(yt.decideBy).toBe('2026-11-15');
+  });
+});
+
+describe('R28·R29·R30 합성 월간 가격의 경로 이동·이중 결제 감지', () => {
+  it('합성 App Store 19,500원 vs 웹 14,900원 → 월 4,600원 차이, 기존 경로 청구면 재개방·환불 경로', () => {
     let s = fresh();
     let r = call(s, 'get_status');
     const yt = (r.o.result.subscriptions as { id: string; decideBy: string; cheaperChannel: string | null; deadline: string }[]).find((x) => x.id === 'sub-youtube')!;

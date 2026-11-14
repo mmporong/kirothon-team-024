@@ -1,0 +1,16 @@
+{
+  "source": "docs/evidence/price-audit.md",
+  "scope": "공식 표시가격 관측과 같은 기간·통화·조건의 비교 가능 여부를 분리한다. 개인별 실제 청구·가입 자격은 별도 확인한다.",
+  "hold": [
+    { "service": "youtube_premium_kr", "plans": ["individual", "lite"], "channels": ["app_store"], "reason": "App Store 목록의 월간 기간·대상 SKU·세금 대응 미확인" },
+    { "service": "genie_kr", "reason": "30일 이용권을 달력상 월간·12개월로 비교하지 않음" },
+    { "service": "watcha_kr", "channels": ["app_store"], "reason": "App Store 가격의 이용 기간·대상 SKU 대응 미확인" },
+    { "service": "disney_plus_kr", "channels": ["app_store"], "reason": "App Store 가격의 월·연 기간과 신규·기존 대상 대응 미확인" },
+    { "service": "wavve_kr", "reason": "양쪽 세금·동일 이용권 조건 확인 전 최종 비교 보류" },
+    { "service": "millie_kr", "reason": "양쪽 세금 조건 확인 전 최종 비교 보류" },
+    { "service": "notion_plus", "reason": "웹 VAT·워크스페이스 가입 자격 확인 전 최종 비교 보류" }
+  ],
+  "service_notes": {
+    "tving_kr": "한국 공개 기본 월간 가격·같은 등급·원화·VAT 포함을 공식 웹과 App Store에서 확인. 기존 할인·프로모션·개인 가입 자격과 최종 결제 총액은 별도 확인. 12개월 환산은 월 차액의 12배이며 연간 이용권 가격이 아님."
+  }
+}

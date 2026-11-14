@@ -34,7 +34,7 @@ sequenceDiagram
 | 에이전트 | `.kiro/agents/subs-bot.json` | 점검 절차 프롬프트, `tools: ["@household"]`, `permissions`: household 도구 13개 allow, fs_read·fs_write·shell deny |
 | 행동 규칙 | `.kiro/steering/bot.md` | B1~B6 (에이전트 resources로 주입) |
 | MCP 서버 | `mcp/server.ts`, `scripts/mcp-launch.mjs` | stdio JSON-RPC, 상태 파일 읽기·쓰기 |
-| 도구 | `src/bot/tools.ts` | 12개 핸들러, `runTool(state, name, args)` |
+| 도구 | `src/bot/tools.ts` | 13개 핸들러, `runTool(state, name, args)` |
 | 사람 행동 | `src/bot/human.ts` | 답장·투표·해지 신청 기록. 봇 도구가 아님 |
 | 실행기 | `scripts/bot-patrol.ts` | 점검 1회, stream-json 파싱, 영수증 |
 | 시나리오 | `scripts/demo-scenario.ts` | 점검 5회 + 사람 행동, `public/replay/demo.json` 생성 |

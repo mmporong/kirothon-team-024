@@ -1,7 +1,7 @@
-// [R07][R08][R12][R16] 가족 동의 체험: 브라우저 안에서 같은 정책 관문(evaluateAction)을 직접 눌러 본다.
+// [R07][R08][R12][R16] 가족 동의 체험: 모든 상태 변경은 기존 정책 규칙을 거친다.
 import { useState } from 'react';
-import { tally, type Terms, type VoteValue } from '../domain/consent';
-import { formatSignedWon } from '../domain/money';
+import { currentVote, tally, type Terms, type VoteValue } from '../domain/consent';
+import { formatSignedWon, formatWon } from '../domain/money';
 import { evaluateAction, newCase, REASON_TEXT, STAGE_LABEL, type Action, type CaseState } from '../domain/policy';
 import { pauseDelta, verdictSentence } from '../domain/resubBreakeven';
 import type { Subscription } from '../domain/types';
@@ -9,6 +9,20 @@ import { CLOSURE_LABEL, closureStatus } from '../domain/verification';
 
 const SUB: Subscription = { id: 'sub-disney', serviceId: 'disney_plus_kr', planId: 'standard', name: '디즈니+ 스탠다드', monthlyWon: 9900, nextChargeDate: '2026-11-17', channel: 'web', ownerId: 'me', sharedWith: ['mom', 'bro'], sourceKind: 'demo', usage: null };
 const WHO: Record<string, string> = { me: '나(결제자)', mom: '엄마', bro: '동생', bot: '봇' };
+const ACTION_LABEL: Partial<Record<Action['type'], string>> = {
+  request_family_review: '가족에게 제안',
+  revise_terms: '조건 변경',
+  cast_vote: '응답',
+  revoke_vote: '응답 철회',
+  prepare_owner_handoff: '결제자에게 인계',
+  record_cancel_request: '해지 요청 기록',
+  observe_charge: '다음 청구 확인',
+};
+const VOTES: { value: VoteValue; label: string }[] = [
+  { value: 'agree', label: '동의' },
+  { value: 'object', label: '반대' },
+  { value: 'abstain', label: '보류' },
+];
 const terms = (k: number): Terms => ({ resultId: `sim-k${k}`, horizon: 12, pauseMonths: k, choice: 'pause', needs: [], sentence: verdictSentence(9900, 11500, 12, k) });
 
 export function FamilySim() {
@@ -16,137 +30,122 @@ export function FamilySim() {
   const [k, setK] = useState(2);
   const [now, setNow] = useState('2026-11-14T09:00:00+09:00');
   const [last, setLast] = useState<{ allowed: boolean; text: string } | null>(null);
-  const act = (a: Action, at = now) => {
-    const d = evaluateAction(state, a, at);
-    setState(d.next);
-    setLast({ allowed: d.allowed, text: `${WHO[a.actor] ?? a.actor} · ${a.type} → ${d.allowed ? '허용' : '거부'}${d.reasons.length ? `: ${d.reasons.map((r) => REASON_TEXT[r]).join(' / ')}` : ''}` });
+  const act = (action: Action, at = now) => {
+    const decision = evaluateAction(state, action, at);
+    setState(decision.next);
+    setLast({
+      allowed: decision.allowed,
+      text: `${WHO[action.actor] ?? '참여자'} · ${ACTION_LABEL[action.type] ?? '상태 확인'}: ${decision.allowed ? '처리했어요.' : '진행할 수 없어요.'}${decision.reasons.length ? ` ${decision.reasons.map((reason) => REASON_TEXT[reason]).join(' / ')}` : ''}`,
+    });
   };
   const p = state.proposal;
   const t = p ? tally(p) : null;
-  const vote = (m: string, v: VoteValue) => act({ type: 'cast_vote', actor: m, version: p?.version ?? 1, value: v });
+  const vote = (member: string, value: VoteValue) => act({ type: 'cast_vote', actor: member, version: p?.version ?? 1, value });
   const reset = () => {
     setState(newCase('sim-1', SUB));
+    setK(2);
     setNow('2026-11-14T09:00:00+09:00');
     setLast(null);
   };
   const closure = closureStatus(state.closure, now.slice(0, 10));
 
   return (
-    <section className="grid2">
+    <section className="grid2" aria-label="가족 동의 체험">
       <div className="card">
-        <h2>가족 동의 체험 (같은 기기 3역할)</h2>
-        <p className="muted small">봇이 쓰는 것과 같은 정책 함수 evaluateAction을 브라우저에서 직접 눌러 봐요. 앱 안의 동의는 법적 위임이 아니에요.</p>
-        <ol className="sim">
-          <li>
-            <b>1. 제안</b> 쉬는 개월{' '}
-            <select value={k} onChange={(e) => setK(Number(e.target.value))}>
-              {[1, 2, 3, 4, 6].map((n) => (
-                <option key={n} value={n}>
-                  {n}개월 ({formatSignedWon(pauseDelta(9900, 11500, 12, n))})
-                </option>
-              ))}
-            </select>{' '}
-            <button className="btn" onClick={() => act(p ? { type: 'revise_terms', actor: 'bot', terms: terms(k) } : { type: 'request_family_review', actor: 'bot', terms: terms(k) })}>
-              {p ? '조건 바꿔 다시 제안' : '가족에게 제안'}
-            </button>
-          </li>
-          <li>
-            <b>2. 응답</b>
-            {(['mom', 'bro'] as const).map((m) => (
-              <div key={m} className="row wrap">
-                <span className="who">{WHO[m]}</span>
-                <button className="chip" onClick={() => vote(m, 'agree')}>
-                  동의
-                </button>
-                <button className="chip" onClick={() => vote(m, 'object')}>
-                  반대
-                </button>
-                <button className="chip" onClick={() => vote(m, 'abstain')}>
-                  보류
-                </button>
-                <button className="chip" onClick={() => act({ type: 'revoke_vote', actor: m })}>
-                  철회
-                </button>
-                {p && p.version > 1 && (
-                  <button className="chip" onClick={() => act({ type: 'cast_vote', actor: m, version: p.version - 1, value: 'agree' })}>
-                    옛 버전 v{p.version - 1}에 동의 보내기
-                  </button>
-                )}
-              </div>
+        <div className="section-head">
+          <p className="eyebrow">같은 기기에서 결제자·가족 역할 체험</p>
+          <h2>함께 쓰는 구독, 함께 결정해요</h2>
+        </div>
+        <p className="small">{SUB.name} · 월 <strong>{formatWon(SUB.monthlyWon!)}</strong> · 다음 결제 <strong>{SUB.nextChargeDate}</strong></p>
+        <p className="muted small">조건이 바뀌거나 동의를 철회하면 다시 확인해요. 이 체험의 동의는 법적 위임이나 실제 해지가 아니에요.</p>
+
+        <h3>1. 쉬는 기간을 제안하세요</h3>
+        <label className="field">
+          쉬었다 돌아올 기간 (12개월 기준 손익)
+          <select value={k} onChange={(e) => setK(Number(e.target.value))}>
+            {[1, 2, 3, 4, 6].map((months) => (
+              <option key={months} value={months}>{months}개월 ({formatSignedWon(pauseDelta(9900, 11500, 12, months))})</option>
             ))}
-          </li>
-          <li>
-            <b>3. 결제자 인계</b>{' '}
-            <button className="btn primary" onClick={() => act({ type: 'prepare_owner_handoff', actor: 'bot' })}>
-              정책 관문에 요청
-            </button>
-          </li>
-          <li>
-            <b>4. 해지 신청 기록</b>{' '}
-            <button className="btn" onClick={() => act({ type: 'record_cancel_request', actor: 'bot' })}>
-              봇이 기록 시도
-            </button>{' '}
-            <button className="btn" onClick={() => act({ type: 'record_cancel_request', actor: 'me' }, '2026-11-14T18:30:00+09:00')}>
-              결제자가 기록
-            </button>
-          </li>
-          <li>
-            <b>5. 다음 청구</b>{' '}
-            <button
-              className="btn"
-              onClick={() => {
-                setNow('2026-11-17T09:00:00+09:00');
-                act({ type: 'observe_charge', actor: 'bot', charge: { date: '2026-11-17', amountWon: 9900, channel: 'google_play', synthetic: true } }, '2026-11-17T09:00:00+09:00');
-              }}
-            >
-              11/17 Google Play 9,900원 청구 도착
-            </button>
-          </li>
-        </ol>
-        <button className="link" onClick={reset}>
-          처음부터 다시
+          </select>
+        </label>
+        <button type="button" className="btn primary" onClick={() => act(p ? { type: 'revise_terms', actor: 'bot', terms: terms(k) } : { type: 'request_family_review', actor: 'bot', terms: terms(k) })}>
+          {p ? '바뀐 조건으로 다시 제안' : '가족에게 제안'}
         </button>
+        {p && <p className="small"><b>현재 제안</b> · {p.terms.sentence}</p>}
+
+        <h3>2. 각자의 응답을 골라 주세요</h3>
+        {(['mom', 'bro'] as const).map((member) => {
+          const selectedVote = p ? currentVote(p, member) : null;
+          return (
+            <div key={member}>
+              <p className="small"><b>{WHO[member]}</b> · {selectedVote ? VOTES.find((item) => item.value === selectedVote.value)?.label : '응답 전'}</p>
+              <div className="action-row row wrap" role="group" aria-label={`${WHO[member]}의 응답`}>
+                {VOTES.map((item) => (
+                  <button type="button" key={item.value} className={selectedVote?.value === item.value ? 'btn primary' : 'btn'} aria-pressed={selectedVote?.value === item.value} onClick={() => vote(member, item.value)}>
+                    {item.label}
+                  </button>
+                ))}
+                <button type="button" className="btn" onClick={() => act({ type: 'revoke_vote', actor: member })}>응답 철회</button>
+              </div>
+            </div>
+          );
+        })}
+
+        <h3>3. 결제자에게 넘기고 신청을 기록하세요</h3>
+        <div className="action-row row wrap">
+          <button type="button" className="btn primary" onClick={() => act({ type: 'prepare_owner_handoff', actor: 'bot' })}>결제자에게 해지 안내 넘기기</button>
+          <button type="button" className="btn" onClick={() => act({ type: 'record_cancel_request', actor: 'me' }, '2026-11-14T18:30:00+09:00')}>결제자가 해지 요청 기록</button>
+        </div>
+        <p className="muted small">모두 동의해야 인계할 수 있어요. 신청 기록만으로 해지가 끝난 것은 아니에요.</p>
+        <button type="button" className="btn" onClick={() => {
+          setNow('2026-11-17T09:00:00+09:00');
+          act({ type: 'observe_charge', actor: 'bot', charge: { date: '2026-11-17', amountWon: 9900, channel: 'google_play', synthetic: true } }, '2026-11-17T09:00:00+09:00');
+        }}>다음 청구 확인 · 11/17 Google Play 9,900원 (합성)</button>
+        <div className="action-row"><button type="button" className="link" onClick={reset}>체험 처음부터 다시</button></div>
       </div>
+
       <div className="card">
-        <h3>
-          지금 상태: <span className="badge">{STAGE_LABEL[state.stage]}</span>
-        </h3>
-        {last && <p className={`verdict ${last.allowed ? 'good' : 'bad'}`}>{last.text}</p>}
+        <h2>지금 진행 상태</h2>
+        <p><span className="badge">{STAGE_LABEL[state.stage]}</span></p>
+        {last && <p className={`verdict ${last.allowed ? 'good' : 'bad'}`} role="status" aria-live="polite">{last.text}</p>}
         {p && t && (
-          <div className="small">
-            <p>
-              제안 <b>v{p.version}</b>: {p.terms.sentence}
-            </p>
-            <p>
-              동의 {t.agree.map((m) => WHO[m]).join('·') || '-'} · 반대 {t.object.map((m) => WHO[m]).join('·') || '-'} · 보류 {t.abstain.map((m) => WHO[m]).join('·') || '-'} · 미응답 {t.pending.map((m) => WHO[m]).join('·') || '-'}
-            </p>
-            {t.staleIgnored > 0 && <p className="muted">이전 버전 응답 {t.staleIgnored}건은 집계에서 뺐어요.</p>}
-          </div>
+          <ul className="compact-list small">
+            <li>동의 <strong>{t.agree.length}/{p.requiredMembers.length}명</strong> · {t.agree.map((member) => WHO[member]).join('·') || '아직 없음'}</li>
+            <li>반대 {t.object.map((member) => WHO[member]).join('·') || '없음'} · 보류 {t.abstain.map((member) => WHO[member]).join('·') || '없음'}</li>
+            <li>응답 전 {t.pending.map((member) => WHO[member]).join('·') || '없음'}</li>
+          </ul>
         )}
-        <p className="small">해지 확인: {CLOSURE_LABEL[closure.status]}</p>
-        <h3>감사 기록</h3>
-        <table className="tbl small">
-          <thead>
-            <tr>
-              <th>누가</th>
-              <th>행동</th>
-              <th>결과</th>
-              <th>사유</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[...state.audit].reverse().map((a, i) => (
-              <tr key={i}>
-                <td>{WHO[a.actor] ?? a.actor}</td>
-                <td>
-                  <code>{a.action}</code>
-                </td>
-                <td className={a.allowed ? 'pos' : 'neg'}>{a.allowed ? '허용' : '거부'}</td>
-                <td>{a.reasons.map((r) => REASON_TEXT[r]).join(' / ')}</td>
-              </tr>
+        <p className="small">해지 확인: <strong>{CLOSURE_LABEL[closure.status]}</strong></p>
+
+        <details className="disclosure">
+          <summary>처리 기록과 규칙 확인</summary>
+          <p className="small muted">기본 흐름과 같은 정책 규칙으로 이전 조건의 응답과 봇의 기록 권한을 확인해요.</p>
+          <div className="action-row row wrap">
+            <button type="button" className="btn" onClick={() => act({ type: 'record_cancel_request', actor: 'bot' })}>봇의 해지 기록 시도</button>
+            {p && p.version > 1 && (['mom', 'bro'] as const).map((member) => (
+              <button type="button" key={member} className="btn" onClick={() => act({ type: 'cast_vote', actor: member, version: p.version - 1, value: 'agree' })}>
+                {WHO[member]}의 이전 조건에 동의 보내기 (v{p.version - 1})
+              </button>
             ))}
-          </tbody>
-        </table>
+          </div>
+          {p && <p className="small">현재 제안 v{p.version} · 이전 버전 응답 {t?.staleIgnored ?? 0}건은 집계에서 제외했어요.</p>}
+          <div className="table-scroll" tabIndex={0} role="region" aria-label="가족 동의와 해지 처리 기록">
+            <table className="tbl small">
+              <thead><tr><th scope="col">누가</th><th scope="col">행동</th><th scope="col">결과</th><th scope="col">사유</th></tr></thead>
+              <tbody>
+                {[...state.audit].reverse().map((entry, index) => (
+                  <tr key={index}>
+                    <td>{WHO[entry.actor] ?? entry.actor}</td>
+                    <td><code>{entry.action}</code></td>
+                    <td className={entry.allowed ? 'pos' : 'neg'}>{entry.allowed ? '허용' : '거부'}</td>
+                    <td>{entry.reasons.map((reason) => REASON_TEXT[reason]).join(' / ')}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {state.audit.length === 0 && <p className="muted small">제안이나 응답을 보내면 처리 기록이 쌓여요.</p>}
+        </details>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 # Implementation Plan — subs-bot
 
-- [x] 13. household MCP 서버와 도구 12개
+- [x] 13. household MCP 서버와 도구 13개
   - `mcp/server.ts`(stdio JSON-RPC), `scripts/mcp-launch.mjs`(경로 독립 실행), `src/bot/tools.ts`
   - 상태 변경은 `evaluateAction`, 원문 비노출, 숫자 검증, 중복 금지
   - _Requirements: 22, 24, 25, 27_
@@ -15,7 +15,9 @@
   - _Requirements: 23, 26_
   - 커밋: 9883c06
 - [x] 16a. 경로 비교 도구 `compare_channels`, 경로 이동 인계(`request_handoff` switchTo), 이중 결제·환불 안내(`send_cancel_route`), 앱마켓 청구처 문자 연결
-  - _Requirements: 22, 25_
-- [ ] 16. 데모 시나리오 실제 실행(점검 5회)과 재생 데이터
+  - _Requirements: 22, 25, 28, 30_
+- [x] 16. 데모 시나리오 실제 실행(점검 5회)과 재생 데이터
   - `scripts/demo-scenario.ts` → `public/replay/demo.json`
+  - 실제 Kiro 실행: `docs/evidence/bot-runs/20261114154741-demo-replay.json`의 P1~P5, 각 exit 0. 711.908초·도구 34회·정책 거부 5회
+  - 후속 Codex 수정 뒤 Kiro 재실행은 월간 한도로 수행하지 못했다. 이 기록은 수정 전 합성 시나리오의 실행 증거다
   - _Requirements: 17, 24, 25, 26_

@@ -7,7 +7,7 @@
   - _Requirements: 14, 17, 18_
   - 커밋: de96e2e
 - [x] 2. 앱 골격·화이트 톤 레이아웃 (T02)
-  - `src/ui/App.tsx`, `src/ui/styles.css` — 탭 4개(봇 점검 기록·손익 계산기·가족 동의 체험·Kiro로 만든 방법)
+  - `src/ui/App.tsx`, `src/ui/styles.css` — 탭 5개(점검 데모·가격 비교·가족과 결정·쉬었다 돌아오기·작동 원리), 화이트·Kiro 보라 테마와 캐릭터 움직임 제어
   - _Requirements: 17_
   - 커밋: 9883c06
 - [x] 3. 공개 요금 정책 데이터와 조회 (T03)
@@ -55,6 +55,7 @@
 - [x] 19. 메인 재정렬: 재가입 손익을 보조로 (T19, 15:30 사용자 결정)
   - 가족 '해지' 제안에는 신규 요금 한 줄만, 손익 계산기는 보조 탭으로 이동
   - _Requirements: 19, 20, 21_
-- [ ] 12. reviewer 에이전트 검토·수정, README·증거·배포 (T12)
-  - `docs/evidence/review.md`, `docs/evidence/traceability.md`, GitHub Pages
+- [ ] 12. 최종 검토·수정, README·증거·배포 (T12)
+  - `docs/evidence/review.md`는 중단된 Kiro reviewer 시도이며 승인 근거가 아님. 이후 Codex가 검수·수정
+  - `docs/evidence/final-review.md`, `validation.json`, `front-qa.json`, `hook-check.json`, 요구 추적표와 GitHub Pages로 최종 결과 확인
   - _Requirements: 17, 18_

@@ -18,6 +18,26 @@ describe('R05 결제 전 검토함', () => {
   it('R03 같은 구독이 두 번 들어와도 검토함에는 한 번만', () => {
     const inbox = reviewInbox([mk('a', '2026-11-17'), mk('a', '2026-11-17'), mk('b', '2026-12-30')], '2026-11-14');
     expect(inbox.map((i) => i.subscriptionId)).toEqual(['a']);
+    expect(inbox[0]).toMatchObject({ days: 3, daysToDecision: 3, daysToChargeOrTrialEnd: 3 });
+  });
+  it('체험 종료와 App Store 취소 결정 마감까지 남은 일수를 분리한다 [R29]', () => {
+    const trial = { ...mk('trial', '2026-11-16'), trialEndsAt: '2026-11-16', channel: 'app_store' as const };
+    const r = reviewStatus(trial, '2026-11-14');
+    expect(r.status).toBe('d1');
+    expect(r.days).toBe(1); // 기존 필드: 결정 마감까지
+    expect(r.daysToDecision).toBe(1);
+    expect(r.daysToChargeOrTrialEnd).toBe(2);
+  });
+  it('결정 마감 당일과 체험 종료 당일·지난날을 서로 다른 기준으로 표시한다', () => {
+    const trial = { ...mk('trial', '2026-11-16'), trialEndsAt: '2026-11-16', channel: 'app_store' as const };
+    expect(reviewStatus(trial, '2026-11-15')).toMatchObject({ status: 'today', daysToDecision: 0, daysToChargeOrTrialEnd: 1 });
+    expect(reviewStatus(trial, '2026-11-16')).toMatchObject({ status: 'overdue', daysToDecision: -1, daysToChargeOrTrialEnd: 0 });
+    expect(reviewStatus(trial, '2026-11-17')).toMatchObject({ status: 'overdue', daysToDecision: -2, daysToChargeOrTrialEnd: -1 });
+  });
+  it('날짜를 모르면 두 일수 모두 null이고, 체험이 없으면 다음 청구일을 기준으로 한다', () => {
+    expect(reviewStatus(mk('unknown', null), '2026-11-14')).toMatchObject({ status: 'no_date', days: null, daysToDecision: null, daysToChargeOrTrialEnd: null });
+    expect(reviewStatus(mk('regular', '2026-11-17'), '2026-11-14')).toMatchObject({ status: 'd3', days: 3, daysToDecision: 3, daysToChargeOrTrialEnd: 3 });
+    expect(reviewStatus({ ...mk('regular-app', '2026-11-17'), channel: 'app_store' }, '2026-11-14')).toMatchObject({ status: 'd2', days: 2, daysToDecision: 2, daysToChargeOrTrialEnd: 3 });
   });
 });
 

@@ -1,0 +1,156 @@
+{
+  "status": "pass",
+  "verified_at": "2026-11-14T08:01:38.445619+00:00",
+  "source_manifest_sha256": "dd0b6f84983e9643e24a50eb41520da2ca19a317218cc54736bf143417c9ffe5",
+  "source_files_unchanged": true,
+  "base_commit": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
+  "commands": [
+    {
+      "command": "npm run build",
+      "exit": 0,
+      "checks": [
+        "application typecheck",
+        "Node runner and MCP typecheck",
+        "Vite production build"
+      ]
+    },
+    {
+      "command": "node --test tests/hooks/hooks.test.mjs with confirmed CORE and FRONT release environment",
+      "exit": 0,
+      "hook_checks_passed": 7,
+      "project_npm_test_passed": 402,
+      "project_npm_test_failed": 0,
+      "intentional_failure_fixture": "exit 1 expected; separate from project tests",
+      "receipt": "docs/evidence/hook-check.json",
+      "source_stable_during_run": true
+    },
+    {
+      "command": "node scripts/trace-check.mjs",
+      "exit": 0,
+      "requirements": 30,
+      "linked_to_tests": 24,
+      "unexplained_missing": 0
+    },
+    {
+      "command": "isolated headless Chrome via existing deck Puppeteer; local web app",
+      "exit": 0,
+      "browser_checks_passed": 37,
+      "browser_errors": 0,
+      "viewports_css_px": [
+        1440,
+        820,
+        390
+      ],
+      "reflow_equivalent_200_percent": {
+        "css_width": 720,
+        "device_scale_factor": 2
+      },
+      "receipt": "docs/evidence/front-qa.json"
+    },
+    {
+      "command": "clean Git-listed source copy: npm ci --no-audit --no-fund && npm run build",
+      "exit": 0,
+      "source_files": 73,
+      "receipt": "docs/evidence/clean-install.json"
+    }
+  ],
+  "presentation": {
+    "file": "PRESENTATION.pdf",
+    "sha256": "84e3e56a06042934203d6b123ce6c59c89a72529b5ce13e404c86d848ceda25d",
+    "pages": 10,
+    "review": "deck author render check and independent content/visual pass; final screenshot page refreshed"
+  },
+  "limitations": [
+    "Kiro monthly usage limit prevented a new model run after the fixes. Original synthetic recordings remain unchanged.",
+    "Hook checks use synthetic payloads in a Codex harness; they do not prove Kiro dispatched those hooks.",
+    "No real payment, cancellation, refund, family authentication or personal saving outcome was tested."
+  ],
+  "source_files": 73,
+  "independent_review": {
+    "status": "pass",
+    "issue": "A-P1-01 resolved",
+    "source_manifest_sha256": "dd0b6f84983e9643e24a50eb41520da2ca19a317218cc54736bf143417c9ffe5",
+    "related_checks_passed": 31,
+    "known_blocking_p0_p1": 0,
+    "receipt": "docs/evidence/final-review.md",
+    "original_report_sha256": "0f86c7b6baf3b156cf14a6a9cc18b40e80caa122c658a9263ae56319fafa038f"
+  },
+  "demo_business_validation": {
+    "issue": "A-P1-01",
+    "regression_tests_added": 24,
+    "total_project_tests": 402,
+    "coverage": [
+      "expected human allowed and reasons",
+      "stale_version rejection",
+      "family revision and current consent",
+      "handoff and official routes",
+      "old and new channel charge classification",
+      "same-case reopening",
+      "failed replay preservation",
+      "successful replay promotion"
+    ],
+    "kiro_invocations": 0,
+    "preserved_original_replay_sha256": "82dfac5efb1b05a6e82ebf59cc4ac3291a175c9ae394be13b5a4cb07e0113607"
+  },
+  "previous_validation": {
+    "status": "pass",
+    "verified_at": "2026-11-14T07:40:37.150790+00:00",
+    "source_manifest_sha256": "7bf575a84c116ac6cc1649f64991ef101bf23a058454f929223ae0a43667d5a4",
+    "source_files_unchanged": true,
+    "base_commit": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
+    "commands": [
+      {
+        "command": "npm run build",
+        "exit": 0,
+        "checks": [
+          "application typecheck",
+          "Node runner and MCP typecheck",
+          "Vite production build"
+        ]
+      },
+      {
+        "command": "node --test tests/hooks/hooks.test.mjs with confirmed CORE and FRONT release environment",
+        "exit": 0,
+        "hook_checks_passed": 7,
+        "project_npm_test_passed": 378,
+        "project_npm_test_failed": 0,
+        "intentional_failure_fixture": "exit 1 expected; separate from project tests",
+        "receipt": "docs/evidence/hook-check.json"
+      },
+      {
+        "command": "node scripts/trace-check.mjs",
+        "exit": 0,
+        "requirements": 30,
+        "linked_to_tests": 24,
+        "unexplained_missing": 0
+      },
+      {
+        "command": "isolated headless Chrome via existing deck Puppeteer; local web app",
+        "exit": 0,
+        "browser_checks_passed": 37,
+        "browser_errors": 0,
+        "viewports_css_px": [
+          1440,
+          820,
+          390
+        ],
+        "reflow_equivalent_200_percent": {
+          "css_width": 720,
+          "device_scale_factor": 2
+        },
+        "receipt": "docs/evidence/front-qa.json"
+      }
+    ],
+    "presentation": {
+      "file": "PRESENTATION.pdf",
+      "sha256": "84e3e56a06042934203d6b123ce6c59c89a72529b5ce13e404c86d848ceda25d",
+      "pages": 10,
+      "review": "deck author render check and independent content/visual pass; final screenshot page refreshed"
+    },
+    "limitations": [
+      "Kiro monthly usage limit prevented a new model run after the fixes. Original synthetic recordings remain unchanged.",
+      "Hook checks use synthetic payloads in a Codex harness; they do not prove Kiro dispatched those hooks.",
+      "No real payment, cancellation, refund, family authentication or personal saving outcome was tested."
+    ]
+  }
+}
