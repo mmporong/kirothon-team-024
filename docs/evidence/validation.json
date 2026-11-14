@@ -98,5 +98,20 @@
     "pages_commit": "97fc13ab7fb7b30188b1b85a8dac7b7a9c4577ff",
     "public_browser_passed": 37,
     "receipt": "docs/evidence/deployment-check.json"
+  },
+  "previous_release_scope": "Top-level verification and deployment fields describe the earlier release; service_desk_release records the final service update.",
+  "service_desk_release": {
+    "source_manifest_sha256": "3bfd49f3fef65dda2ec9656ae9b4c645bd55cf792609e9480da8c65f19f8fb51",
+    "source_files": 76,
+    "build_exit": 0,
+    "project_tests_passed": 407,
+    "project_tests_failed": 0,
+    "hook_checks_passed": 7,
+    "legacy_local_browser_checks_passed": 37,
+    "service_local_browser_checks_passed": 16,
+    "browser_errors": 0,
+    "service_receipt": "docs/evidence/service-qa.json",
+    "production_asset": "assets/index-DBKPIu3j.js",
+    "additional_tests_after_stop_request": false
   }
 }

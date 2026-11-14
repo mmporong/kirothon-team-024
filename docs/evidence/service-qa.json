@@ -1,0 +1,74 @@
+{
+  "at": "2026-11-14T08:48:29.280Z",
+  "targetUrl": "http://127.0.0.1:4176/",
+  "results": [
+    {
+      "name": "default route is a working subscription desk",
+      "passed": true
+    },
+    {
+      "name": "invalid bill blocked",
+      "passed": true
+    },
+    {
+      "name": "registered record and total",
+      "passed": true
+    },
+    {
+      "name": "reload restores stored subscription",
+      "passed": true
+    },
+    {
+      "name": "edit updates amount",
+      "passed": true
+    },
+    {
+      "name": "manual status survives reload",
+      "passed": true
+    },
+    {
+      "name": "official cancellation link exists",
+      "passed": true
+    },
+    {
+      "name": "selected service and bill reach comparison",
+      "passed": true
+    },
+    {
+      "name": "delete persists",
+      "passed": true
+    },
+    {
+      "name": "example import is explicit and idempotent",
+      "passed": true
+    },
+    {
+      "name": "service layout no overflow 1440",
+      "passed": true
+    },
+    {
+      "name": "service layout no overflow 820",
+      "passed": true
+    },
+    {
+      "name": "service layout no overflow 390",
+      "passed": true
+    },
+    {
+      "name": "service mascot respects reduced motion",
+      "passed": true
+    },
+    {
+      "name": "unverified plan preserves its identity and holds recommendation",
+      "passed": true
+    },
+    {
+      "name": "no browser errors",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "browserClosed": true,
+  "temporaryProfileRemoved": true
+}

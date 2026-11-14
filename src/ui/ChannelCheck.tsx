@@ -1,17 +1,46 @@
 // [R28][R30] 결제 경로 비교: 검증된 가격과 실제 청구액으로 같은 요금제를 비교한다.
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CHANNEL_PRICES, compareChannels, listDifferences, PRICE_STATUS_LABEL, switchSteps } from '../domain/channelPrice';
 import { formatWon } from '../domain/money';
 import { CHANNEL_SHORT, type Channel } from '../domain/types';
 
 const CHANNELS: Channel[] = ['app_store', 'google_play', 'web'];
+const ALL_CHANNELS: Channel[] = [...CHANNELS, 'carrier', 'partner'];
+const DIFFS = listDifferences(CHANNEL_PRICES);
+const SERVICES = CHANNEL_PRICES.services;
+const DEFAULT_KEY = DIFFS[0] ? `${DIFFS[0].service.id}|${DIFFS[0].service.plan}` : `${SERVICES[0]?.id}|${SERVICES[0]?.plan}`;
 
-export function ChannelCheck() {
-  const diffs = useMemo(() => listDifferences(CHANNEL_PRICES), []);
-  const services = CHANNEL_PRICES.services.filter((s) => s.prices.some((p) => p.status === 'verified'));
-  const [key, setKey] = useState(() => (diffs[0] ? `${diffs[0].service.id}|${diffs[0].service.plan}` : `${services[0]?.id}|${services[0]?.plan}`));
-  const [channel, setChannel] = useState<Channel>('app_store');
-  const [charged, setCharged] = useState('');
+function resolveKey(serviceId?: string, planId?: string): string {
+  return SERVICES.some((service) => service.id === serviceId && service.plan === planId) ? `${serviceId}|${planId}` : DEFAULT_KEY;
+}
+
+function resolveChannel(value?: Channel): Channel {
+  return value && ALL_CHANNELS.includes(value) ? value : 'app_store';
+}
+
+function resolveCharge(value?: number): string {
+  return value === undefined ? '' : String(value);
+}
+
+export interface ChannelCheckProps {
+  initialServiceId?: string;
+  initialPlanId?: string;
+  initialChannel?: Channel;
+  initialMonthlyWon?: number;
+}
+
+export function ChannelCheck({ initialServiceId, initialPlanId, initialChannel, initialMonthlyWon }: ChannelCheckProps = {}) {
+  const diffs = DIFFS;
+  const services = SERVICES;
+  const [key, setKey] = useState(() => resolveKey(initialServiceId, initialPlanId));
+  const [channel, setChannel] = useState<Channel>(() => resolveChannel(initialChannel));
+  const [charged, setCharged] = useState(() => resolveCharge(initialMonthlyWon));
+
+  useEffect(() => {
+    setKey(resolveKey(initialServiceId, initialPlanId));
+    setChannel(resolveChannel(initialChannel));
+    setCharged(resolveCharge(initialMonthlyWon));
+  }, [initialServiceId, initialPlanId, initialChannel, initialMonthlyWon]);
   const [serviceId, planId] = key.split('|') as [string, string];
   const sp = CHANNEL_PRICES.services.find((s) => s.id === serviceId && s.plan === planId);
   const chargedText = charged.trim();
@@ -30,7 +59,7 @@ export function ChannelCheck() {
         </div>
         <label className="field">
           서비스·요금제
-          <select value={key} onChange={(e) => setKey(e.target.value)}>
+          <select value={key} onChange={(e) => { setKey(e.target.value); setCharged(''); }}>
             {services.map((s) => (
               <option key={`${s.id}|${s.plan}`} value={`${s.id}|${s.plan}`}>
                 {s.name} {s.plan_label}
