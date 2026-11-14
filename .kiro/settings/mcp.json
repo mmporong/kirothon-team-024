@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "machimpyo": {
+    "household": {
       "command": "node",
       "args": ["scripts/mcp-launch.mjs"],
       "env": {},

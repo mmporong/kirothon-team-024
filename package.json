@@ -1,5 +1,5 @@
 {
-  "name": "machimpyo",
+  "name": "kirothon-team-024",
   "private": true,
   "version": "0.1.0",
   "description": "구독 마침표 — 결제 전에 묻고, 재가입 손익을 계산하고, 가족 동의를 모아 해지하고, 다음 청구까지 확인하는 로컬 우선 웹앱",
@@ -7,11 +7,16 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc -b --pretty false"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "bot:reset": "tsx scripts/bot-patrol.ts --reset --dry",
+    "bot:patrol": "tsx scripts/bot-patrol.ts",
+    "bot:demo": "tsx scripts/demo-scenario.ts",
+    "mcp": "node scripts/mcp-launch.mjs",
+    "verify": "npm run typecheck && npm test && npm run build && node scripts/trace-check.mjs"
   },
   "dependencies": {
     "react": "^19.3.1",
