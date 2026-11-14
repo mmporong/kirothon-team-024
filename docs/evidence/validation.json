@@ -90,8 +90,10 @@
     "source_manifest_sha256": "f1b5903955200462b86aa9db6691d97d7060f922e243d19e60ba9aeb08b773ba"
   },
   "deployment": {
-    "status": "pending_latest_wording_release",
-    "previous_app_deploy": "25d580451f04bc5be7c06d27d09ba28c8f6862e4",
+    "status": "pass",
+    "deployed_source_commit": "845c20391bd8282c74e003a28558064d47fe8794",
+    "pages_commit": "97fc13ab7fb7b30188b1b85a8dac7b7a9c4577ff",
+    "public_browser_passed": 37,
     "receipt": "docs/evidence/deployment-check.json"
   }
 }

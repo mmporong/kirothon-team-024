@@ -1,6 +1,6 @@
 {
-  "at": "2026-11-14T08:04:47.313Z",
-  "targetUrl": "https://mmporong.github.io/kirothon-team-024/?v=25d5804",
+  "at": "2026-11-14T08:17:12.205Z",
+  "targetUrl": "https://mmporong.github.io/kirothon-team-024/?v=845c203",
   "results": [
     {
       "name": "five real chapters",
@@ -223,8 +223,8 @@
   "browserClosed": true,
   "temporaryProfileRemoved": true,
   "status": "pass",
-  "previous_attempt": {
-    "at": "2026-11-14T08:03:23.669Z",
+  "previous_run": {
+    "at": "2026-11-14T08:04:47.313Z",
     "targetUrl": "https://mmporong.github.io/kirothon-team-024/?v=25d5804",
     "results": [
       {
@@ -436,20 +436,246 @@
       },
       {
         "name": "reduced motion starts still",
-        "passed": false
+        "passed": true
       },
       {
-        "name": "harness completed",
-        "passed": false,
-        "detail": "Error: reduced motion starts still: undefined"
+        "name": "no browser errors",
+        "passed": true,
+        "detail": []
       }
     ],
-    "errors": [
-      "Error: reduced motion starts still: undefined"
-    ],
+    "errors": [],
     "browserClosed": true,
-    "temporaryProfileRemoved": true
-  },
-  "harness_adjustment": "The final reduced-motion assertion now waits for the media preference to update the rendered image. No production source was changed.",
-  "scope": "37 checks on the public Pages URL, three CSS widths, keyboard interaction, equivalent 200 percent reflow and reduced motion; synthetic demo data."
+    "temporaryProfileRemoved": true,
+    "status": "pass",
+    "previous_attempt": {
+      "at": "2026-11-14T08:03:23.669Z",
+      "targetUrl": "https://mmporong.github.io/kirothon-team-024/?v=25d5804",
+      "results": [
+        {
+          "name": "five real chapters",
+          "passed": true
+        },
+        {
+          "name": "animated mascot loads",
+          "passed": true
+        },
+        {
+          "name": "mascot frame changes",
+          "passed": true
+        },
+        {
+          "name": "mascot pause control",
+          "passed": true
+        },
+        {
+          "name": "keyboard selects final chapter",
+          "passed": true
+        },
+        {
+          "name": "final case states match replay",
+          "passed": true,
+          "detail": {
+            "caseText": "\uc720\uc720\ud29c\ube0c \ud504\ub9ac\ubbf8\uc5c4\uc608\uc0c1 \ubc16 \uccad\uad6c \u2014 \uc0ac\uac74 \ub2e4\uc2dc \uc5f4\ub9bc\uc0ac\uac74 \ub2e4\uc2dc \uc5f4\ub9bc\ub514\ub514\uc988\ub2c8+ \uc2a4\ud0e0\ub2e4\ub4dc\ud574\uc9c0 \uc694\uccad\ub9cc \uae30\ub85d\ub428 (\uc885\ub8cc \ud655\uc778 \uc544\ub2d8)\uc81c\uc548 2 \u00b7 \ub3d9\uc758 2\uba85 / \ubbf8\uc751\ub2f5 0\uba85\ud574\uc9c0 \uc694\uccad \uae30\ub85d\ub428",
+            "expectedStages": [
+              "\uc0ac\uac74 \ub2e4\uc2dc \uc5f4\ub9bc",
+              "\ud574\uc9c0 \uc694\uccad \uae30\ub85d\ub428"
+            ]
+          }
+        },
+        {
+          "name": "family message switching",
+          "passed": true
+        },
+        {
+          "name": "message disclosure opens",
+          "passed": true
+        },
+        {
+          "name": "next button advances one chapter",
+          "passed": true
+        },
+        {
+          "name": "price channel control updates amount",
+          "passed": true
+        },
+        {
+          "name": "invalid monthly amount has feedback",
+          "passed": true
+        },
+        {
+          "name": "valid monthly amount restores comparison",
+          "passed": true
+        },
+        {
+          "name": "family handoff waits for consent",
+          "passed": true
+        },
+        {
+          "name": "family agreement unlocks handoff",
+          "passed": true
+        },
+        {
+          "name": "withdrawal locks handoff again",
+          "passed": true
+        },
+        {
+          "name": "unexpected charge reopens case in live simulator",
+          "passed": true
+        },
+        {
+          "name": "family reset restores input",
+          "passed": true
+        },
+        {
+          "name": "calculator keyboard input changes result",
+          "passed": true
+        },
+        {
+          "name": "calculator details open with keyboard",
+          "passed": true
+        },
+        {
+          "name": "no page overflow bot 1440",
+          "passed": true,
+          "detail": {
+            "viewport": 1440,
+            "content": 1440
+          }
+        },
+        {
+          "name": "no page overflow channel 1440",
+          "passed": true,
+          "detail": {
+            "viewport": 1440,
+            "content": 1440
+          }
+        },
+        {
+          "name": "no page overflow family 1440",
+          "passed": true,
+          "detail": {
+            "viewport": 1440,
+            "content": 1440
+          }
+        },
+        {
+          "name": "no page overflow calc 1440",
+          "passed": true,
+          "detail": {
+            "viewport": 1440,
+            "content": 1440
+          }
+        },
+        {
+          "name": "no page overflow kiro 1440",
+          "passed": true,
+          "detail": {
+            "viewport": 1440,
+            "content": 1440
+          }
+        },
+        {
+          "name": "no page overflow bot 820",
+          "passed": true,
+          "detail": {
+            "viewport": 820,
+            "content": 820
+          }
+        },
+        {
+          "name": "no page overflow channel 820",
+          "passed": true,
+          "detail": {
+            "viewport": 820,
+            "content": 820
+          }
+        },
+        {
+          "name": "no page overflow family 820",
+          "passed": true,
+          "detail": {
+            "viewport": 820,
+            "content": 820
+          }
+        },
+        {
+          "name": "no page overflow calc 820",
+          "passed": true,
+          "detail": {
+            "viewport": 820,
+            "content": 820
+          }
+        },
+        {
+          "name": "no page overflow kiro 820",
+          "passed": true,
+          "detail": {
+            "viewport": 820,
+            "content": 820
+          }
+        },
+        {
+          "name": "no page overflow bot 390",
+          "passed": true,
+          "detail": {
+            "viewport": 390,
+            "content": 390
+          }
+        },
+        {
+          "name": "no page overflow channel 390",
+          "passed": true,
+          "detail": {
+            "viewport": 390,
+            "content": 390
+          }
+        },
+        {
+          "name": "no page overflow family 390",
+          "passed": true,
+          "detail": {
+            "viewport": 390,
+            "content": 390
+          }
+        },
+        {
+          "name": "no page overflow calc 390",
+          "passed": true,
+          "detail": {
+            "viewport": 390,
+            "content": 390
+          }
+        },
+        {
+          "name": "no page overflow kiro 390",
+          "passed": true,
+          "detail": {
+            "viewport": 390,
+            "content": 390
+          }
+        },
+        {
+          "name": "200 percent equivalent reflow",
+          "passed": true
+        },
+        {
+          "name": "reduced motion starts still",
+          "passed": false
+        },
+        {
+          "name": "harness completed",
+          "passed": false,
+          "detail": "Error: reduced motion starts still: undefined"
+        }
+      ],
+      "errors": [
+        "Error: reduced motion starts still: undefined"
+      ],
+      "browserClosed": true,
+      "temporaryProfileRemoved": true
+    },
+    "harness_adjustment": "The final reduced-motion assertion now waits for the media preference to update the rendered image. No production source was changed.",
+    "scope": "37 checks on the public Pages URL, three CSS widths, keyboard interaction, equivalent 200 percent reflow and reduced motion; synthetic demo data."
+  }
 }
