@@ -29,7 +29,7 @@
       "https://www.bworld.co.kr/customer/notice/view.do?menu_id=C05010000&nt_keynum=2553"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·Disney Korea 시행 공지·B world 구/신요금 표 재검토",
+    "checked_by": "L1-EX6 Disney Korea 시행 공지·B world 구/신요금 표 재검토",
     "valid_for": "한국 Disney+ 일반 웹 구독의 정규 요금 시나리오. 스탠다드 9900원, 프리미엄 13900원을 실제 유지 중인지 계정에서 확인해야 한다. 다른 취득 시점의 기존가·할인액은 자동 대입 금지. B world 가격표는 구가격 대조용이며 파트너 계약의 유지 조건을 일반 웹 계약에 대입하지 않는다. 광고형은 2026-11-10부터 순차, 11-17부터 전체 제공; 11-14 현재 계정별 이용 가능 여부 확인."
   },
   "youtube_premium_kr": {
@@ -59,7 +59,7 @@
       "https://support.google.com/youtube/answer/10217125?hl=ko"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "한국 웹/Android 개인 정규 월가. iOS 인앱·학생·파트너 제외. 연간/다개월 한국 판매 금액=null(미확인). Lite는 음악 등 제외 범위가 달라 같은 플랜으로 손익 비교하지 않는다."
   },
   "netflix_kr": {
@@ -95,7 +95,7 @@
       "https://help.netflix.com/ko/node/24775"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "한국 월간 정규 상품, 추가회원·제휴·기존 베이직 제외. 연간 상품 미제공. 일시정지 가능 결제수단/플랜 여부 확인. VAT 명시는 이번 근거에서 미확인."
   },
   "tving_kr": {
@@ -132,7 +132,7 @@
       "https://www.tving.com/my/subscription"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "한국 단품의 2026 현행 판매가 미확인으로 자동 계산 차단. 광고형 연 49900원은 2025-02-07 출시 공지의 역사값이므로 new_annual에 넣지 않았다. 번들·인앱·제휴 제외."
   },
   "wavve_kr": {
@@ -167,7 +167,7 @@
       "https://apis.wavve.com/passes/v1/service/wavve/pc"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "한국 PC 단품 정규 표시가. 광고형·무광고·동시시청 수가 다른 상품은 같은 조건으로 비교 금지. 계정 청구액·파트너·앱 가격·VAT 명시는 별도 확인."
   },
   "coupang_wow_kr": {
@@ -188,7 +188,7 @@
       "https://play.coupang.com/faq"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "와우 멤버십 자체의 공개 정규 월가. 쇼핑·배달·플레이 포함 효익을 함께 확인. 연간 플랜·독립 광고형 플랜·VAT 명시는 확보 자료에서 미확인."
   },
   "coupang_play_kr": {
@@ -224,7 +224,7 @@
       "https://play.coupang.com/promotion/sportspass"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "한국 기본 무료 범위와 유료 패스를 분리. sports_wow는 와우 7890원 별도 필요하므로 전체 지출은 단순 12400원이 아니다. 연간 미확인, 프리미엄패스 가격/VAT 명시 미확인. 무료 기본은 월가 0으로 손익분기 함수에 전달 금지."
   },
   "spotify_kr": {
@@ -260,7 +260,7 @@
       "https://support.spotify.com/kr-ko/article/cancel-premium/"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "한국 VAT 포함 정규 월가. 연간 가격표 미표시로 null, 가족/해외/인앱 제외. 광고형 Free는 무료 대안이며 Premium 동일 기능 비교가 아니다."
   },
   "millie_kr": {
@@ -282,7 +282,7 @@
       "https://corp.millie.co.kr/policy/terms/"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "한국 WEB 전자책 단품 표시가. 연 142800원은 표준 비교가이며 실제 판매 product_amount 119000원과 구별. 앱/종이책/제휴 제외, VAT 명시 미확인. 미확인 옛 가격을 자동 기존가로 넣지 않는다."
   },
   "watcha_kr": {
@@ -309,7 +309,7 @@
       "https://watcha.com/ko-KR/legals/play_agreement"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "한국 월간 정규 정상가. IBK 제휴 할인은 적격 카드·1회 조건 충족 시에만 별도 입력. 약관의 연 129900원은 환불 예시라 현행 연간 가격으로 사용하지 않는다. 일반 연간 판매가/광고형/VAT 명시 미확인."
   },
   "naver_plus_kr": {
@@ -333,7 +333,7 @@
       "https://help.naver.com/service/23168/contents/24081"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "한국 정규 멤버십 가격. 넷플릭스 광고형 포함은 선택형 디지털 콘텐츠 혜택이며 별도 넷플릭스 요금과 중복 계산 금지. 카드·통신 제휴·가족 공유 효익·VAT 명시는 별도 확인."
   },
   "baemin_club_kr": {
@@ -354,7 +354,7 @@
       "https://terms.baemin.com/content/BAEMINCLUB_658"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "2026 현행 가격/이전 상품 종료 정책의 공식 원문 미확인으로 자동 계산 차단. 2024 오픈 할인가를 2026 기존가로 사용하지 않는다. 광고형·연간·VAT 명시 미확인."
   },
   "apple_one_kr": {
@@ -379,7 +379,7 @@
       "https://www.apple.com/kr/apple-one/"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "한국 정규 월간 묶음, 연간 미제공. 개인 iCloud50GB/가족200GB 포함이므로 별도 iCloud 요금과 중복 계산 금지. VAT 명시·계정별 혜택은 별도 확인."
   },
   "icloud_plus_kr": {
@@ -420,7 +420,7 @@
       "https://support.apple.com/ko-kr/108318"
     ],
     "checked_at": "2026-11-14T14:27:59+09:00",
-    "checked_by": "L1-EX6 Codex·공식 공개 자료 검토",
+    "checked_by": "L1-EX6 공식 공개 자료 검토",
     "valid_for": "한국 월간 저장공간 단품. 기존 청구액 미확인으로 실제 grandfather 손익은 계정 입력 필요. 무료 5GB는 기능/용량이 다름. 다운그레이드 후 용량 초과 시 동기화·업데이트·백업 제한을 점검. 연간 가격표 미제공, 한국 VAT 포함 표기는 현 문서에서 미확인."
   }
 }

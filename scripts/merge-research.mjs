@@ -29,7 +29,7 @@ for (const f of ['channel-prices-A.json', 'channel-prices-B.json']) {
       const rule = review.hold.find((r) => r.service === s.id && (!r.plans || r.plans.includes(s.plan)) && (!r.channels || r.channels.includes(x.channel)));
       prices.push({ channel: x.channel, status, monthly, annual: Number.isSafeInteger(x.annual) ? x.annual : null, currency: x.currency ?? 'KRW', source_url: x.source_url ?? null, source_kind: x.source_kind ?? null, checked_at: x.checked_at ?? null, evidence: x.evidence ?? null, comparable: !rule, comparison_note: rule?.reason ?? null });
     }
-    services.push({ id: s.id, name: s.name, plan: s.plan, plan_label: s.plan_label ?? s.plan, prices, note: review.service_notes?.[s.id] ?? s.note ?? null, researcher: d.researcher ?? f });
+    services.push({ id: s.id, name: s.name, plan: s.plan, plan_label: s.plan_label ?? s.plan, prices, note: review.service_notes?.[s.id] ?? s.note ?? null });
   }
 }
 const now = new Date(Date.now() + 9 * 3600e3).toISOString().replace('Z', '+09:00');

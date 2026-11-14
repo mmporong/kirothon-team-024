@@ -5,1852 +5,22 @@
   "status": "pass",
   "phase": "post_FINAL_CORE_and_final_FRONT_release_gate",
   "core_release": "FINAL-CORE:55pass+가격후속46pass",
-  "front_release": "FINAL-dd0b6f84983e9643e24a50eb41520da2ca19a317218cc54736bf143417c9ffe5",
+  "front_release": "PUBLIC-COPY-20261114",
   "harness_status": "pass",
   "project_tests_status": "pass",
-  "initial_failure_capture": {
-    "phase": "pre_FINAL_CORE_release",
-    "capture_kind": "recovered from Codex tool output; original receipt write was interrupted by cleanup EISDIR",
-    "source_sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-    "source_tree_sha256": null,
-    "source_tree_limitation": "The first failing run did not finish receipt serialization; no full app-source manifest or exact npm counts survived.",
-    "observed_after": "2026-11-14T16:12:41+09:00",
-    "observed_before": "2026-11-14T16:14:24.366+09:00",
-    "command": [
-      "node",
-      "--test",
-      "tests/hooks/hooks.test.mjs"
-    ],
-    "synthetic_input": {
-      "synthetic": true,
-      "hook_event_name": "PostFileSave",
-      "session_id": "codex-hook-project-npm",
-      "file_path": "/Users/lim/kirothon-team-024/tests/hooks/synthetic-trigger.ts"
-    },
-    "test_on_save_exit": 1,
-    "npm_exit": 1,
-    "passed_tests": null,
-    "failed_tests": null,
-    "scope": "The product failures were in another lane; no src/ or existing test files were modified by FINAL-HOOKS.",
-    "failure_summary": [
-      "FINAL-CORE: existing Apple problem charge selected web instead of app_store",
-      "FINAL-CORE: normal new-route charge was accepted for a refund handoff",
-      "FINAL-CORE: no_unexpected_charge expectation failed",
-      "FINAL-CORE: unknown problem-charge route was inferred as app_store",
-      "FINAL-CORE: more expensive App Store handoff was allowed",
-      "FINAL-CORE: unknown destination was accepted",
-      "Harness cleanup: rmSync of empty directory with recursive:false raised EISDIR; changed to rmdirSync"
-    ],
-    "tool_output_excerpt": [
-      "✖ test_on_save_runs_actual_project_npm_test",
-      "AssertionError [ERR_ASSERTION]: TEST-ON-SAVE: 실패 (exit 1). 실패한 시험을 확인하세요.",
-      "FAIL  tests/bot/tools.test.ts > FINAL-CORE 문제 청구의 환불 경로 > 수집 순서와 무관하게 기존 Apple 문제 청구만 안내한다",
-      "AssertionError: expected 'web' to be 'app_store' // Object.is equality",
-      "1 !== 0",
-      "SystemError [ERR_FS_EISDIR]: Path is a directory: rm returned EISDIR (is a directory) /Users/lim/kirothon-team-024/tests/hooks/.runtime"
-    ]
-  },
-  "run_history": [
-    {
-      "phase": "pre_release_observation",
-      "finished_at": "2026-11-14T16:14:26.764+09:00",
-      "source_sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-      "source_tree_sha256": "d84d119be8578d36e35f959e9def58e2175d5411d77a9974e7708d30da5bcbbf",
-      "status": "pass",
-      "cases": [
-        {
-          "id": "messages_db_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_db_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/chat.db"
-            }
-          },
-          "started_at": "2026-11-14T16:14:24.271+09:00",
-          "finished_at": "2026-11-14T16:14:24.292+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 80873,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:14:24.289+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_db_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "messages_attachment_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_attachment_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/Attachments/synthetic.txt"
-            }
-          },
-          "started_at": "2026-11-14T16:14:24.292+09:00",
-          "finished_at": "2026-11-14T16:14:24.311+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 80874,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:14:24.309+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_attachment_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "ordinary_read_allowed",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-ordinary_read_allowed",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/src/domain/policy.ts"
-            }
-          },
-          "started_at": "2026-11-14T16:14:24.311+09:00",
-          "finished_at": "2026-11-14T16:14:24.329+09:00",
-          "exit": 0,
-          "signal": null,
-          "child_pid": 80875,
-          "stdout": "",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 0,
-          "tool_executed": false
-        },
-        {
-          "id": "secret_file_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-secret_file_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/.env"
-            }
-          },
-          "started_at": "2026-11-14T16:14:24.329+09:00",
-          "finished_at": "2026-11-14T16:14:24.349+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 80876,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G5-secrets]: 비밀 파일 접근 금지\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:14:24.346+09:00",
-            "hook": "pretool-guard",
-            "rule": "G5-secrets",
-            "tool": "read_file",
-            "session": "codex-secret_file_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "project_npm_test",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/test-on-save.mjs",
-            "--config",
-            "tests/hooks/vitest-hook.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PostFileSave",
-            "session_id": "codex-hook-project-npm",
-            "file_path": "/Users/lim/kirothon-team-024/tests/hooks/synthetic-trigger.ts"
-          },
-          "started_at": "2026-11-14T16:14:24.349+09:00",
-          "finished_at": "2026-11-14T16:14:26.478+09:00",
-          "exit": 0,
-          "signal": null,
-          "child_pid": 80877,
-          "stdout": "TEST-ON-SAVE: 통과 369개 (2109ms)\n",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": "same as actual npm test exit, including product failures",
-          "evidence": {
-            "at": "2026-11-14T16:14:24.366+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-project-npm",
-            "file": "tests/hooks/synthetic-trigger.ts",
-            "command": [
-              "npm",
-              "test",
-              "--",
-              "--reporter=dot",
-              "--config",
-              "tests/hooks/vitest-hook.config.mjs",
-              "--configLoader",
-              "native",
-              "--no-cache",
-              "--no-fsModuleCache"
-            ],
-            "testsExecuted": true,
-            "childPid": 80878,
-            "exit": 0,
-            "signal": null,
-            "error": null,
-            "failed": 0,
-            "passed": 369,
-            "ms": 2109,
-            "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-            "dirtyFiles": null,
-            "shaSource": "git-metadata-readonly"
-          },
-          "project_tests_status": "pass"
-        },
-        {
-          "id": "expected_npm_failure",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/test-on-save.mjs",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PostFileSave",
-            "session_id": "codex-hook-fault-injection",
-            "file_path": "/Users/lim/kirothon-team-024/tests/hooks/synthetic-trigger.ts"
-          },
-          "started_at": "2026-11-14T16:14:26.479+09:00",
-          "finished_at": "2026-11-14T16:14:26.752+09:00",
-          "exit": 1,
-          "signal": null,
-          "child_pid": 80929,
-          "stdout": "TEST-ON-SAVE: 실패 (exit 1). 실패한 시험을 확인하세요.\n FAIL  tests/hooks/fixtures/failure.case.mjs > synthetic npm failure for exit propagation\nError: SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS\n     18|   throw new Error('SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS');\n",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 1,
-          "scope": "isolated deliberate failure fixture; not a product test failure",
-          "evidence": {
-            "at": "2026-11-14T16:14:26.496+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-fault-injection",
-            "file": "tests/hooks/synthetic-trigger.ts",
-            "command": [
-              "npm",
-              "test",
-              "--",
-              "--reporter=dot",
-              "--config",
-              "tests/hooks/fixtures/failure.config.mjs",
-              "--configLoader",
-              "native",
-              "--no-cache",
-              "--no-fsModuleCache"
-            ],
-            "testsExecuted": true,
-            "childPid": 80930,
-            "exit": 1,
-            "signal": null,
-            "error": null,
-            "failed": 1,
-            "passed": 1,
-            "ms": 252,
-            "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-            "dirtyFiles": null,
-            "shaSource": "git-metadata-readonly"
-          },
-          "nested_evidence": {
-            "at": "2026-11-14T16:14:26.712+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-nested",
-            "file": "tests/hooks/fixtures/failure.case.mjs",
-            "skipped": "reentrant",
-            "testsExecuted": false
-          }
-        }
-      ],
-      "npm_runs": [
-        {
-          "at": "2026-11-14T16:14:24.366+09:00",
-          "hook": "test-on-save",
-          "event": "PostFileSave",
-          "session": "codex-hook-project-npm",
-          "file": "tests/hooks/synthetic-trigger.ts",
-          "command": [
-            "npm",
-            "test",
-            "--",
-            "--reporter=dot",
-            "--config",
-            "tests/hooks/vitest-hook.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "testsExecuted": true,
-          "childPid": 80878,
-          "exit": 0,
-          "signal": null,
-          "error": null,
-          "failed": 0,
-          "passed": 369,
-          "ms": 2109,
-          "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-          "dirtyFiles": null,
-          "shaSource": "git-metadata-readonly"
-        },
-        {
-          "at": "2026-11-14T16:14:26.496+09:00",
-          "hook": "test-on-save",
-          "event": "PostFileSave",
-          "session": "codex-hook-fault-injection",
-          "file": "tests/hooks/synthetic-trigger.ts",
-          "command": [
-            "npm",
-            "test",
-            "--",
-            "--reporter=dot",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "testsExecuted": true,
-          "childPid": 80930,
-          "exit": 1,
-          "signal": null,
-          "error": null,
-          "failed": 1,
-          "passed": 1,
-          "ms": 252,
-          "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-          "dirtyFiles": null,
-          "shaSource": "git-metadata-readonly"
-        }
-      ]
-    },
-    {
-      "phase": "hook_only_verification",
-      "finished_at": "2026-11-14T16:17:21.343+09:00",
-      "source_sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-      "source_tree_sha256": "3309cd8352a77074c3e7ff6cfbe6c25ea30ea5b77f171e7237dbdfdc02bda3a4",
-      "status": "hooks_ready_awaiting_core_release",
-      "cases": [
-        {
-          "id": "messages_db_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_db_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/chat.db"
-            }
-          },
-          "started_at": "2026-11-14T16:17:20.897+09:00",
-          "finished_at": "2026-11-14T16:17:20.919+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 83598,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:17:20.916+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_db_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "messages_attachment_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_attachment_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/Attachments/synthetic.txt"
-            }
-          },
-          "started_at": "2026-11-14T16:17:20.920+09:00",
-          "finished_at": "2026-11-14T16:17:20.940+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 83599,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:17:20.937+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_attachment_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "ordinary_read_allowed",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-ordinary_read_allowed",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/src/domain/policy.ts"
-            }
-          },
-          "started_at": "2026-11-14T16:17:20.940+09:00",
-          "finished_at": "2026-11-14T16:17:20.959+09:00",
-          "exit": 0,
-          "signal": null,
-          "child_pid": 83600,
-          "stdout": "",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 0,
-          "tool_executed": false
-        },
-        {
-          "id": "secret_file_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-secret_file_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/.env"
-            }
-          },
-          "started_at": "2026-11-14T16:17:20.959+09:00",
-          "finished_at": "2026-11-14T16:17:20.980+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 83601,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G5-secrets]: 비밀 파일 접근 금지\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:17:20.977+09:00",
-            "hook": "pretool-guard",
-            "rule": "G5-secrets",
-            "tool": "read_file",
-            "session": "codex-secret_file_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "expected_npm_failure",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/test-on-save.mjs",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PostFileSave",
-            "session_id": "codex-hook-fault-injection",
-            "file_path": "/Users/lim/kirothon-team-024/tests/hooks/synthetic-trigger.ts"
-          },
-          "started_at": "2026-11-14T16:17:20.980+09:00",
-          "finished_at": "2026-11-14T16:17:21.331+09:00",
-          "exit": 1,
-          "signal": null,
-          "child_pid": 83602,
-          "stdout": "TEST-ON-SAVE: 실패 (exit 1). 실패한 시험을 확인하세요.\n FAIL  tests/hooks/fixtures/failure.case.mjs > synthetic npm failure for exit propagation\nError: SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS\n     18|   throw new Error('SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS');\n",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 1,
-          "scope": "isolated deliberate failure fixture; not a product test failure",
-          "evidence": {
-            "at": "2026-11-14T16:17:20.998+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-fault-injection",
-            "file": "tests/hooks/synthetic-trigger.ts",
-            "command": [
-              "npm",
-              "test",
-              "--",
-              "--reporter=dot",
-              "--config",
-              "tests/hooks/fixtures/failure.config.mjs",
-              "--configLoader",
-              "native",
-              "--no-cache",
-              "--no-fsModuleCache"
-            ],
-            "testsExecuted": true,
-            "childPid": 83603,
-            "exit": 1,
-            "signal": null,
-            "error": null,
-            "failed": 1,
-            "passed": 1,
-            "ms": 329,
-            "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-            "dirtyFiles": null,
-            "shaSource": "git-metadata-readonly"
-          },
-          "nested_evidence": {
-            "at": "2026-11-14T16:17:21.272+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-nested",
-            "file": "tests/hooks/fixtures/failure.case.mjs",
-            "skipped": "reentrant",
-            "testsExecuted": false
-          }
-        }
-      ],
-      "npm_runs": [
-        {
-          "at": "2026-11-14T16:17:20.998+09:00",
-          "hook": "test-on-save",
-          "event": "PostFileSave",
-          "session": "codex-hook-fault-injection",
-          "file": "tests/hooks/synthetic-trigger.ts",
-          "command": [
-            "npm",
-            "test",
-            "--",
-            "--reporter=dot",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "testsExecuted": true,
-          "childPid": 83603,
-          "exit": 1,
-          "signal": null,
-          "error": null,
-          "failed": 1,
-          "passed": 1,
-          "ms": 329,
-          "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-          "dirtyFiles": null,
-          "shaSource": "git-metadata-readonly"
-        }
-      ]
-    },
-    {
-      "phase": "hook_only_verification",
-      "finished_at": "2026-11-14T16:19:33.636+09:00",
-      "source_sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-      "source_tree_sha256": "22d43126cb190234cad031120fbb81d2846ef91b92215c2152453f30e0c44a7a",
-      "status": "hooks_ready_awaiting_core_release",
-      "cases": [
-        {
-          "id": "messages_db_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_db_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/chat.db"
-            }
-          },
-          "started_at": "2026-11-14T16:19:33.171+09:00",
-          "finished_at": "2026-11-14T16:19:33.193+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 85970,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:19:33.190+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_db_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "messages_attachment_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_attachment_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/Attachments/synthetic.txt"
-            }
-          },
-          "started_at": "2026-11-14T16:19:33.194+09:00",
-          "finished_at": "2026-11-14T16:19:33.215+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 85971,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:19:33.212+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_attachment_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "ordinary_read_allowed",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-ordinary_read_allowed",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/src/domain/policy.ts"
-            }
-          },
-          "started_at": "2026-11-14T16:19:33.216+09:00",
-          "finished_at": "2026-11-14T16:19:33.235+09:00",
-          "exit": 0,
-          "signal": null,
-          "child_pid": 85972,
-          "stdout": "",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 0,
-          "tool_executed": false
-        },
-        {
-          "id": "secret_file_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-secret_file_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/.env"
-            }
-          },
-          "started_at": "2026-11-14T16:19:33.235+09:00",
-          "finished_at": "2026-11-14T16:19:33.256+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 85973,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G5-secrets]: 비밀 파일 접근 금지\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:19:33.253+09:00",
-            "hook": "pretool-guard",
-            "rule": "G5-secrets",
-            "tool": "read_file",
-            "session": "codex-secret_file_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "missing_release_reference_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "tests/hooks/hooks.test.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "probe": "release gate"
-          },
-          "started_at": "2026-11-14T16:19:33.256+09:00",
-          "finished_at": "2026-11-14T16:19:33.280+09:00",
-          "exit": 1,
-          "signal": null,
-          "child_pid": 85974,
-          "stdout": "",
-          "stderr": "file:///Users/lim/kirothon-team-024/tests/hooks/hooks.test.mjs:15\nif (RUN_PROJECT_TESTS && !CORE_RELEASE) throw new Error('A confirmed FINAL-CORE release reference is required for the project test gate');\n                                              ^\n\nError: A confirmed FINAL-CORE release reference is required for the project test gate\n    at file:///Users/lim/kirothon-team-024/tests/hooks/hooks.test.mjs:15:47\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.0\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 1
-        },
-        {
-          "id": "expected_npm_failure",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/test-on-save.mjs",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PostFileSave",
-            "session_id": "codex-hook-fault-injection",
-            "file_path": "/Users/lim/kirothon-team-024/tests/hooks/synthetic-trigger.ts"
-          },
-          "started_at": "2026-11-14T16:19:33.280+09:00",
-          "finished_at": "2026-11-14T16:19:33.625+09:00",
-          "exit": 1,
-          "signal": null,
-          "child_pid": 85975,
-          "stdout": "TEST-ON-SAVE: 실패 (exit 1). 실패한 시험을 확인하세요.\n FAIL  tests/hooks/fixtures/failure.case.mjs > synthetic npm failure for exit propagation\nError: SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS\n     18|   throw new Error('SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS');\n",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 1,
-          "scope": "isolated deliberate failure fixture; not a product test failure",
-          "evidence": {
-            "at": "2026-11-14T16:19:33.298+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-fault-injection",
-            "file": "tests/hooks/synthetic-trigger.ts",
-            "command": [
-              "npm",
-              "test",
-              "--",
-              "--reporter=dot",
-              "--config",
-              "tests/hooks/fixtures/failure.config.mjs",
-              "--configLoader",
-              "native",
-              "--no-cache",
-              "--no-fsModuleCache"
-            ],
-            "testsExecuted": true,
-            "childPid": 85976,
-            "exit": 1,
-            "signal": null,
-            "error": null,
-            "failed": 1,
-            "passed": 1,
-            "ms": 322,
-            "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-            "dirtyFiles": null,
-            "shaSource": "git-metadata-readonly"
-          },
-          "nested_evidence": {
-            "at": "2026-11-14T16:19:33.565+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-nested",
-            "file": "tests/hooks/fixtures/failure.case.mjs",
-            "skipped": "reentrant",
-            "testsExecuted": false
-          }
-        }
-      ],
-      "npm_runs": [
-        {
-          "at": "2026-11-14T16:19:33.298+09:00",
-          "hook": "test-on-save",
-          "event": "PostFileSave",
-          "session": "codex-hook-fault-injection",
-          "file": "tests/hooks/synthetic-trigger.ts",
-          "command": [
-            "npm",
-            "test",
-            "--",
-            "--reporter=dot",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "testsExecuted": true,
-          "childPid": 85976,
-          "exit": 1,
-          "signal": null,
-          "error": null,
-          "failed": 1,
-          "passed": 1,
-          "ms": 322,
-          "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-          "dirtyFiles": null,
-          "shaSource": "git-metadata-readonly"
-        }
-      ]
-    },
-    {
-      "phase": "hook_only_verification",
-      "finished_at": "2026-11-14T16:22:15.911+09:00",
-      "source_sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-      "source_tree_sha256": "782aa42ef2ea09a9748d63a28e2c007e5575ae348c3158960204e8a43bfe3279",
-      "status": "hooks_ready_awaiting_core_release",
-      "cases": [
-        {
-          "id": "messages_db_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_db_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/chat.db"
-            }
-          },
-          "started_at": "2026-11-14T16:22:15.450+09:00",
-          "finished_at": "2026-11-14T16:22:15.471+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 89185,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:22:15.468+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_db_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "messages_attachment_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_attachment_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/Attachments/synthetic.txt"
-            }
-          },
-          "started_at": "2026-11-14T16:22:15.471+09:00",
-          "finished_at": "2026-11-14T16:22:15.492+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 89186,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:22:15.489+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_attachment_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "ordinary_read_allowed",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-ordinary_read_allowed",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/src/domain/policy.ts"
-            }
-          },
-          "started_at": "2026-11-14T16:22:15.492+09:00",
-          "finished_at": "2026-11-14T16:22:15.510+09:00",
-          "exit": 0,
-          "signal": null,
-          "child_pid": 89187,
-          "stdout": "",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 0,
-          "tool_executed": false
-        },
-        {
-          "id": "secret_file_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-secret_file_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/.env"
-            }
-          },
-          "started_at": "2026-11-14T16:22:15.510+09:00",
-          "finished_at": "2026-11-14T16:22:15.530+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 89188,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G5-secrets]: 비밀 파일 접근 금지\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:22:15.527+09:00",
-            "hook": "pretool-guard",
-            "rule": "G5-secrets",
-            "tool": "read_file",
-            "session": "codex-secret_file_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "missing_release_reference_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "tests/hooks/hooks.test.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "probe": "release gate"
-          },
-          "started_at": "2026-11-14T16:22:15.530+09:00",
-          "finished_at": "2026-11-14T16:22:15.553+09:00",
-          "exit": 1,
-          "signal": null,
-          "child_pid": 89189,
-          "stdout": "",
-          "stderr": "file:///Users/lim/kirothon-team-024/tests/hooks/hooks.test.mjs:15\nif (RUN_PROJECT_TESTS && !CORE_RELEASE) throw new Error('A confirmed FINAL-CORE release reference is required for the project test gate');\n                                              ^\n\nError: A confirmed FINAL-CORE release reference is required for the project test gate\n    at file:///Users/lim/kirothon-team-024/tests/hooks/hooks.test.mjs:15:47\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.0\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 1
-        },
-        {
-          "id": "expected_npm_failure",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/test-on-save.mjs",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PostFileSave",
-            "session_id": "codex-hook-fault-injection",
-            "file_path": "/Users/lim/kirothon-team-024/tests/hooks/synthetic-trigger.ts"
-          },
-          "started_at": "2026-11-14T16:22:15.553+09:00",
-          "finished_at": "2026-11-14T16:22:15.900+09:00",
-          "exit": 1,
-          "signal": null,
-          "child_pid": 89190,
-          "stdout": "TEST-ON-SAVE: 실패 (exit 1). 실패한 시험을 확인하세요.\n FAIL  tests/hooks/fixtures/failure.case.mjs > synthetic npm failure for exit propagation\nError: SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS\n     18|   throw new Error('SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS');\n",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 1,
-          "scope": "isolated deliberate failure fixture; not a product test failure",
-          "evidence": {
-            "at": "2026-11-14T16:22:15.571+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-fault-injection",
-            "file": "tests/hooks/synthetic-trigger.ts",
-            "command": [
-              "npm",
-              "test",
-              "--",
-              "--reporter=dot",
-              "--config",
-              "tests/hooks/fixtures/failure.config.mjs",
-              "--configLoader",
-              "native",
-              "--no-cache",
-              "--no-fsModuleCache"
-            ],
-            "testsExecuted": true,
-            "childPid": 89191,
-            "exit": 1,
-            "signal": null,
-            "error": null,
-            "failed": 1,
-            "passed": 1,
-            "ms": 325,
-            "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-            "dirtyFiles": null,
-            "shaSource": "git-metadata-readonly"
-          },
-          "nested_evidence": {
-            "at": "2026-11-14T16:22:15.840+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-nested",
-            "file": "tests/hooks/fixtures/failure.case.mjs",
-            "skipped": "reentrant",
-            "testsExecuted": false
-          }
-        }
-      ],
-      "npm_runs": [
-        {
-          "at": "2026-11-14T16:22:15.571+09:00",
-          "hook": "test-on-save",
-          "event": "PostFileSave",
-          "session": "codex-hook-fault-injection",
-          "file": "tests/hooks/synthetic-trigger.ts",
-          "command": [
-            "npm",
-            "test",
-            "--",
-            "--reporter=dot",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "testsExecuted": true,
-          "childPid": 89191,
-          "exit": 1,
-          "signal": null,
-          "error": null,
-          "failed": 1,
-          "passed": 1,
-          "ms": 325,
-          "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-          "dirtyFiles": null,
-          "shaSource": "git-metadata-readonly"
-        }
-      ]
-    },
-    {
-      "phase": "hook_only_verification",
-      "finished_at": "2026-11-14T16:28:16.550+09:00",
-      "source_sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-      "source_tree_sha256": "6d2bfd154cdb2410b5c998e42d0bc2d2e9cebcba1d265891b02e5b3eb949fbe8",
-      "status": "hooks_ready_awaiting_final_front_release",
-      "cases": [
-        {
-          "id": "messages_db_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_db_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/chat.db"
-            }
-          },
-          "started_at": "2026-11-14T16:28:16.075+09:00",
-          "finished_at": "2026-11-14T16:28:16.099+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 92881,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:28:16.095+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_db_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "messages_attachment_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_attachment_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/Attachments/synthetic.txt"
-            }
-          },
-          "started_at": "2026-11-14T16:28:16.099+09:00",
-          "finished_at": "2026-11-14T16:28:16.120+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 92883,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:28:16.116+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_attachment_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "ordinary_read_allowed",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-ordinary_read_allowed",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/src/domain/policy.ts"
-            }
-          },
-          "started_at": "2026-11-14T16:28:16.120+09:00",
-          "finished_at": "2026-11-14T16:28:16.139+09:00",
-          "exit": 0,
-          "signal": null,
-          "child_pid": 92884,
-          "stdout": "",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 0,
-          "tool_executed": false
-        },
-        {
-          "id": "secret_file_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-secret_file_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/.env"
-            }
-          },
-          "started_at": "2026-11-14T16:28:16.139+09:00",
-          "finished_at": "2026-11-14T16:28:16.161+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 92885,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G5-secrets]: 비밀 파일 접근 금지\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:28:16.158+09:00",
-            "hook": "pretool-guard",
-            "rule": "G5-secrets",
-            "tool": "read_file",
-            "session": "codex-secret_file_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "missing_release_reference_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "tests/hooks/hooks.test.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "probe": "release gate"
-          },
-          "started_at": "2026-11-14T16:28:16.161+09:00",
-          "finished_at": "2026-11-14T16:28:16.185+09:00",
-          "exit": 1,
-          "signal": null,
-          "child_pid": 92886,
-          "stdout": "",
-          "stderr": "file:///Users/lim/kirothon-team-024/tests/hooks/hooks.test.mjs:16\nif (RUN_PROJECT_TESTS && (!CORE_RELEASE || !FRONT_RELEASE)) throw new Error('Confirmed FINAL-CORE and final FRONT release references are required for the project test gate');\n                                                                  ^\n\nError: Confirmed FINAL-CORE and final FRONT release references are required for the project test gate\n    at file:///Users/lim/kirothon-team-024/tests/hooks/hooks.test.mjs:16:67\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.0\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 1
-        },
-        {
-          "id": "expected_npm_failure",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/test-on-save.mjs",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PostFileSave",
-            "session_id": "codex-hook-fault-injection",
-            "file_path": "/Users/lim/kirothon-team-024/tests/hooks/synthetic-trigger.ts"
-          },
-          "started_at": "2026-11-14T16:28:16.185+09:00",
-          "finished_at": "2026-11-14T16:28:16.536+09:00",
-          "exit": 1,
-          "signal": null,
-          "child_pid": 92888,
-          "stdout": "TEST-ON-SAVE: 실패 (exit 1). 실패한 시험을 확인하세요.\n FAIL  tests/hooks/fixtures/failure.case.mjs > synthetic npm failure for exit propagation\nError: SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS\n     18|   throw new Error('SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS');\n",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 1,
-          "scope": "isolated deliberate failure fixture; not a product test failure",
-          "evidence": {
-            "at": "2026-11-14T16:28:16.203+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-fault-injection",
-            "file": "tests/hooks/synthetic-trigger.ts",
-            "command": [
-              "npm",
-              "test",
-              "--",
-              "--reporter=dot",
-              "--config",
-              "tests/hooks/fixtures/failure.config.mjs",
-              "--configLoader",
-              "native",
-              "--no-cache",
-              "--no-fsModuleCache"
-            ],
-            "testsExecuted": true,
-            "childPid": 92889,
-            "exit": 1,
-            "signal": null,
-            "error": null,
-            "failed": 1,
-            "passed": 1,
-            "ms": 330,
-            "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-            "dirtyFiles": null,
-            "shaSource": "git-metadata-readonly"
-          },
-          "nested_evidence": {
-            "at": "2026-11-14T16:28:16.474+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-nested",
-            "file": "tests/hooks/fixtures/failure.case.mjs",
-            "skipped": "reentrant",
-            "testsExecuted": false
-          }
-        }
-      ],
-      "npm_runs": [
-        {
-          "at": "2026-11-14T16:28:16.203+09:00",
-          "hook": "test-on-save",
-          "event": "PostFileSave",
-          "session": "codex-hook-fault-injection",
-          "file": "tests/hooks/synthetic-trigger.ts",
-          "command": [
-            "npm",
-            "test",
-            "--",
-            "--reporter=dot",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "testsExecuted": true,
-          "childPid": 92889,
-          "exit": 1,
-          "signal": null,
-          "error": null,
-          "failed": 1,
-          "passed": 1,
-          "ms": 330,
-          "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-          "dirtyFiles": null,
-          "shaSource": "git-metadata-readonly"
-        }
-      ]
-    },
-    {
-      "phase": "post_FINAL_CORE_and_final_FRONT_release_gate",
-      "finished_at": "2026-11-14T16:39:18.487+09:00",
-      "source_sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-      "source_tree_sha256": "4a1cac59057c7c4063f8ed582c7027b90eb455276e0410cd5c2c411327a9670e",
-      "status": "pass",
-      "cases": [
-        {
-          "id": "messages_db_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_db_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/chat.db"
-            }
-          },
-          "started_at": "2026-11-14T16:39:15.318+09:00",
-          "finished_at": "2026-11-14T16:39:15.339+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 794,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:39:15.336+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_db_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "messages_attachment_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-messages_attachment_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/Users/synthetic/Library/Messages/Attachments/synthetic.txt"
-            }
-          },
-          "started_at": "2026-11-14T16:39:15.339+09:00",
-          "finished_at": "2026-11-14T16:39:15.358+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 795,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:39:15.356+09:00",
-            "hook": "pretool-guard",
-            "rule": "G1-raw-messages",
-            "tool": "read_file",
-            "session": "codex-messages_attachment_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "ordinary_read_allowed",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-ordinary_read_allowed",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/src/domain/policy.ts"
-            }
-          },
-          "started_at": "2026-11-14T16:39:15.359+09:00",
-          "finished_at": "2026-11-14T16:39:15.376+09:00",
-          "exit": 0,
-          "signal": null,
-          "child_pid": 796,
-          "stdout": "",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 0,
-          "tool_executed": false
-        },
-        {
-          "id": "secret_file_read_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/pretool-guard.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PreToolUse",
-            "session_id": "codex-secret_file_read_denied",
-            "tool_name": "read_file",
-            "tool_input": {
-              "path": "/synthetic/project/.env"
-            }
-          },
-          "started_at": "2026-11-14T16:39:15.376+09:00",
-          "finished_at": "2026-11-14T16:39:15.395+09:00",
-          "exit": 2,
-          "signal": null,
-          "child_pid": 797,
-          "stdout": "",
-          "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G5-secrets]: 비밀 파일 접근 금지\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 2,
-          "tool_executed": false,
-          "denial": {
-            "at": "2026-11-14T16:39:15.393+09:00",
-            "hook": "pretool-guard",
-            "rule": "G5-secrets",
-            "tool": "read_file",
-            "session": "codex-secret_file_read_denied",
-            "blocked": true
-          }
-        },
-        {
-          "id": "project_npm_test",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/test-on-save.mjs",
-            "--config",
-            "tests/hooks/vitest-hook.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PostFileSave",
-            "session_id": "codex-hook-project-npm",
-            "file_path": "/Users/lim/kirothon-team-024/tests/hooks/synthetic-trigger.ts"
-          },
-          "started_at": "2026-11-14T16:39:15.396+09:00",
-          "finished_at": "2026-11-14T16:39:18.173+09:00",
-          "exit": 0,
-          "signal": null,
-          "child_pid": 798,
-          "stdout": "TEST-ON-SAVE: 통과 378개 (2756ms)\n",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": "same as actual npm test exit, including product failures",
-          "evidence": {
-            "at": "2026-11-14T16:39:15.413+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-project-npm",
-            "file": "tests/hooks/synthetic-trigger.ts",
-            "command": [
-              "npm",
-              "test",
-              "--",
-              "--reporter=dot",
-              "--config",
-              "tests/hooks/vitest-hook.config.mjs",
-              "--configLoader",
-              "native",
-              "--no-cache",
-              "--no-fsModuleCache"
-            ],
-            "testsExecuted": true,
-            "childPid": 799,
-            "exit": 0,
-            "signal": null,
-            "error": null,
-            "failed": 0,
-            "passed": 378,
-            "ms": 2756,
-            "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-            "dirtyFiles": null,
-            "shaSource": "git-metadata-readonly"
-          },
-          "project_tests_status": "pass"
-        },
-        {
-          "id": "missing_release_reference_denied",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "tests/hooks/hooks.test.mjs"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "probe": "release gate"
-          },
-          "started_at": "2026-11-14T16:39:18.173+09:00",
-          "finished_at": "2026-11-14T16:39:18.197+09:00",
-          "exit": 1,
-          "signal": null,
-          "child_pid": 873,
-          "stdout": "",
-          "stderr": "file:///Users/lim/kirothon-team-024/tests/hooks/hooks.test.mjs:16\nif (RUN_PROJECT_TESTS && (!CORE_RELEASE || !FRONT_RELEASE)) throw new Error('Confirmed FINAL-CORE and final FRONT release references are required for the project test gate');\n                                                                  ^\n\nError: Confirmed FINAL-CORE and final FRONT release references are required for the project test gate\n    at file:///Users/lim/kirothon-team-024/tests/hooks/hooks.test.mjs:16:67\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.0\n",
-          "error": null,
-          "passed": true,
-          "expected_exit": 1
-        },
-        {
-          "id": "expected_npm_failure",
-          "synthetic": true,
-          "command": [
-            "/usr/local/bin/node",
-            "scripts/hooks/test-on-save.mjs",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "cwd": "/Users/lim/kirothon-team-024",
-          "stdin": {
-            "synthetic": true,
-            "hook_event_name": "PostFileSave",
-            "session_id": "codex-hook-fault-injection",
-            "file_path": "/Users/lim/kirothon-team-024/tests/hooks/synthetic-trigger.ts"
-          },
-          "started_at": "2026-11-14T16:39:18.197+09:00",
-          "finished_at": "2026-11-14T16:39:18.475+09:00",
-          "exit": 1,
-          "signal": null,
-          "child_pid": 875,
-          "stdout": "TEST-ON-SAVE: 실패 (exit 1). 실패한 시험을 확인하세요.\n FAIL  tests/hooks/fixtures/failure.case.mjs > synthetic npm failure for exit propagation\nError: SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS\n     18|   throw new Error('SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS');\n",
-          "stderr": "",
-          "error": null,
-          "passed": true,
-          "expected_exit": 1,
-          "scope": "isolated deliberate failure fixture; not a product test failure",
-          "evidence": {
-            "at": "2026-11-14T16:39:18.214+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-fault-injection",
-            "file": "tests/hooks/synthetic-trigger.ts",
-            "command": [
-              "npm",
-              "test",
-              "--",
-              "--reporter=dot",
-              "--config",
-              "tests/hooks/fixtures/failure.config.mjs",
-              "--configLoader",
-              "native",
-              "--no-cache",
-              "--no-fsModuleCache"
-            ],
-            "testsExecuted": true,
-            "childPid": 877,
-            "exit": 1,
-            "signal": null,
-            "error": null,
-            "failed": 1,
-            "passed": 1,
-            "ms": 258,
-            "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-            "dirtyFiles": null,
-            "shaSource": "git-metadata-readonly"
-          },
-          "nested_evidence": {
-            "at": "2026-11-14T16:39:18.436+09:00",
-            "hook": "test-on-save",
-            "event": "PostFileSave",
-            "session": "codex-hook-nested",
-            "file": "tests/hooks/fixtures/failure.case.mjs",
-            "skipped": "reentrant",
-            "testsExecuted": false
-          }
-        }
-      ],
-      "npm_runs": [
-        {
-          "at": "2026-11-14T16:39:15.413+09:00",
-          "hook": "test-on-save",
-          "event": "PostFileSave",
-          "session": "codex-hook-project-npm",
-          "file": "tests/hooks/synthetic-trigger.ts",
-          "command": [
-            "npm",
-            "test",
-            "--",
-            "--reporter=dot",
-            "--config",
-            "tests/hooks/vitest-hook.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "testsExecuted": true,
-          "childPid": 799,
-          "exit": 0,
-          "signal": null,
-          "error": null,
-          "failed": 0,
-          "passed": 378,
-          "ms": 2756,
-          "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-          "dirtyFiles": null,
-          "shaSource": "git-metadata-readonly"
-        },
-        {
-          "at": "2026-11-14T16:39:18.214+09:00",
-          "hook": "test-on-save",
-          "event": "PostFileSave",
-          "session": "codex-hook-fault-injection",
-          "file": "tests/hooks/synthetic-trigger.ts",
-          "command": [
-            "npm",
-            "test",
-            "--",
-            "--reporter=dot",
-            "--config",
-            "tests/hooks/fixtures/failure.config.mjs",
-            "--configLoader",
-            "native",
-            "--no-cache",
-            "--no-fsModuleCache"
-          ],
-          "testsExecuted": true,
-          "childPid": 877,
-          "exit": 1,
-          "signal": null,
-          "error": null,
-          "failed": 1,
-          "passed": 1,
-          "ms": 258,
-          "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-          "dirtyFiles": null,
-          "shaSource": "git-metadata-readonly"
-        }
-      ]
-    }
-  ],
-  "evidence_kind": "Codex hook harness; not Kiro execution evidence",
+  "initial_failure_capture": null,
+  "run_history": [],
+  "evidence_kind": "Synthetic hook harness; not Kiro execution evidence",
   "kiro_execution_verified": false,
   "kiro_invocations": 0,
   "git_commands_executed": 0,
   "synthetic_inputs_only": true,
   "private_files_read": false,
-  "base_sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-  "source_sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-  "final_head_sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
-  "started_at": "2026-11-14T16:12:41+09:00",
-  "finished_at": "2026-11-14T16:56:44.786+09:00",
+  "base_sha": "25d580451f04bc5be7c06d27d09ba28c8f6862e4",
+  "source_sha": "25d580451f04bc5be7c06d27d09ba28c8f6862e4",
+  "final_head_sha": "25d580451f04bc5be7c06d27d09ba28c8f6862e4",
+  "started_at": "2026-11-14T17:11:03.969+09:00",
+  "finished_at": "2026-11-14T17:11:10.149+09:00",
   "command": [
     "node",
     "--test",
@@ -1859,28 +29,10 @@
   "invocation_environment": {
     "TTOKPAY_HOOK_RUN_PROJECT_TESTS": "1",
     "TTOKPAY_HOOK_CORE_RELEASE": "FINAL-CORE:55pass+가격후속46pass",
-    "TTOKPAY_HOOK_FRONT_RELEASE": "FINAL-dd0b6f84983e9643e24a50eb41520da2ca19a317218cc54736bf143417c9ffe5"
+    "TTOKPAY_HOOK_FRONT_RELEASE": "PUBLIC-COPY-20261114"
   },
-  "baseline_file_sha256": {
-    "scripts/hooks/_lib.mjs": "8940b9298521a7ff9918659bf76312e1cc097dafe9267641c648d5cb0bea1b5e",
-    "scripts/hooks/pretool-guard.mjs": "1c92a6a3da79b055a35db9ac66a8b58066f44b0a81d9e81515a28e10ec52538b",
-    "scripts/hooks/session-context.mjs": "00bf56b1ea4cc00106365e14173766c55cac9a411742ac839231b5fc78c241f8",
-    "scripts/hooks/stop-summary.mjs": "a7ad9b1fcf3f1f1d6312e7fb1afce13cad85a1d93cb4288a0d3310db7d496b14",
-    "scripts/hooks/test-on-save.mjs": "3427552e4747f58201a7724585e28516201c44d82093482df3b852e39daf2c0a",
-    ".kiro/hooks/pretool-guard.json": "83ec82652a62481ac2d1f955accf18f4a4fef9b8e9978d61ca8c98fcfe6b3eb5",
-    ".kiro/hooks/session-context.json": "41a6e596a658a8767a30482d3c32f3e08bd34ef4e3d542b8c65e76d72a078f89",
-    ".kiro/hooks/stop-summary.json": "9522df6fc247c08dcffc38e7cd93e67ad93721c98b93fa41cd754bdb5c0b8fe0",
-    ".kiro/hooks/test-on-save.json": "ca7f340f078dffd3276c853c457860b675a8154200b77038334496af8ce2dac0",
-    "package.json": "bd6655b4a6eaae223085a3dc81047ea4249ff8672dabb8da1f96e2c4ee28b5c0",
-    "vite.config.ts": "ca5cf0e4a649a18307af3d5845ca47e4ccf32f590e8af45f0534f6645d343895"
-  },
-  "baseline_inspection_findings": [
-    "test-on-save uses vitest binary instead of npm test",
-    "test-on-save does not propagate test failure exit",
-    "gitSha executes git subprocesses",
-    "evidence defaults to shared paths; harness requires isolated evidence",
-    "no reentrancy guard"
-  ],
+  "baseline_file_sha256": {},
+  "baseline_inspection_findings": [],
   "source_before_sha256": {
     "mcp/server.ts": "7ae261af014f4cee6b266686cd50b2fa5f4393b3f82eb80a19b472f5ef881124",
     "package-lock.json": "de1089d496cfb79c1a986062ea43370000096e8cb8345e49cd56fdd8cdd61a49",
@@ -1896,9 +48,9 @@
     "src/brand.ts": "da1263f13876b2169d4737f4ba0b7aa8be24ac8332607ef4d6e13f4b33515783",
     "src/data/cancel_guides.json": "7cebc31beaa7f3c64b313c2b9e5a2c97dfcf90b3d98f0b1dcb68855eacd788ca",
     "src/data/channel_price_review.json": "d81048bfb16b1a3dce4e581bfd95404564bb1b8ad0b04ad4a2d0ecd0d4745a45",
-    "src/data/channel_prices.json": "2ba9b8e07694a68632dc8c36ed734a23317f24632d2a79d6b69ccc4b898b6244",
+    "src/data/channel_prices.json": "ec58452ed0f8ce8c4dc2616b886b3f50a682d32bf54b1ea3e73066a1547258b6",
     "src/data/plan_rights.json": "71adadcd38bcc04e619224984db87bfd8e0c98cc7fd8f1afb5eaa2c0176f8dd6",
-    "src/data/price_policies.json": "fa30b774c53886a35e4e8a3495e80c2f2088e2cdb72a1b41aee9d054326f50a3",
+    "src/data/price_policies.json": "bc0daf216fe260d43ff2d7202d9d7cb695dfa9aef6749dbfad5a0d0b4720b52b",
     "src/data/store_procedures.json": "8e9d2ee69a6be7f0dff02bdb107cf95143fb92fd4d51cbdca5380d724359c7d9",
     "src/domain/alternatives.ts": "fb8e7c35165fb094b070c94f7830a7d522ecf18ea1105ad5971207fa201650ca",
     "src/domain/channelPrice.ts": "173ef40970119f6de5fbb54aa3a424ae043c8ec3ee044d2ed31137d6f0c8eadb",
@@ -1919,7 +71,7 @@
     "src/ui/Calculator.tsx": "bd877f18399328496d7cb627e22bec5b9cdef8ea0417ea31bbc62646d8e0e934",
     "src/ui/ChannelCheck.tsx": "c7b2539ca75a1508b7986ab369ade6a2d3f931c8956021f77e9f4768c04b391b",
     "src/ui/FamilySim.tsx": "32323f5a298ff0c7e991614e1dcfb0bad04470300674202a84e3b87f39c0bde8",
-    "src/ui/HowBuilt.tsx": "a983494fb85a1ee2c69a49d365ca926801a049b2277ceec7f45bb09a0cb3bd4a",
+    "src/ui/HowBuilt.tsx": "bc49c25fca574991e640544a6354e199e4dff43119ec47249dc38eb8b11dd129",
     "src/ui/KiroMascot.tsx": "41b1c3f10842d5324e5a83318f12d6f03454851dffdcb680c889385747fa28d6",
     "src/ui/styles.css": "3c833154e26091ba72389c5a60bfc0668c96fb0cb8a77ff1091ee1bd781a029b",
     "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
@@ -1935,9 +87,9 @@
     "tests/fixtures/family-consent.json": "665d096f2d8b0622bcef440f04b75ed32adf5b23b07902f3df67e13fdf7975fa",
     "tests/fixtures/golden-resub.json": "da11e3f62ddfa1c98906fee9b3b1df44fcc92286460f20744bb469f2f3b07d70",
     "tests/fixtures/sms-payments.json": "37d5c12c0e5c985e47403ecf44d3a6fafb2f808a6dcc829b4d1b88d3f3656ece",
-    "tests/hooks/fixtures/failure.case.mjs": "00337bf33b1625b3bfe7dad4d507877d61fd66a237efba45c31fb6858af6046f",
+    "tests/hooks/fixtures/failure.case.mjs": "4f7f1d415ca9d3562cd60a07f914b4748a39ceb67261fa1ab308f7d971609523",
     "tests/hooks/fixtures/failure.config.mjs": "48d590cfca652e7be63fea52ae5f16f93d83b4c66be882c84d089f5da7c1e7b8",
-    "tests/hooks/hooks.test.mjs": "38c26cd7b9321d897453c79067b7a3740d67cf6dfdf12a1a44ae4d328bf72c24",
+    "tests/hooks/hooks.test.mjs": "48ed283650157fea66f4736279a638f93af19d9db50bdb777af02f2d4accb1f9",
     "tests/hooks/vitest-hook.config.mjs": "137bcb6e6ccaaf55922f627b53f26ec6da31716ff93742023540d6a85cc0336d",
     "tests/runtime/demoBusiness.test.ts": "e0c0ea635c3d1ebeb78298f11bc1e8cfa45d19bc64ab32e81d0eced7a61b0c95",
     "tests/runtime/fixtures/kiro-child.cjs": "dd084e36c9f06ebc1b2f40667cd41ac6a485812878fc9a5d3ea6d56bc929f2a1",
@@ -1961,9 +113,9 @@
     "src/brand.ts": "da1263f13876b2169d4737f4ba0b7aa8be24ac8332607ef4d6e13f4b33515783",
     "src/data/cancel_guides.json": "7cebc31beaa7f3c64b313c2b9e5a2c97dfcf90b3d98f0b1dcb68855eacd788ca",
     "src/data/channel_price_review.json": "d81048bfb16b1a3dce4e581bfd95404564bb1b8ad0b04ad4a2d0ecd0d4745a45",
-    "src/data/channel_prices.json": "2ba9b8e07694a68632dc8c36ed734a23317f24632d2a79d6b69ccc4b898b6244",
+    "src/data/channel_prices.json": "ec58452ed0f8ce8c4dc2616b886b3f50a682d32bf54b1ea3e73066a1547258b6",
     "src/data/plan_rights.json": "71adadcd38bcc04e619224984db87bfd8e0c98cc7fd8f1afb5eaa2c0176f8dd6",
-    "src/data/price_policies.json": "fa30b774c53886a35e4e8a3495e80c2f2088e2cdb72a1b41aee9d054326f50a3",
+    "src/data/price_policies.json": "bc0daf216fe260d43ff2d7202d9d7cb695dfa9aef6749dbfad5a0d0b4720b52b",
     "src/data/store_procedures.json": "8e9d2ee69a6be7f0dff02bdb107cf95143fb92fd4d51cbdca5380d724359c7d9",
     "src/domain/alternatives.ts": "fb8e7c35165fb094b070c94f7830a7d522ecf18ea1105ad5971207fa201650ca",
     "src/domain/channelPrice.ts": "173ef40970119f6de5fbb54aa3a424ae043c8ec3ee044d2ed31137d6f0c8eadb",
@@ -1984,7 +136,7 @@
     "src/ui/Calculator.tsx": "bd877f18399328496d7cb627e22bec5b9cdef8ea0417ea31bbc62646d8e0e934",
     "src/ui/ChannelCheck.tsx": "c7b2539ca75a1508b7986ab369ade6a2d3f931c8956021f77e9f4768c04b391b",
     "src/ui/FamilySim.tsx": "32323f5a298ff0c7e991614e1dcfb0bad04470300674202a84e3b87f39c0bde8",
-    "src/ui/HowBuilt.tsx": "a983494fb85a1ee2c69a49d365ca926801a049b2277ceec7f45bb09a0cb3bd4a",
+    "src/ui/HowBuilt.tsx": "bc49c25fca574991e640544a6354e199e4dff43119ec47249dc38eb8b11dd129",
     "src/ui/KiroMascot.tsx": "41b1c3f10842d5324e5a83318f12d6f03454851dffdcb680c889385747fa28d6",
     "src/ui/styles.css": "3c833154e26091ba72389c5a60bfc0668c96fb0cb8a77ff1091ee1bd781a029b",
     "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
@@ -2000,9 +152,9 @@
     "tests/fixtures/family-consent.json": "665d096f2d8b0622bcef440f04b75ed32adf5b23b07902f3df67e13fdf7975fa",
     "tests/fixtures/golden-resub.json": "da11e3f62ddfa1c98906fee9b3b1df44fcc92286460f20744bb469f2f3b07d70",
     "tests/fixtures/sms-payments.json": "37d5c12c0e5c985e47403ecf44d3a6fafb2f808a6dcc829b4d1b88d3f3656ece",
-    "tests/hooks/fixtures/failure.case.mjs": "00337bf33b1625b3bfe7dad4d507877d61fd66a237efba45c31fb6858af6046f",
+    "tests/hooks/fixtures/failure.case.mjs": "4f7f1d415ca9d3562cd60a07f914b4748a39ceb67261fa1ab308f7d971609523",
     "tests/hooks/fixtures/failure.config.mjs": "48d590cfca652e7be63fea52ae5f16f93d83b4c66be882c84d089f5da7c1e7b8",
-    "tests/hooks/hooks.test.mjs": "38c26cd7b9321d897453c79067b7a3740d67cf6dfdf12a1a44ae4d328bf72c24",
+    "tests/hooks/hooks.test.mjs": "48ed283650157fea66f4736279a638f93af19d9db50bdb777af02f2d4accb1f9",
     "tests/hooks/vitest-hook.config.mjs": "137bcb6e6ccaaf55922f627b53f26ec6da31716ff93742023540d6a85cc0336d",
     "tests/runtime/demoBusiness.test.ts": "e0c0ea635c3d1ebeb78298f11bc1e8cfa45d19bc64ab32e81d0eced7a61b0c95",
     "tests/runtime/fixtures/kiro-child.cjs": "dd084e36c9f06ebc1b2f40667cd41ac6a485812878fc9a5d3ea6d56bc929f2a1",
@@ -2011,7 +163,7 @@
     "tsconfig.json": "909109540dae51b4e0c27d3a399b45b547165ebff1a6f7677be1da2b498b989f",
     "vite.config.ts": "ca5cf0e4a649a18307af3d5845ca47e4ccf32f590e8af45f0534f6645d343895"
   },
-  "source_tree_sha256": "e25e818a6cce042f831f8b0752f3328d0bae46de3a44071e6753c827ded65929",
+  "source_tree_sha256": "e1494ac25b1ad97122bca0181a0cfe02f5670de3d01b0258e6c4304e1c8b3da1",
   "source_stable_during_run": true,
   "relevant_hook_sources_stable": true,
   "readonly_before_sha256": {
@@ -2043,17 +195,17 @@
       "stdin": {
         "synthetic": true,
         "hook_event_name": "PreToolUse",
-        "session_id": "codex-messages_db_read_denied",
+        "session_id": "synthetic-messages_db_read_denied",
         "tool_name": "read_file",
         "tool_input": {
           "path": "/Users/synthetic/Library/Messages/chat.db"
         }
       },
-      "started_at": "2026-11-14T16:56:38.789+09:00",
-      "finished_at": "2026-11-14T16:56:38.810+09:00",
+      "started_at": "2026-11-14T17:11:03.969+09:00",
+      "finished_at": "2026-11-14T17:11:03.990+09:00",
       "exit": 2,
       "signal": null,
-      "child_pid": 13013,
+      "child_pid": 22788,
       "stdout": "",
       "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
       "error": null,
@@ -2061,11 +213,11 @@
       "expected_exit": 2,
       "tool_executed": false,
       "denial": {
-        "at": "2026-11-14T16:56:38.807+09:00",
+        "at": "2026-11-14T17:11:03.987+09:00",
         "hook": "pretool-guard",
         "rule": "G1-raw-messages",
         "tool": "read_file",
-        "session": "codex-messages_db_read_denied",
+        "session": "synthetic-messages_db_read_denied",
         "blocked": true
       }
     },
@@ -2080,17 +232,17 @@
       "stdin": {
         "synthetic": true,
         "hook_event_name": "PreToolUse",
-        "session_id": "codex-messages_attachment_read_denied",
+        "session_id": "synthetic-messages_attachment_read_denied",
         "tool_name": "read_file",
         "tool_input": {
           "path": "/Users/synthetic/Library/Messages/Attachments/synthetic.txt"
         }
       },
-      "started_at": "2026-11-14T16:56:38.811+09:00",
-      "finished_at": "2026-11-14T16:56:38.831+09:00",
+      "started_at": "2026-11-14T17:11:03.991+09:00",
+      "finished_at": "2026-11-14T17:11:04.010+09:00",
       "exit": 2,
       "signal": null,
-      "child_pid": 13014,
+      "child_pid": 22789,
       "stdout": "",
       "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G1-raw-messages]: 실제 문자 DB 경로 접근은 금지 (privacy.md)\n",
       "error": null,
@@ -2098,11 +250,11 @@
       "expected_exit": 2,
       "tool_executed": false,
       "denial": {
-        "at": "2026-11-14T16:56:38.828+09:00",
+        "at": "2026-11-14T17:11:04.008+09:00",
         "hook": "pretool-guard",
         "rule": "G1-raw-messages",
         "tool": "read_file",
-        "session": "codex-messages_attachment_read_denied",
+        "session": "synthetic-messages_attachment_read_denied",
         "blocked": true
       }
     },
@@ -2117,17 +269,17 @@
       "stdin": {
         "synthetic": true,
         "hook_event_name": "PreToolUse",
-        "session_id": "codex-ordinary_read_allowed",
+        "session_id": "synthetic-ordinary_read_allowed",
         "tool_name": "read_file",
         "tool_input": {
           "path": "/synthetic/project/src/domain/policy.ts"
         }
       },
-      "started_at": "2026-11-14T16:56:38.831+09:00",
-      "finished_at": "2026-11-14T16:56:38.849+09:00",
+      "started_at": "2026-11-14T17:11:04.011+09:00",
+      "finished_at": "2026-11-14T17:11:04.028+09:00",
       "exit": 0,
       "signal": null,
-      "child_pid": 13016,
+      "child_pid": 22790,
       "stdout": "",
       "stderr": "",
       "error": null,
@@ -2146,17 +298,17 @@
       "stdin": {
         "synthetic": true,
         "hook_event_name": "PreToolUse",
-        "session_id": "codex-secret_file_read_denied",
+        "session_id": "synthetic-secret_file_read_denied",
         "tool_name": "read_file",
         "tool_input": {
           "path": "/synthetic/project/.env"
         }
       },
-      "started_at": "2026-11-14T16:56:38.849+09:00",
-      "finished_at": "2026-11-14T16:56:38.869+09:00",
+      "started_at": "2026-11-14T17:11:04.028+09:00",
+      "finished_at": "2026-11-14T17:11:04.048+09:00",
       "exit": 2,
       "signal": null,
-      "child_pid": 13017,
+      "child_pid": 22791,
       "stdout": "",
       "stderr": "BLOCKED-BY-TTOKPAY-GUARD [G5-secrets]: 비밀 파일 접근 금지\n",
       "error": null,
@@ -2164,11 +316,11 @@
       "expected_exit": 2,
       "tool_executed": false,
       "denial": {
-        "at": "2026-11-14T16:56:38.866+09:00",
+        "at": "2026-11-14T17:11:04.045+09:00",
         "hook": "pretool-guard",
         "rule": "G5-secrets",
         "tool": "read_file",
-        "session": "codex-secret_file_read_denied",
+        "session": "synthetic-secret_file_read_denied",
         "blocked": true
       }
     },
@@ -2189,24 +341,24 @@
       "stdin": {
         "synthetic": true,
         "hook_event_name": "PostFileSave",
-        "session_id": "codex-hook-project-npm",
+        "session_id": "synthetic-hook-project-npm",
         "file_path": "/Users/lim/kirothon-team-024/tests/hooks/synthetic-trigger.ts"
       },
-      "started_at": "2026-11-14T16:56:38.869+09:00",
-      "finished_at": "2026-11-14T16:56:44.480+09:00",
+      "started_at": "2026-11-14T17:11:04.048+09:00",
+      "finished_at": "2026-11-14T17:11:09.834+09:00",
       "exit": 0,
       "signal": null,
-      "child_pid": 13018,
-      "stdout": "TEST-ON-SAVE: 통과 402개 (5590ms)\n",
+      "child_pid": 22792,
+      "stdout": "TEST-ON-SAVE: 통과 402개 (5765ms)\n",
       "stderr": "",
       "error": null,
       "passed": true,
       "expected_exit": "same as actual npm test exit, including product failures",
       "evidence": {
-        "at": "2026-11-14T16:56:38.886+09:00",
+        "at": "2026-11-14T17:11:04.065+09:00",
         "hook": "test-on-save",
         "event": "PostFileSave",
-        "session": "codex-hook-project-npm",
+        "session": "synthetic-hook-project-npm",
         "file": "tests/hooks/synthetic-trigger.ts",
         "command": [
           "npm",
@@ -2221,14 +373,14 @@
           "--no-fsModuleCache"
         ],
         "testsExecuted": true,
-        "childPid": 13019,
+        "childPid": 22793,
         "exit": 0,
         "signal": null,
         "error": null,
         "failed": 0,
         "passed": 402,
-        "ms": 5590,
-        "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
+        "ms": 5765,
+        "sha": "25d580451f04bc5be7c06d27d09ba28c8f6862e4",
         "dirtyFiles": null,
         "shaSource": "git-metadata-readonly"
       },
@@ -2246,11 +398,11 @@
         "synthetic": true,
         "probe": "release gate"
       },
-      "started_at": "2026-11-14T16:56:44.480+09:00",
-      "finished_at": "2026-11-14T16:56:44.503+09:00",
+      "started_at": "2026-11-14T17:11:09.835+09:00",
+      "finished_at": "2026-11-14T17:11:09.857+09:00",
       "exit": 1,
       "signal": null,
-      "child_pid": 13248,
+      "child_pid": 22998,
       "stdout": "",
       "stderr": "file:///Users/lim/kirothon-team-024/tests/hooks/hooks.test.mjs:16\nif (RUN_PROJECT_TESTS && (!CORE_RELEASE || !FRONT_RELEASE)) throw new Error('Confirmed FINAL-CORE and final FRONT release references are required for the project test gate');\n                                                                  ^\n\nError: Confirmed FINAL-CORE and final FRONT release references are required for the project test gate\n    at file:///Users/lim/kirothon-team-024/tests/hooks/hooks.test.mjs:16:67\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.0\n",
       "error": null,
@@ -2274,14 +426,14 @@
       "stdin": {
         "synthetic": true,
         "hook_event_name": "PostFileSave",
-        "session_id": "codex-hook-fault-injection",
+        "session_id": "synthetic-hook-fault-injection",
         "file_path": "/Users/lim/kirothon-team-024/tests/hooks/synthetic-trigger.ts"
       },
-      "started_at": "2026-11-14T16:56:44.503+09:00",
-      "finished_at": "2026-11-14T16:56:44.772+09:00",
+      "started_at": "2026-11-14T17:11:09.858+09:00",
+      "finished_at": "2026-11-14T17:11:10.135+09:00",
       "exit": 1,
       "signal": null,
-      "child_pid": 13249,
+      "child_pid": 22999,
       "stdout": "TEST-ON-SAVE: 실패 (exit 1). 실패한 시험을 확인하세요.\n FAIL  tests/hooks/fixtures/failure.case.mjs > synthetic npm failure for exit propagation\nError: SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS\n     18|   throw new Error('SYNTHETIC_EXPECTED_FAILURE_FINAL_HOOKS');\n",
       "stderr": "",
       "error": null,
@@ -2289,10 +441,10 @@
       "expected_exit": 1,
       "scope": "isolated deliberate failure fixture; not a product test failure",
       "evidence": {
-        "at": "2026-11-14T16:56:44.520+09:00",
+        "at": "2026-11-14T17:11:09.875+09:00",
         "hook": "test-on-save",
         "event": "PostFileSave",
-        "session": "codex-hook-fault-injection",
+        "session": "synthetic-hook-fault-injection",
         "file": "tests/hooks/synthetic-trigger.ts",
         "command": [
           "npm",
@@ -2307,22 +459,22 @@
           "--no-fsModuleCache"
         ],
         "testsExecuted": true,
-        "childPid": 13250,
+        "childPid": 23000,
         "exit": 1,
         "signal": null,
         "error": null,
         "failed": 1,
         "passed": 1,
-        "ms": 250,
-        "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
+        "ms": 258,
+        "sha": "25d580451f04bc5be7c06d27d09ba28c8f6862e4",
         "dirtyFiles": null,
         "shaSource": "git-metadata-readonly"
       },
       "nested_evidence": {
-        "at": "2026-11-14T16:56:44.733+09:00",
+        "at": "2026-11-14T17:11:10.096+09:00",
         "hook": "test-on-save",
         "event": "PostFileSave",
-        "session": "codex-hook-nested",
+        "session": "synthetic-hook-nested",
         "file": "tests/hooks/fixtures/failure.case.mjs",
         "skipped": "reentrant",
         "testsExecuted": false
@@ -2331,10 +483,10 @@
   ],
   "npm_runs": [
     {
-      "at": "2026-11-14T16:56:38.886+09:00",
+      "at": "2026-11-14T17:11:04.065+09:00",
       "hook": "test-on-save",
       "event": "PostFileSave",
-      "session": "codex-hook-project-npm",
+      "session": "synthetic-hook-project-npm",
       "file": "tests/hooks/synthetic-trigger.ts",
       "command": [
         "npm",
@@ -2349,22 +501,22 @@
         "--no-fsModuleCache"
       ],
       "testsExecuted": true,
-      "childPid": 13019,
+      "childPid": 22793,
       "exit": 0,
       "signal": null,
       "error": null,
       "failed": 0,
       "passed": 402,
-      "ms": 5590,
-      "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
+      "ms": 5765,
+      "sha": "25d580451f04bc5be7c06d27d09ba28c8f6862e4",
       "dirtyFiles": null,
       "shaSource": "git-metadata-readonly"
     },
     {
-      "at": "2026-11-14T16:56:44.520+09:00",
+      "at": "2026-11-14T17:11:09.875+09:00",
       "hook": "test-on-save",
       "event": "PostFileSave",
-      "session": "codex-hook-fault-injection",
+      "session": "synthetic-hook-fault-injection",
       "file": "tests/hooks/synthetic-trigger.ts",
       "command": [
         "npm",
@@ -2379,31 +531,31 @@
         "--no-fsModuleCache"
       ],
       "testsExecuted": true,
-      "childPid": 13250,
+      "childPid": 23000,
       "exit": 1,
       "signal": null,
       "error": null,
       "failed": 1,
       "passed": 1,
-      "ms": 250,
-      "sha": "ee11cf2776cce6dca9dbebd0cc12a44ac5d5951f",
+      "ms": 258,
+      "sha": "25d580451f04bc5be7c06d27d09ba28c8f6862e4",
       "dirtyFiles": null,
       "shaSource": "git-metadata-readonly"
     }
   ],
   "recursion_skips": [
     {
-      "at": "2026-11-14T16:56:44.733+09:00",
+      "at": "2026-11-14T17:11:10.096+09:00",
       "hook": "test-on-save",
       "event": "PostFileSave",
-      "session": "codex-hook-nested",
+      "session": "synthetic-hook-nested",
       "file": "tests/hooks/fixtures/failure.case.mjs",
       "skipped": "reentrant",
       "testsExecuted": false
     }
   ],
   "cleanup": {
-    "scratch_directory": "tests/hooks/.runtime/run-BfQCSn",
+    "scratch_directory": "tests/hooks/.runtime/run-YpLUhe",
     "removed": true,
     "spawned_hook_processes_exited": true,
     "npm_processes_exited": true,

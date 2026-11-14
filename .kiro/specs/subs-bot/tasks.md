@@ -19,5 +19,5 @@
 - [x] 16. 데모 시나리오 실제 실행(점검 5회)과 재생 데이터
   - `scripts/demo-scenario.ts` → `public/replay/demo.json`
   - 실제 Kiro 실행: `docs/evidence/bot-runs/20261114154741-demo-replay.json`의 P1~P5, 각 exit 0. 711.908초·도구 34회·정책 거부 5회
-  - 후속 Codex 수정 뒤 Kiro 재실행은 월간 한도로 수행하지 못했다. 이 기록은 수정 전 합성 시나리오의 실행 증거다
+  - 후속 소스 수정 뒤 Kiro 재실행은 월간 한도로 수행하지 못했다. 이 기록은 수정 전 합성 시나리오의 실행 증거다
   - _Requirements: 17, 24, 25, 26_

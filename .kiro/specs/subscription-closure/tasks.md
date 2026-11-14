@@ -55,7 +55,7 @@
 - [x] 19. 메인 재정렬: 재가입 손익을 보조로 (T19, 15:30 사용자 결정)
   - 가족 '해지' 제안에는 신규 요금 한 줄만, 손익 계산기는 보조 탭으로 이동
   - _Requirements: 19, 20, 21_
-- [ ] 12. 최종 검토·수정, README·증거·배포 (T12)
-  - `docs/evidence/review.md`는 중단된 Kiro reviewer 시도이며 승인 근거가 아님. 이후 Codex가 검수·수정
-  - `docs/evidence/final-review.md`, `validation.json`, `front-qa.json`, `hook-check.json`, 요구 추적표와 GitHub Pages로 최종 결과 확인
+- [x] 12. 최종 검토·수정, README·증거·배포 (T12)
+  - `docs/evidence/review.md`는 중단된 Kiro reviewer 시도이며 승인 근거가 아님. 최종 결과는 실행 가능한 테스트와 브라우저 검사로 확인
+  - `docs/evidence/validation.json`, `front-qa.json`, `live-qa.json`, `hook-check.json`, `deployment-check.json`, 요구 추적표와 GitHub Pages로 최종 결과 확인
   - _Requirements: 17, 18_

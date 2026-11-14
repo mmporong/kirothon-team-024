@@ -1,6 +1,6 @@
 {
-  "verified_at": "2026-11-14T07:56:56.595018+00:00",
-  "source_manifest_sha256": "dd0b6f84983e9643e24a50eb41520da2ca19a317218cc54736bf143417c9ffe5",
+  "verified_at": "2026-11-14T08:11:30.923006+00:00",
+  "source_manifest_sha256": "f1b5903955200462b86aa9db6691d97d7060f922e243d19e60ba9aeb08b773ba",
   "source_files_copied_match": true,
   "source_files": 73,
   "copy_kind": "clean copy of Git-listed submitted files; no node_modules, dist or .git",
@@ -18,8 +18,10 @@
   "temporary_directory_removed": true,
   "kiro_invocations": 0,
   "previous_check": {
-    "verified_at": "2026-11-14T07:43:13.882634+00:00",
-    "source_manifest_sha256": "7bf575a84c116ac6cc1649f64991ef101bf23a058454f929223ae0a43667d5a4",
+    "verified_at": "2026-11-14T07:56:56.595018+00:00",
+    "source_manifest_sha256": "dd0b6f84983e9643e24a50eb41520da2ca19a317218cc54736bf143417c9ffe5",
+    "source_files_copied_match": true,
+    "source_files": 73,
     "copy_kind": "clean copy of Git-listed submitted files; no node_modules, dist or .git",
     "commands": [
       {
@@ -33,6 +35,24 @@
     ],
     "status": "pass",
     "temporary_directory_removed": true,
-    "kiro_invocations": 0
+    "kiro_invocations": 0,
+    "previous_check": {
+      "verified_at": "2026-11-14T07:43:13.882634+00:00",
+      "source_manifest_sha256": "7bf575a84c116ac6cc1649f64991ef101bf23a058454f929223ae0a43667d5a4",
+      "copy_kind": "clean copy of Git-listed submitted files; no node_modules, dist or .git",
+      "commands": [
+        {
+          "command": "npm ci --no-audit --no-fund",
+          "exit": 0
+        },
+        {
+          "command": "npm run build",
+          "exit": 0
+        }
+      ],
+      "status": "pass",
+      "temporary_directory_removed": true,
+      "kiro_invocations": 0
+    }
   }
 }

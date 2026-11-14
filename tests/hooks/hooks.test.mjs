@@ -67,7 +67,7 @@ for (const [id, toolInput, expected, rule] of [
   ['secret_file_read_denied', { path: '/synthetic/project/.env' }, 2, 'G5-secrets'],
 ]) {
   test(id, () => {
-    const input = { synthetic: true, hook_event_name: 'PreToolUse', session_id: `codex-${id}`, tool_name: 'read_file', tool_input: toolInput };
+    const input = { synthetic: true, hook_event_name: 'PreToolUse', session_id: `synthetic-${id}`, tool_name: 'read_file', tool_input: toolInput };
     const result = invoke(id, 'scripts/hooks/pretool-guard.mjs', input);
     result.expected_exit = expected;
     result.tool_executed = false;
@@ -89,7 +89,7 @@ const payload = (id) => ({ synthetic: true, hook_event_name: 'PostFileSave', ses
 const commonArgs = ['--config', 'tests/hooks/vitest-hook.config.mjs', '--configLoader', 'native', '--no-cache', '--no-fsModuleCache'];
 
 if (RUN_PROJECT_TESTS) test('test_on_save_records_actual_project_npm_test_and_propagates_its_exit', () => {
-  const input = payload('codex-hook-project-npm');
+  const input = payload('synthetic-hook-project-npm');
   const result = invoke('project_npm_test', 'scripts/hooks/test-on-save.mjs', input, commonArgs);
   result.expected_exit = 'same as actual npm test exit, including product failures';
   assert.equal(result.error, null);
@@ -116,7 +116,7 @@ test('final_front_release_reference_is_required_before_project_tests', () => {
 });
 
 test('npm_failure_propagates_and_nested_hook_does_not_recurse', () => {
-  const input = payload('codex-hook-fault-injection');
+  const input = payload('synthetic-hook-fault-injection');
   const args = ['--config', 'tests/hooks/fixtures/failure.config.mjs', '--configLoader', 'native', '--no-cache', '--no-fsModuleCache'];
   const result = invoke('expected_npm_failure', 'scripts/hooks/test-on-save.mjs', input, args);
   result.expected_exit = 1;
@@ -125,7 +125,7 @@ test('npm_failure_propagates_and_nested_hook_does_not_recurse', () => {
   assert.equal(result.exit, 1, result.stdout + result.stderr);
   const logs = records('hook-log.jsonl');
   const record = logs.find((r) => r.session === input.session_id);
-  const nested = logs.find((r) => r.session === 'codex-hook-nested');
+  const nested = logs.find((r) => r.session === 'synthetic-hook-nested');
   result.evidence = record;
   result.nested_evidence = nested;
   assert.equal(record?.testsExecuted, true);
@@ -162,7 +162,7 @@ after(() => {
     project_tests_status: !RUN_PROJECT_TESTS ? 'deferred_until_final_FRONT_release' : projectRun?.exit === 0 ? 'pass' : 'fail',
     initial_failure_capture: initial.initial_failure_capture ?? null,
     run_history: [...(initial.run_history ?? []), ...(initial.cases ? [{ phase: initial.phase ?? 'pre_release_observation', finished_at: initial.finished_at, source_sha: initial.source_sha, source_tree_sha256: initial.source_tree_sha256, status: initial.status, cases: initial.cases, npm_runs: initial.npm_runs }] : [])],
-    evidence_kind: 'Codex hook harness; not Kiro execution evidence',
+    evidence_kind: 'Synthetic hook harness; not Kiro execution evidence',
     kiro_execution_verified: false, kiro_invocations: 0, git_commands_executed: 0,
     synthetic_inputs_only: true, private_files_read: false,
     base_sha: initial.base_sha ?? revisionBefore,

@@ -1,0 +1,91 @@
+{
+  "status": "pass",
+  "verified_at": "2026-11-14T08:06:34.289005+00:00",
+  "url": "https://mmporong.github.io/kirothon-team-024/",
+  "deployed_source_commit": "25d580451f04bc5be7c06d27d09ba28c8f6862e4",
+  "source_manifest_sha256": "dd0b6f84983e9643e24a50eb41520da2ca19a317218cc54736bf143417c9ffe5",
+  "remote_at_deploy": {
+    "refs/heads/gh-pages": "fad905ce3e9f0c977fbdfde1bf9c6cf425122934",
+    "refs/heads/main": "25d580451f04bc5be7c06d27d09ba28c8f6862e4"
+  },
+  "pages_build": {
+    "status": "built",
+    "error": {
+      "message": null
+    },
+    "commit": "fad905ce3e9f0c977fbdfde1bf9c6cf425122934",
+    "created_at": "2026-11-14T08:02:07Z",
+    "updated_at": "2026-11-14T08:02:27Z"
+  },
+  "files": [
+    {
+      "path": "index.html",
+      "url": "https://mmporong.github.io/kirothon-team-024/index.html?v=25d5804",
+      "http": 200,
+      "bytes": 833,
+      "sha256": "729fa3ee137e7c35c8c7e73126ae6d42c750cfc90af68e948115504505bf322d",
+      "matches_built_file": true
+    },
+    {
+      "path": "assets/index-CXnCLFeI.js",
+      "url": "https://mmporong.github.io/kirothon-team-024/assets/index-CXnCLFeI.js?v=25d5804",
+      "http": 200,
+      "bytes": 393354,
+      "sha256": "944887718e4de62dccbab65f830d2af2dc47e4970c045a80ba08bbbec633eec1",
+      "matches_built_file": true
+    },
+    {
+      "path": "assets/index-1zxg95Od.css",
+      "url": "https://mmporong.github.io/kirothon-team-024/assets/index-1zxg95Od.css?v=25d5804",
+      "http": 200,
+      "bytes": 14873,
+      "sha256": "9e9c6cf2f78d69cb586ce583ed8f0743d1be1b0b1b421dab60b9577345de3226",
+      "matches_built_file": true
+    },
+    {
+      "path": "kiro/mascot.gif",
+      "url": "https://mmporong.github.io/kirothon-team-024/kiro/mascot.gif?v=25d5804",
+      "http": 200,
+      "bytes": 350229,
+      "sha256": "06771291c74d9ce8b18afeaea9f6e85a35cd88bb335822cd5e8f237319ad1e3c",
+      "matches_built_file": true
+    },
+    {
+      "path": "kiro/mascot-still.png",
+      "url": "https://mmporong.github.io/kirothon-team-024/kiro/mascot-still.png?v=25d5804",
+      "http": 200,
+      "bytes": 13293,
+      "sha256": "7a7436d5d28267b71516a2ee55111fa1de9dc4e78d1dd40969c05a666695c2b5",
+      "matches_built_file": true
+    },
+    {
+      "path": "replay/demo.json",
+      "url": "https://mmporong.github.io/kirothon-team-024/replay/demo.json?v=25d5804",
+      "http": 200,
+      "bytes": 114140,
+      "sha256": "82dfac5efb1b05a6e82ebf59cc4ac3291a175c9ae394be13b5a4cb07e0113607",
+      "matches_built_file": true
+    },
+    {
+      "path": "icon.svg",
+      "url": "https://mmporong.github.io/kirothon-team-024/icon.svg?v=25d5804",
+      "http": 200,
+      "bytes": 1051,
+      "sha256": "f7ae2c16f7a6428d54ed378b2071b166fca51e29668ad0f434f77cd94c2e5354",
+      "matches_built_file": true
+    }
+  ],
+  "browser": {
+    "passed": 37,
+    "failed": 0,
+    "errors": 0,
+    "receipt": "docs/evidence/live-qa.json",
+    "browser_closed": true,
+    "temporary_profile_removed": true
+  },
+  "worktree_cleanup": true,
+  "limitations": [
+    "Synthetic browser scenarios; no real payment, cancellation, refund or family authentication.",
+    "Documentation-only commits may follow without changing the deployed application source."
+  ]
+}
