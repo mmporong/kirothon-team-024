@@ -1,0 +1,164 @@
+{
+  "patrolId": "P5",
+  "clock": "2026-11-16T09:00:00+09:00",
+  "report": {
+    "summary": "결제 문자 2건을 구조화했어요. 유튜브 프리미엄은 옮긴 웹 경로의 예상된 청구 14,900원과 함께 App Store 청구 19,500원(2026-11-16)이 확인돼 사건을 다시 열고, 결제자(나)에게 App Store 취소·환불 경로를 보냈어요. 디즈니+ 스탠다드는 해지 요청만 기록돼 있고 사업자 해지 확인이 아직 없어 종료 확인을 보류했어요. 3일 안 결정 마감 구독은 디즈니+ 하나인데 이미 열린 사건이 있어 새 질문은 보내지 않았고, 가족 검토 중인 사건은 없어요.",
+    "waitingFor": [
+      "나: 유튜브 프리미엄 App Store 구독 취소와 19,500원 청구 환불 문의(공식 경로 https://apps.apple.com/account/subscriptions)",
+      "나: 디즈니+ 스탠다드 사업자 해지 확인 — 결제 예정일 2026-11-17 이후 다음 청구 대조"
+    ]
+  },
+  "receipt": {
+    "model": "claude-opus-5.5",
+    "engine": "v3",
+    "ms": 143862,
+    "toolCalls": 6,
+    "tools": [
+      "get_status",
+      "ingest_sms",
+      "send_cancel_route",
+      "check_closure",
+      "get_status",
+      "finish_patrol"
+    ],
+    "denied": 1,
+    "hooks": [
+      {
+        "name": "session-context",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "stop-summary",
+        "status": "completed"
+      }
+    ],
+    "credits": 4.476,
+    "fallback": false,
+    "exitCode": 0,
+    "finalText": "household 도구를 불러온 뒤 get_status부터 점검을 시작합니다.\nget_status 결과, 처리 안 된 결제 문자가 2건 있어 ingest_sms를 호출합니다.\n점검을 마쳤습니다(2026-11-16 09:00 기준). 유튜브 프리미엄에 이중 청구가 확인돼 사건을 다시 열었습니다.\n\n- **유튜브 프리미엄:** 2026-11-16 하루에 두 건이 청구됐습니다. 웹 청구 14,900원은 옮긴 경로에서 예상된 청구입니다. App Store 청구 19,500원은 해지 요청 뒤 들어왔습니다. 이 App Store 문자에는 서비스명이 없어 청구처와 금액으로 유튜브 프리미엄에 연결했습니다. 결제자(나)에게 App Store 취소·환불 경로(https://apps.apple.com/account/subscriptions)를 보냈습니다.\n- **디즈니+ 스탠다드:** 새 답장으로 온 해지 신청은 이미 사건에 기록돼 있었습니다. 사업자 해지 확인이 아직 없어 종료 확인은 보류했습니다. 결정 마감이 D-1이지만 이미 열린 사건이 있어 새 질문은 보내지 않았습니다.\n- **넷플릭스:** 결정 마감이 19일 남아 이번 점검에서는 할 일이 없었습니다. 가족 검토 중인 사건도 없습니다.\n\n남은 일은 모두 결제자(나)의 처리를 기다립니다.\n1. 유튜브 프리미엄 App Store 구독을 취소하고 19,500원 환불을 문의하기\n2. 디즈니+ 사업자 해지 확인 받기. 결제 예정일인 2026-11-17 뒤에 다음 청구와 대조합니다.",
+    "startedAtReal": "2026-11-14T15:57:09.787+09:00",
+    "finishedAtReal": "2026-11-14T15:59:33.650+09:00"
+  },
+  "toolLog": [
+    {
+      "seq": 29,
+      "at": "2026-11-16T09:00:00+09:00",
+      "patrolId": "P5",
+      "tool": "get_status",
+      "args": {},
+      "ok": true,
+      "reasons": [],
+      "summary": "구독 3개, 3일 안 결제 1개, 새 답장 1개"
+    },
+    {
+      "seq": 30,
+      "at": "2026-11-16T09:00:00+09:00",
+      "patrolId": "P5",
+      "tool": "ingest_sms",
+      "args": {},
+      "ok": true,
+      "reasons": [],
+      "summary": "문자 2건 구조화, 해지 후 청구 1건으로 사건 재개방"
+    },
+    {
+      "seq": 31,
+      "at": "2026-11-16T09:00:00+09:00",
+      "patrolId": "P5",
+      "tool": "send_cancel_route",
+      "args": {
+        "subscriptionId": "sub-youtube"
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "나에게 App Store(애플) 결제 경로를 보냈어요"
+    },
+    {
+      "seq": 32,
+      "at": "2026-11-16T09:00:00+09:00",
+      "patrolId": "P5",
+      "tool": "check_closure",
+      "args": {
+        "caseId": "case-disney_plus_kr-4"
+      },
+      "ok": false,
+      "reasons": [
+        "provider_unconfirmed"
+      ],
+      "summary": "해지 요청만 기록됨 (종료 확인 아님)"
+    },
+    {
+      "seq": 33,
+      "at": "2026-11-16T09:00:00+09:00",
+      "patrolId": "P5",
+      "tool": "get_status",
+      "args": {},
+      "ok": true,
+      "reasons": [],
+      "summary": "구독 3개, 3일 안 결제 1개, 새 답장 0개"
+    },
+    {
+      "seq": 34,
+      "at": "2026-11-16T09:00:00+09:00",
+      "patrolId": "P5",
+      "tool": "finish_patrol",
+      "args": {
+        "summary": "결제 문자 2건을 구조화했어요. 유튜브 프리미엄은 옮긴 웹 경로의 예상된 청구 14,900원과 함께 App Store 청구 19,500원(2026-11-16)이 확인돼 사건을 다시 열고, 결제자(나)에게 App Store 취소·환불 경로를 보냈어요. 디즈니+ 스탠다드는 해지 요청만 기록돼 있고 사업자 해지 확인이 아직 없어 종료 확인을 보류했어요. 3일 안 결정 마감 구독은 디즈니+ 하나인데 이미 열린 사건이 있어 새 질문은 보내지 않았고, 가족 검토 중인 사건은 없어요.",
+        "waitingFor": [
+          "나: 유튜브 프리미엄 App Store 구독 취소와 19,500원 청구 환불 문의(공식 경로 https://apps.apple.com/account/subscriptions)",
+          "나: 디즈니+ 스탠다드 사업자 해지 확인 — 결제 예정일 2026-11-17 이후 다음 청구 대조"
+        ]
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "점검 기록을 남겼어요"
+    }
+  ]
+}

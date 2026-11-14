@@ -1,8 +1,8 @@
-# Requirements Document — subs-bot (구독 점검 봇)
+# Requirements Document — subs-bot (똑Pay 점검 봇 '똑이')
 
 ## Introduction
 
-구독 점검 봇은 Kiro CLI 커스텀 에이전트(`.kiro/agents/subs-bot.json`)다. 한 번 실행될 때마다 가구 상태를 스스로 점검하고, 결제 전에 결제자에게 먼저 묻고, 가족 동의를 모으고, 정책 관문이 거부하면 사유에 맞게 계획을 바꾸고, 해지 뒤 재청구를 추적한다. 봇은 프로젝트 MCP 서버(`mcp/server.ts`, 서버 이름 `household`)의 도구만 쓸 수 있고, 모든 상태 변경은 웹앱과 같은 `evaluateAction`(spec `subscription-closure` 요구 16)을 거친다.
+점검 봇 똑이는 Kiro CLI 커스텀 에이전트(`.kiro/agents/subs-bot.json`)다. 한 번 실행될 때마다 가구 상태를 스스로 점검하고, 결제 전에 결제자에게 먼저 묻고, 가족 동의를 모으고, 정책 관문이 거부하면 사유에 맞게 계획을 바꾸고, 해지 뒤 재청구를 추적한다. 봇은 프로젝트 MCP 서버(`mcp/server.ts`, 서버 이름 `household`)의 도구만 쓸 수 있고, 모든 상태 변경은 웹앱과 같은 `evaluateAction`(spec `subscription-closure` 요구 16)을 거친다.
 
 요구사항 번호 N은 코드·테스트의 `RNN`이다(요구 22 = `R22`).
 

@@ -1,4 +1,4 @@
-// household MCP 서버 (stdio, 줄 단위 JSON-RPC 2.0). 마침표 봇과 개발 중 Kiro 세션이 같은 도구를 쓴다. [R22][R27]
+// household MCP 서버 (stdio, 줄 단위 JSON-RPC 2.0). 점검 봇 똑이와 개발 중 Kiro 세션이 같은 도구를 쓴다. [R22][R27]
 // 외부 네트워크·리스닝 포트 없음. 상태 파일은 bot-state/runtime/state.json (git 제외).
 import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, writeFileSync, appendFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';

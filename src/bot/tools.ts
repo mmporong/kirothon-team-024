@@ -1,4 +1,4 @@
-// 마침표 봇의 MCP 도구. 모든 상태 변경은 domain/policy.evaluateAction 을 거친다. [R16][R22][R23][R24][R25][R27]
+// 똑Pay 점검 봇 '똑이'의 MCP 도구. 모든 상태 변경은 domain/policy.evaluateAction 을 거친다. [R16][R22][R23][R24][R25][R27]
 // 사람만 할 수 있는 일(투표·동의 철회·해지 요청 기록·사업자 확인)은 도구로 만들지 않았다. [R23][B1]
 import { cheapestFit, compareAlternatives, NEED_LABEL, type Need } from '../domain/alternatives';
 import { CHANNEL_PRICES, compareChannels, findPrices, PRICE_STATUS_LABEL, refundRoute, switchSteps } from '../domain/channelPrice';

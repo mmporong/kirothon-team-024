@@ -106,3 +106,5 @@ code { font: 12.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: 
 .node.gate { border-color: #bfdbfe; background: var(--blue-soft); }
 .arrow { color: var(--muted); }
 .foot { margin-top: 24px; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--line); padding-top: 12px; }
+
+.slogan { font-size: 15px; font-weight: 500; color: var(--blue); margin-left: 6px; letter-spacing: 0; }

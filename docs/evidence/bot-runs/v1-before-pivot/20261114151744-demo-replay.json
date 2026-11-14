@@ -1,0 +1,2444 @@
+{
+ "schema": 1,
+ "title": "구독 점검 봇 — Kiro CLI 실제 실행 기록",
+ "recordedAt": "2026-11-14T15:17:44.428+09:00",
+ "finishedAt": "2026-11-14T15:26:01.519+09:00",
+ "note": "각 점검은 Kiro CLI 헤드리스(--agent subs-bot, household MCP)로 실제 실행했고, 이 파일은 그 결과를 저장한 녹화 기록이다. 가구·문자·응답은 모두 합성 데이터다.",
+ "household": {
+  "name": "합성 데모 가구",
+  "members": [
+   {
+    "id": "me",
+    "label": "나",
+    "role": "owner"
+   },
+   {
+    "id": "mom",
+    "label": "엄마",
+    "role": "member"
+   },
+   {
+    "id": "bro",
+    "label": "동생",
+    "role": "member"
+   }
+  ]
+ },
+ "subscriptions": [
+  {
+   "id": "sub-disney",
+   "serviceId": "disney_plus_kr",
+   "planId": "standard",
+   "name": "디즈니+ 스탠다드",
+   "monthlyWon": 9900,
+   "nextChargeDate": "2026-11-17",
+   "channel": "web",
+   "ownerId": "me",
+   "sharedWith": [
+    "mom",
+    "bro"
+   ],
+   "sourceKind": "demo",
+   "usage": null
+  },
+  {
+   "id": "sub-netflix",
+   "serviceId": "netflix_kr",
+   "planId": "ad_standard",
+   "name": "넷플릭스 광고형 스탠다드",
+   "monthlyWon": 7000,
+   "nextChargeDate": "2026-12-05",
+   "channel": "web",
+   "ownerId": "me",
+   "sharedWith": [],
+   "sourceKind": "demo",
+   "usage": null
+  },
+  {
+   "id": "sub-youtube",
+   "serviceId": "youtube_premium_kr",
+   "planId": "individual",
+   "name": "유튜브 프리미엄",
+   "monthlyWon": 14900,
+   "nextChargeDate": "2026-11-28",
+   "channel": "google_play",
+   "ownerId": "me",
+   "sharedWith": [],
+   "sourceKind": "demo",
+   "usage": null
+  }
+ ],
+ "steps": [
+  {
+   "kind": "event",
+   "clock": "2026-11-14T09:00:00+09:00",
+   "text": "합성 데모 가구: 나(결제자)·엄마·동생. 디즈니+ 스탠다드 9,900원(기존 요금)을 셋이 함께 봐요. 결제일 11월 17일."
+  },
+  {
+   "kind": "patrol",
+   "id": "P1",
+   "clock": "2026-11-14T09:00:00+09:00",
+   "receipt": {
+    "model": "claude-opus-5.5",
+    "engine": "v3",
+    "ms": 130940,
+    "toolCalls": 8,
+    "tools": [
+     "get_status",
+     "ingest_sms",
+     "calc_resub",
+     "calc_resub",
+     "compare_options",
+     "ask_member",
+     "get_status",
+     "finish_patrol"
+    ],
+    "denied": 0,
+    "hooks": [
+     {
+      "name": "session-context",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "stop-summary",
+      "status": "completed"
+     }
+    ],
+    "credits": 4.282,
+    "fallback": false,
+    "exitCode": 0,
+    "finalText": "점검을 마쳤어요. 디즈니+ 스탠다드가 2026-11-17(D-3)에 결제될 예정이라, 유지할지 쉴지 결제자(나)에게 먼저 물었어요.\n\n- **결제 문자 2건 처리:** 하나는 2026-10-17 디즈니+ 결제 승인 9,900원으로, 등록된 금액과 같아요. 다른 하나는 광고 문자예요. 해지 요청 뒤에 들어온 청구는 없었어요.\n- **디즈니+ 손익 계산:** 12개월 기준으로 1개월만 쉬면 7,700원이 더 들고, 2개월 쉬면 3,800원을 아껴요. 광고형 스탠다드로 바꾸면 34,800원이 덜 들지만 광고가 붙어요. 공개 요금으로 낸 예시 계산이라 실제 청구액과 다를 수 있어요. 엄마·동생과 함께 쓰는 구독이라, 쉬기나 요금제 변경을 고르면 가족 동의를 먼저 받아요.\n- **나머지 구독:** 넷플릭스(D-21)와 유튜브 프리미엄(D-14)은 결제일까지 여유가 있어요. 가족 검토나 해지 확인 단계에 있는 사건도 없어요.\n\n**기다리는 것:** 결제자(나)의 디즈니+ 결정 답장이에요(질문 q-2, 사건 case-disney_plus_kr-1).\n\n**확인할 점:** 손익 계산에 쓴 가격 출처의 확인 시각이 2026-11-14 14:27로 찍혀 있어요. 데모 시계인 09:00보다 늦은 시각이에요. 원인은 아직 확인하지 않았어요. `~/kirothon-team-024/src/data/`에서 디즈니+ 요금 정책의 확인 시각 값을 살펴보세요.",
+    "startedAtReal": "2026-11-14T15:17:44.429+09:00",
+    "finishedAtReal": "2026-11-14T15:19:55.369+09:00"
+   },
+   "report": {
+    "summary": "결제 문자 2건을 구조화했어요. 디즈니+ 2026-10-17 결제 승인 9,900원(등록 금액과 일치) 1건과 광고 문자 1건이고, 해지 요청 뒤 청구는 없었어요. 디즈니+ 스탠다드가 2026-11-17(D-3)에 결제 예정이라 쉬기 손익과 대안을 계산해 결제자(나)에게 먼저 물었어요(질문 q-2, 사건 case-disney_plus_kr-1 결제 전 검토). 공개 요금 기준 예시 계산으로 12개월 기준 1개월만 쉬면 7,700원 더 들고 2개월 쉬면 3,800원 아끼며, 광고형 스탠다드는 34,800원 적지만 광고가 붙어요. 넷플릭스(D-21)·유튜브 프리미엄(D-14)은 여유가 있고, 가족 검토나 해지 확인 단계의 사건은 없어요.",
+    "waitingFor": [
+     "나(결제자): 디즈니+ 스탠다드 결제 전 결정 답장(유지 또는 가족과 상의), 결제 예정일 2026-11-17, 질문 q-2"
+    ]
+   },
+   "tools": [
+    {
+     "seq": 1,
+     "at": "2026-11-14T09:00:00+09:00",
+     "patrolId": "P1",
+     "tool": "get_status",
+     "args": {},
+     "ok": true,
+     "reasons": [],
+     "summary": "구독 3개, 3일 안 결제 1개, 새 답장 0개"
+    },
+    {
+     "seq": 2,
+     "at": "2026-11-14T09:00:00+09:00",
+     "patrolId": "P1",
+     "tool": "ingest_sms",
+     "args": {},
+     "ok": true,
+     "reasons": [],
+     "summary": "문자 2건 구조화"
+    },
+    {
+     "seq": 3,
+     "at": "2026-11-14T09:00:00+09:00",
+     "patrolId": "P1",
+     "tool": "calc_resub",
+     "args": {
+      "subscriptionId": "sub-disney",
+      "pauseMonths": 1
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "1개월 쉬었다가 돌아오면 12개월 기준 7,700원 더 들어요."
+    },
+    {
+     "seq": 4,
+     "at": "2026-11-14T09:00:00+09:00",
+     "patrolId": "P1",
+     "tool": "calc_resub",
+     "args": {
+      "subscriptionId": "sub-disney",
+      "pauseMonths": 2
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요."
+    },
+    {
+     "seq": 5,
+     "at": "2026-11-14T09:00:00+09:00",
+     "patrolId": "P1",
+     "tool": "compare_options",
+     "args": {
+      "subscriptionId": "sub-disney",
+      "pauseMonths": 2
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "대안 4개 비교, 요구에 맞는 가장 싼 안: 광고형 스탠다드로 변경"
+    },
+    {
+     "seq": 6,
+     "at": "2026-11-14T09:00:00+09:00",
+     "patrolId": "P1",
+     "tool": "ask_member",
+     "args": {
+      "to": "me",
+      "subscriptionId": "sub-disney",
+      "text": "디즈니+ 스탠다드가 2026-11-17(D-3)에 결제될 예정이라 먼저 여쭤봐요. 디즈니+ 스탠다드: 지금 해지하고 다시 가입하면 월 11,500원(2026-11-10 이후 신규 요금)이에요. 12개월 기준으로 1개월만 쉬면 7,700원 더 들고, 2개월 이상 안 볼 거면 해지가 이득이에요(2개월 3,800원, 3개월 15,300원 아낌). 대안으로 광고형 스탠다드는 12개월 84,000원으로 유지보다 34,800원 적지만 광고가 붙고 기존 요금 자격을 잃어요. 엄마·동생과 함께 쓰는 구독이라 쉬기·변경은 가족 동의를 받은 뒤 진행…",
+      "choices": [
+       "유지할게요",
+       "가족과 상의할게요(2개월 쉬기)",
+       "가족과 상의할게요(광고형으로 변경)",
+       "가족과 상의할게요(다른 개월 수는 답장에 적기)"
+      ]
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "나에게 질문을 보냈어요"
+    },
+    {
+     "seq": 7,
+     "at": "2026-11-14T09:00:00+09:00",
+     "patrolId": "P1",
+     "tool": "get_status",
+     "args": {},
+     "ok": true,
+     "reasons": [],
+     "summary": "구독 3개, 3일 안 결제 1개, 새 답장 0개"
+    },
+    {
+     "seq": 8,
+     "at": "2026-11-14T09:00:00+09:00",
+     "patrolId": "P1",
+     "tool": "finish_patrol",
+     "args": {
+      "summary": "결제 문자 2건을 구조화했어요. 디즈니+ 2026-10-17 결제 승인 9,900원(등록 금액과 일치) 1건과 광고 문자 1건이고, 해지 요청 뒤 청구는 없었어요. 디즈니+ 스탠다드가 2026-11-17(D-3)에 결제 예정이라 쉬기 손익과 대안을 계산해 결제자(나)에게 먼저 물었어요(질문 q-2, 사건 case-disney_plus_kr-1 결제 전 검토). 공개 요금 기준 예시 계산으로 12개월 기준 1개월만 쉬면 7,700원 더 들고 2개월 쉬면 3,800원 아끼며, 광고형 스탠다드는 34,800원 적지만 광고가 붙어요. 넷플…",
+      "waitingFor": [
+       "나(결제자): 디즈니+ 스탠다드 결제 전 결정 답장(유지 또는 가족과 상의), 결제 예정일 2026-11-17, 질문 q-2"
+      ]
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "점검 기록을 남겼어요"
+    }
+   ],
+   "messages": [
+    {
+     "id": "msg-3",
+     "at": "2026-11-14T09:00:00+09:00",
+     "from": "bot",
+     "readByBot": true,
+     "patrolId": "P1",
+     "to": "me",
+     "kind": "question",
+     "text": "디즈니+ 스탠다드가 2026-11-17(D-3)에 결제될 예정이라 먼저 여쭤봐요. 디즈니+ 스탠다드: 지금 해지하고 다시 가입하면 월 11,500원(2026-11-10 이후 신규 요금)이에요. 12개월 기준으로 1개월만 쉬면 7,700원 더 들고, 2개월 이상 안 볼 거면 해지가 이득이에요(2개월 3,800원, 3개월 15,300원 아낌). 대안으로 광고형 스탠다드는 12개월 84,000원으로 유지보다 34,800원 적지만 광고가 붙고 기존 요금 자격을 잃어요. 엄마·동생과 함께 쓰는 구독이라 쉬기·변경은 가족 동의를 받은 뒤 진행하며, 숫자는 모두 공개 요금 기준 예시 계산이에요.",
+     "subscriptionId": "sub-disney",
+     "caseId": "case-disney_plus_kr-1",
+     "choices": [
+      "유지할게요",
+      "가족과 상의할게요(2개월 쉬기)",
+      "가족과 상의할게요(광고형으로 변경)",
+      "가족과 상의할게요(다른 개월 수는 답장에 적기)"
+     ],
+     "questionId": "q-2",
+     "fromLabel": "봇",
+     "toLabel": "나"
+    }
+   ],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "reviewing",
+     "stageLabel": "결제 전 검토",
+     "proposal": null,
+     "closure": "해지 요청 전",
+     "cancelRequestedAt": null
+    }
+   ]
+  },
+  {
+   "kind": "event",
+   "clock": "2026-11-14T09:10:00+09:00",
+   "text": "10분 뒤"
+  },
+  {
+   "kind": "human",
+   "clock": "2026-11-14T09:10:00+09:00",
+   "actor": "나",
+   "action": "reply",
+   "text": "나: 2개월 쉬는 걸로 하고, 엄마랑 동생한테 물어봐 줘.",
+   "allowed": true,
+   "reasons": [],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "reviewing",
+     "stageLabel": "결제 전 검토",
+     "proposal": null,
+     "closure": "해지 요청 전",
+     "cancelRequestedAt": null
+    }
+   ]
+  },
+  {
+   "kind": "event",
+   "clock": "2026-11-14T09:30:00+09:00",
+   "text": "20분 뒤 다음 점검"
+  },
+  {
+   "kind": "patrol",
+   "id": "P2",
+   "clock": "2026-11-14T09:30:00+09:00",
+   "receipt": {
+    "model": "claude-opus-5.5",
+    "engine": "v3",
+    "ms": 117283,
+    "toolCalls": 6,
+    "tools": [
+     "get_status",
+     "calc_resub",
+     "propose_family_plan",
+     "request_handoff",
+     "remind_pending",
+     "finish_patrol"
+    ],
+    "denied": 1,
+    "hooks": [
+     {
+      "name": "session-context",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "stop-summary",
+      "status": "completed"
+     }
+    ],
+    "credits": 3.67,
+    "fallback": false,
+    "exitCode": 0,
+    "finalText": "점검을 마쳤습니다. 디즈니+ 스탠다드를 2개월 쉬었다가 다시 가입하는 가족 제안 v1을 엄마와 동생에게 보냈습니다.\n\n- **디즈니+ 스탠다드(11월 17일 결제, D-3):** 나의 답장대로 2개월 쉬는 안으로 제안했습니다. 공개 요금으로 계산한 예시 값이라 실제 계정 요금과 다를 수 있습니다. 이 계산으로는 12개월 동안 3,800원을 아낍니다. 다시 가입하면 월 11,500원 신규 요금이 적용됩니다.\n- **결제자 인계:** 엄마와 동생이 아직 응답하지 않아 정책 관문이 인계를 거부했습니다. 방금 보낸 요청이라 다시 알림은 보내지 않았습니다.\n- **나머지 구독:** 처리할 결제 문자는 없었습니다. 넷플릭스(12월 5일 결제)와 유튜브 프리미엄(11월 28일 결제)은 3일 안에 결제되지 않아서 이번에는 묻지 않았습니다.\n\n**기다리는 것:** 엄마와 동생의 찬성·반대 응답이 11월 17일 결제일 전에 와야 합니다. 두 사람이 모두 동의하면 다음 점검에서 결제자 인계를 다시 요청합니다. 2시간이 지나도 응답이 없으면 한 번 더 알립니다.\n\n참고로 calc_resub 결과에 적힌 가격 확인 시각은 2026-11-14 14:27입니다. 데모 시각 09:30보다 늦은 시각이라 데이터를 확인해 봐야 할 것 같습니다. 원인은 아직 확인하지 않았습니다.",
+    "startedAtReal": "2026-11-14T15:19:55.372+09:00",
+    "finishedAtReal": "2026-11-14T15:21:52.655+09:00"
+   },
+   "report": {
+    "summary": "결제자(나)의 답장대로 디즈니+ 스탠다드(11월 17일 결제, D-3)를 2개월 쉬었다가 복귀하는 가족 제안 v1을 만들어 엄마·동생에게 동의 요청을 보냈습니다. 공개 요금 기준 예시 계산으로는 12개월 기준 3,800원 아끼는 안이고, 재가입하면 월 11,500원 신규 요금이 적용됩니다. 결제자 인계는 두 사람이 아직 응답하지 않아 정책 관문이 거부했고, 방금 보낸 요청이라 다시 알림은 보내지 않았습니다. 처리할 결제 문자는 없었고, 넷플릭스·유튜브 프리미엄은 3일 안 결제가 아니어서 이번에는 묻지 않았습니다.",
+    "waitingFor": [
+     "엄마: 디즈니+ 가족 제안 v1(2개월 쉬기) 찬성·반대 응답 (결제일 11월 17일 전)",
+     "동생: 디즈니+ 가족 제안 v1(2개월 쉬기) 찬성·반대 응답 (결제일 11월 17일 전)"
+    ]
+   },
+   "tools": [
+    {
+     "seq": 9,
+     "at": "2026-11-14T09:30:00+09:00",
+     "patrolId": "P2",
+     "tool": "get_status",
+     "args": {},
+     "ok": true,
+     "reasons": [],
+     "summary": "구독 3개, 3일 안 결제 1개, 새 답장 1개"
+    },
+    {
+     "seq": 10,
+     "at": "2026-11-14T09:30:00+09:00",
+     "patrolId": "P2",
+     "tool": "calc_resub",
+     "args": {
+      "subscriptionId": "sub-disney",
+      "pauseMonths": 2
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요."
+    },
+    {
+     "seq": 11,
+     "at": "2026-11-14T09:30:00+09:00",
+     "patrolId": "P2",
+     "tool": "propose_family_plan",
+     "args": {
+      "subscriptionId": "sub-disney",
+      "choice": "pause",
+      "pauseMonths": 2,
+      "note": "결제자(나) 답장 반영: 2개월 쉬었다가 복귀하는 안으로 가족 상의 요청"
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "가족 제안 v1(잠시 해지 후 복귀 2개월)을 엄마·동생에게 보냈어요"
+    },
+    {
+     "seq": 12,
+     "at": "2026-11-14T09:30:00+09:00",
+     "patrolId": "P2",
+     "tool": "request_handoff",
+     "args": {
+      "caseId": "case-disney_plus_kr-1"
+     },
+     "ok": false,
+     "reasons": [
+      "consent_missing"
+     ],
+     "summary": "정책 관문 거부: 아직 응답하지 않은 가족이 있어요"
+    },
+    {
+     "seq": 13,
+     "at": "2026-11-14T09:30:00+09:00",
+     "patrolId": "P2",
+     "tool": "remind_pending",
+     "args": {
+      "caseId": "case-disney_plus_kr-1"
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "다시 알릴 사람이 없어요"
+    },
+    {
+     "seq": 14,
+     "at": "2026-11-14T09:30:00+09:00",
+     "patrolId": "P2",
+     "tool": "finish_patrol",
+     "args": {
+      "summary": "결제자(나)의 답장대로 디즈니+ 스탠다드(11월 17일 결제, D-3)를 2개월 쉬었다가 복귀하는 가족 제안 v1을 만들어 엄마·동생에게 동의 요청을 보냈습니다. 공개 요금 기준 예시 계산으로는 12개월 기준 3,800원 아끼는 안이고, 재가입하면 월 11,500원 신규 요금이 적용됩니다. 결제자 인계는 두 사람이 아직 응답하지 않아 정책 관문이 거부했고, 방금 보낸 요청이라 다시 알림은 보내지 않았습니다. 처리할 결제 문자는 없었고, 넷플릭스·유튜브 프리미엄은 3일 안 결제가 아니어서 이번에는 묻지 않았습니다.",
+      "waitingFor": [
+       "엄마: 디즈니+ 가족 제안 v1(2개월 쉬기) 찬성·반대 응답 (결제일 11월 17일 전)",
+       "동생: 디즈니+ 가족 제안 v1(2개월 쉬기) 찬성·반대 응답 (결제일 11월 17일 전)"
+      ]
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "점검 기록을 남겼어요"
+    }
+   ],
+   "messages": [
+    {
+     "id": "msg-6",
+     "at": "2026-11-14T09:30:00+09:00",
+     "from": "bot",
+     "readByBot": true,
+     "patrolId": "P2",
+     "to": "mom",
+     "kind": "vote_request",
+     "text": "[가족 제안 v1] 디즈니+ 스탠다드 — 잠시 해지 후 복귀 2개월. 2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요. (결제자(나) 답장 반영: 2개월 쉬었다가 복귀하는 안으로 가족 상의 요청)",
+     "subscriptionId": "sub-disney",
+     "caseId": "case-disney_plus_kr-1",
+     "choices": [
+      "동의",
+      "반대",
+      "보류"
+     ],
+     "version": 1,
+     "questionId": "q-5",
+     "fromLabel": "봇",
+     "toLabel": "엄마"
+    },
+    {
+     "id": "msg-8",
+     "at": "2026-11-14T09:30:00+09:00",
+     "from": "bot",
+     "readByBot": true,
+     "patrolId": "P2",
+     "to": "bro",
+     "kind": "vote_request",
+     "text": "[가족 제안 v1] 디즈니+ 스탠다드 — 잠시 해지 후 복귀 2개월. 2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요. (결제자(나) 답장 반영: 2개월 쉬었다가 복귀하는 안으로 가족 상의 요청)",
+     "subscriptionId": "sub-disney",
+     "caseId": "case-disney_plus_kr-1",
+     "choices": [
+      "동의",
+      "반대",
+      "보류"
+     ],
+     "version": 1,
+     "questionId": "q-7",
+     "fromLabel": "봇",
+     "toLabel": "동생"
+    }
+   ],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "family_review",
+     "stageLabel": "가족 검토 중",
+     "proposal": {
+      "version": 1,
+      "choice": "잠시 해지 후 복귀",
+      "pauseMonths": 2,
+      "horizon": 12,
+      "sentence": "2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요.",
+      "agree": [],
+      "object": [],
+      "abstain": [],
+      "pending": [
+       "엄마",
+       "동생"
+      ],
+      "invalidatedOldVotes": 0
+     },
+     "closure": "해지 요청 전",
+     "cancelRequestedAt": null
+    }
+   ]
+  },
+  {
+   "kind": "event",
+   "clock": "2026-11-14T10:00:00+09:00",
+   "text": "30분 뒤"
+  },
+  {
+   "kind": "human",
+   "clock": "2026-11-14T10:00:00+09:00",
+   "actor": "엄마",
+   "action": "vote",
+   "text": "엄마: 동의 (제안 v1) · 현재 동의 1/2",
+   "allowed": true,
+   "reasons": [],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "family_review",
+     "stageLabel": "가족 검토 중",
+     "proposal": {
+      "version": 1,
+      "choice": "잠시 해지 후 복귀",
+      "pauseMonths": 2,
+      "horizon": 12,
+      "sentence": "2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요.",
+      "agree": [
+       "엄마"
+      ],
+      "object": [],
+      "abstain": [],
+      "pending": [
+       "동생"
+      ],
+      "invalidatedOldVotes": 0
+     },
+     "closure": "해지 요청 전",
+     "cancelRequestedAt": null
+    }
+   ]
+  },
+  {
+   "kind": "event",
+   "clock": "2026-11-14T10:05:00+09:00",
+   "text": "5분 뒤"
+  },
+  {
+   "kind": "human",
+   "clock": "2026-11-14T10:05:00+09:00",
+   "actor": "동생",
+   "action": "vote",
+   "text": "동생: 반대 (제안 v1) — \"2개월은 애매해요. 어차피 2월까지는 볼 게 없으니까 3개월 쉬어요.\" · 현재 동의 1/2",
+   "allowed": true,
+   "reasons": [],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "family_review",
+     "stageLabel": "가족 검토 중",
+     "proposal": {
+      "version": 1,
+      "choice": "잠시 해지 후 복귀",
+      "pauseMonths": 2,
+      "horizon": 12,
+      "sentence": "2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요.",
+      "agree": [
+       "엄마"
+      ],
+      "object": [
+       {
+        "member": "동생",
+        "comment": "2개월은 애매해요. 어차피 2월까지는 볼 게 없으니까 3개월 쉬어요."
+       }
+      ],
+      "abstain": [],
+      "pending": [],
+      "invalidatedOldVotes": 0
+     },
+     "closure": "해지 요청 전",
+     "cancelRequestedAt": null
+    }
+   ]
+  },
+  {
+   "kind": "event",
+   "clock": "2026-11-14T12:00:00+09:00",
+   "text": "점심 점검"
+  },
+  {
+   "kind": "patrol",
+   "id": "P3",
+   "clock": "2026-11-14T12:00:00+09:00",
+   "receipt": {
+    "model": "claude-opus-5.5",
+    "engine": "v3",
+    "ms": 122685,
+    "toolCalls": 5,
+    "tools": [
+     "get_status",
+     "request_handoff",
+     "calc_resub",
+     "propose_family_plan",
+     "finish_patrol"
+    ],
+    "denied": 1,
+    "hooks": [
+     {
+      "name": "session-context",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "stop-summary",
+      "status": "completed"
+     }
+    ],
+    "credits": 3.587,
+    "fallback": false,
+    "exitCode": 0,
+    "finalText": "점검 도구 스키마를 불러온 뒤 가구 상태부터 확인하겠습니다.\n동생의 반대 의견(3개월 쉬기)대로 조건을 바꿨을 때 손익을 계산하겠습니다.\n3개월 쉬기는 12개월 기준 15,300원 이득이라 손해가 아닙니다. 동생 의견을 반영한 개정안(v2)을 내겠습니다.\n점검을 마쳤습니다. 디즈니+ 스탠다드는 동생 의견대로 3개월 쉬는 개정안 v2를 엄마와 동생에게 보냈습니다.\n\n- **인계 거부:** 정책 관문이 제안 v1(2개월 쉬기)의 결제자 인계를 거부했습니다. 엄마는 동의했지만, 동생이 \"2월까지는 볼 게 없으니 3개월 쉬자\"며 반대했습니다.\n- **개정안 v2:** 3개월 쉬면 12개월 기준 15,300원을 아낍니다. 이 값은 공개 요금으로 낸 예시 계산이고, 계정의 실제 청구액은 아직 확인하지 않았습니다. 조건이 바뀌어서 v1 응답 2건은 무효가 됐습니다.\n- **그 밖의 구독:** 새 결제 문자는 없었고, 다음 청구를 확인할 해지 사건도 없었습니다. 넷플릭스(2026-12-05)와 유튜브 프리미엄(2026-11-28)은 3일 안에 결제되지 않아서 이번에는 묻지 않았습니다.\n\n**기다리는 일:** 엄마와 동생의 v2 응답입니다. 결제일은 2026-11-17입니다.\n\n참고로, calc_resub가 돌려준 가격 출처 확인 시각(2026-11-14 14:27)이 데모 시계(12:00)보다 늦습니다. 데모 자료의 시각 설정을 확인해 주세요.",
+    "startedAtReal": "2026-11-14T15:21:52.658+09:00",
+    "finishedAtReal": "2026-11-14T15:23:55.343+09:00"
+   },
+   "report": {
+    "summary": "디즈니+ 스탠다드 가족 제안 v1(2개월 쉬기)은 엄마가 동의하고 동생이 반대해 정책 관문에서 결제자 인계가 거부됐어요. 동생 의견대로 3개월 쉬기를 계산하니 공개 요금 기준 예시 계산으로 12개월 기준 15,300원 아끼는 안이라, 개정안 v2를 엄마·동생에게 보냈고 v1 응답 2건은 무효가 됐어요. 새 결제 문자와 해지 확인 대상 사건은 없었고, 넷플릭스(2026-12-05)·유튜브 프리미엄(2026-11-28)은 3일 안 결제가 아니어서 이번에는 묻지 않았어요.",
+    "waitingFor": [
+     "엄마: 디즈니+ 가족 제안 v2(3개월 쉬기) 응답 (결제일 2026-11-17)",
+     "동생: 디즈니+ 가족 제안 v2(3개월 쉬기) 응답 (결제일 2026-11-17)"
+    ]
+   },
+   "tools": [
+    {
+     "seq": 15,
+     "at": "2026-11-14T12:00:00+09:00",
+     "patrolId": "P3",
+     "tool": "get_status",
+     "args": {},
+     "ok": true,
+     "reasons": [],
+     "summary": "구독 3개, 3일 안 결제 1개, 새 답장 2개"
+    },
+    {
+     "seq": 16,
+     "at": "2026-11-14T12:00:00+09:00",
+     "patrolId": "P3",
+     "tool": "request_handoff",
+     "args": {
+      "caseId": "case-disney_plus_kr-1"
+     },
+     "ok": false,
+     "reasons": [
+      "objection_present"
+     ],
+     "summary": "정책 관문 거부: 반대한 가족이 있어요"
+    },
+    {
+     "seq": 17,
+     "at": "2026-11-14T12:00:00+09:00",
+     "patrolId": "P3",
+     "tool": "calc_resub",
+     "args": {
+      "subscriptionId": "sub-disney",
+      "pauseMonths": 3
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요."
+    },
+    {
+     "seq": 18,
+     "at": "2026-11-14T12:00:00+09:00",
+     "patrolId": "P3",
+     "tool": "propose_family_plan",
+     "args": {
+      "subscriptionId": "sub-disney",
+      "choice": "pause",
+      "pauseMonths": 3,
+      "horizon": 12,
+      "note": "동생 의견 반영: 쉬는 기간을 2개월에서 3개월로 변경"
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "가족 제안 v2(잠시 해지 후 복귀 3개월)을 엄마·동생에게 보냈어요"
+    },
+    {
+     "seq": 19,
+     "at": "2026-11-14T12:00:00+09:00",
+     "patrolId": "P3",
+     "tool": "finish_patrol",
+     "args": {
+      "summary": "디즈니+ 스탠다드 가족 제안 v1(2개월 쉬기)은 엄마가 동의하고 동생이 반대해 정책 관문에서 결제자 인계가 거부됐어요. 동생 의견대로 3개월 쉬기를 계산하니 공개 요금 기준 예시 계산으로 12개월 기준 15,300원 아끼는 안이라, 개정안 v2를 엄마·동생에게 보냈고 v1 응답 2건은 무효가 됐어요. 새 결제 문자와 해지 확인 대상 사건은 없었고, 넷플릭스(2026-12-05)·유튜브 프리미엄(2026-11-28)은 3일 안 결제가 아니어서 이번에는 묻지 않았어요.",
+      "waitingFor": [
+       "엄마: 디즈니+ 가족 제안 v2(3개월 쉬기) 응답 (결제일 2026-11-17)",
+       "동생: 디즈니+ 가족 제안 v2(3개월 쉬기) 응답 (결제일 2026-11-17)"
+      ]
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "점검 기록을 남겼어요"
+    }
+   ],
+   "messages": [
+    {
+     "id": "msg-12",
+     "at": "2026-11-14T12:00:00+09:00",
+     "from": "bot",
+     "readByBot": true,
+     "patrolId": "P3",
+     "to": "mom",
+     "kind": "vote_request",
+     "text": "[가족 제안 v2] 디즈니+ 스탠다드 — 잠시 해지 후 복귀 3개월. 3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요. (동생 의견 반영: 쉬는 기간을 2개월에서 3개월로 변경) 조건이 바뀌어 이전 응답은 무효가 됐어요. 다시 응답해 주세요.",
+     "subscriptionId": "sub-disney",
+     "caseId": "case-disney_plus_kr-1",
+     "choices": [
+      "동의",
+      "반대",
+      "보류"
+     ],
+     "version": 2,
+     "questionId": "q-11",
+     "fromLabel": "봇",
+     "toLabel": "엄마"
+    },
+    {
+     "id": "msg-14",
+     "at": "2026-11-14T12:00:00+09:00",
+     "from": "bot",
+     "readByBot": true,
+     "patrolId": "P3",
+     "to": "bro",
+     "kind": "vote_request",
+     "text": "[가족 제안 v2] 디즈니+ 스탠다드 — 잠시 해지 후 복귀 3개월. 3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요. (동생 의견 반영: 쉬는 기간을 2개월에서 3개월로 변경) 조건이 바뀌어 이전 응답은 무효가 됐어요. 다시 응답해 주세요.",
+     "subscriptionId": "sub-disney",
+     "caseId": "case-disney_plus_kr-1",
+     "choices": [
+      "동의",
+      "반대",
+      "보류"
+     ],
+     "version": 2,
+     "questionId": "q-13",
+     "fromLabel": "봇",
+     "toLabel": "동생"
+    }
+   ],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "family_review",
+     "stageLabel": "가족 검토 중",
+     "proposal": {
+      "version": 2,
+      "choice": "잠시 해지 후 복귀",
+      "pauseMonths": 3,
+      "horizon": 12,
+      "sentence": "3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요.",
+      "agree": [],
+      "object": [],
+      "abstain": [],
+      "pending": [
+       "엄마",
+       "동생"
+      ],
+      "invalidatedOldVotes": 2
+     },
+     "closure": "해지 요청 전",
+     "cancelRequestedAt": null
+    }
+   ]
+  },
+  {
+   "kind": "event",
+   "clock": "2026-11-14T12:20:00+09:00",
+   "text": "20분 뒤"
+  },
+  {
+   "kind": "human",
+   "clock": "2026-11-14T12:20:00+09:00",
+   "actor": "엄마",
+   "action": "vote-stale",
+   "text": "엄마의 v1 동의 응답 거부: 이전 버전 제안에 대한 응답이라 받을 수 없어요. 현재 버전에 다시 응답해 주세요",
+   "allowed": false,
+   "reasons": [
+    "stale_version"
+   ],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "family_review",
+     "stageLabel": "가족 검토 중",
+     "proposal": {
+      "version": 2,
+      "choice": "잠시 해지 후 복귀",
+      "pauseMonths": 3,
+      "horizon": 12,
+      "sentence": "3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요.",
+      "agree": [],
+      "object": [],
+      "abstain": [],
+      "pending": [
+       "엄마",
+       "동생"
+      ],
+      "invalidatedOldVotes": 2
+     },
+     "closure": "해지 요청 전",
+     "cancelRequestedAt": null
+    }
+   ]
+  },
+  {
+   "kind": "human",
+   "clock": "2026-11-14T12:20:00+09:00",
+   "actor": "엄마",
+   "action": "vote",
+   "text": "엄마: 동의 (제안 v2) · 현재 동의 1/2",
+   "allowed": true,
+   "reasons": [],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "family_review",
+     "stageLabel": "가족 검토 중",
+     "proposal": {
+      "version": 2,
+      "choice": "잠시 해지 후 복귀",
+      "pauseMonths": 3,
+      "horizon": 12,
+      "sentence": "3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요.",
+      "agree": [
+       "엄마"
+      ],
+      "object": [],
+      "abstain": [],
+      "pending": [
+       "동생"
+      ],
+      "invalidatedOldVotes": 2
+     },
+     "closure": "해지 요청 전",
+     "cancelRequestedAt": null
+    }
+   ]
+  },
+  {
+   "kind": "event",
+   "clock": "2026-11-14T12:25:00+09:00",
+   "text": "5분 뒤"
+  },
+  {
+   "kind": "human",
+   "clock": "2026-11-14T12:25:00+09:00",
+   "actor": "동생",
+   "action": "vote",
+   "text": "동생: 동의 (제안 v2) · 현재 동의 2/2",
+   "allowed": true,
+   "reasons": [],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "family_review",
+     "stageLabel": "가족 검토 중",
+     "proposal": {
+      "version": 2,
+      "choice": "잠시 해지 후 복귀",
+      "pauseMonths": 3,
+      "horizon": 12,
+      "sentence": "3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요.",
+      "agree": [
+       "엄마",
+       "동생"
+      ],
+      "object": [],
+      "abstain": [],
+      "pending": [],
+      "invalidatedOldVotes": 2
+     },
+     "closure": "해지 요청 전",
+     "cancelRequestedAt": null
+    }
+   ]
+  },
+  {
+   "kind": "event",
+   "clock": "2026-11-14T18:00:00+09:00",
+   "text": "저녁 점검"
+  },
+  {
+   "kind": "patrol",
+   "id": "P4",
+   "clock": "2026-11-14T18:00:00+09:00",
+   "receipt": {
+    "model": "claude-opus-5.5",
+    "engine": "v3",
+    "ms": 48784,
+    "toolCalls": 3,
+    "tools": [
+     "get_status",
+     "request_handoff",
+     "finish_patrol"
+    ],
+    "denied": 0,
+    "hooks": [
+     {
+      "name": "session-context",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "stop-summary",
+      "status": "completed"
+     }
+    ],
+    "credits": 1.861,
+    "fallback": false,
+    "exitCode": 0,
+    "finalText": "점검을 마쳤고, 디즈니+ 스탠다드 해지 경로를 결제자인 나에게 보냈습니다.\n\n- **디즈니+ 스탠다드**: 엄마와 동생이 제안 v2(3개월 쉬었다가 복귀, 12개월 기준 계산상 15,300원 절약)에 동의했습니다. 공유하는 가족이 모두 현재 제안에 동의해서 정책 관문이 결제자 인계를 허용했습니다. 보낸 공식 해지 경로는 https://www.disneyplus.com/account/cancel-subscription 입니다.\n- **그 밖의 확인 결과**: 새 결제 문자와 대기 중인 질문은 없었습니다. 넷플릭스(D-21)와 유튜브 프리미엄(D-14)은 아직 검토할 시점이 아닙니다.\n\n**기다리는 일**\n- 나(결제자): 결제일인 2026-11-17 전에 위 공식 경로에서 해지를 신청하고 앱에 기록해야 합니다. 신청이 기록되면 다음 점검부터 다음 청구가 오는지 확인합니다.",
+    "startedAtReal": "2026-11-14T15:23:55.346+09:00",
+    "finishedAtReal": "2026-11-14T15:24:44.131+09:00"
+   },
+   "report": {
+    "summary": "엄마와 동생이 디즈니+ 스탠다드 제안 v2(3개월 쉬었다가 복귀)에 동의한 답장을 반영했습니다. 공유 구성원 전원이 현재 버전에 동의해 정책 관문이 결제자 인계를 허용했고, 나에게 디즈니+ 공식 해지 경로를 보냈습니다. 새 결제 문자와 대기 중 질문은 없었고, 넷플릭스(D-21)와 유튜브 프리미엄(D-14)은 아직 검토 시점이 아닙니다.",
+    "waitingFor": [
+     "나(결제자): 결제일 2026-11-17 전에 디즈니+ 공식 경로에서 해지를 신청하고 앱에 기록하기"
+    ]
+   },
+   "tools": [
+    {
+     "seq": 20,
+     "at": "2026-11-14T18:00:00+09:00",
+     "patrolId": "P4",
+     "tool": "get_status",
+     "args": {},
+     "ok": true,
+     "reasons": [],
+     "summary": "구독 3개, 3일 안 결제 1개, 새 답장 2개"
+    },
+    {
+     "seq": 21,
+     "at": "2026-11-14T18:00:00+09:00",
+     "patrolId": "P4",
+     "tool": "request_handoff",
+     "args": {
+      "caseId": "case-disney_plus_kr-1"
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "인계 허용 — 나에게 해지 경로를 보냈어요"
+    },
+    {
+     "seq": 22,
+     "at": "2026-11-14T18:00:00+09:00",
+     "patrolId": "P4",
+     "tool": "finish_patrol",
+     "args": {
+      "summary": "엄마와 동생이 디즈니+ 스탠다드 제안 v2(3개월 쉬었다가 복귀)에 동의한 답장을 반영했습니다. 공유 구성원 전원이 현재 버전에 동의해 정책 관문이 결제자 인계를 허용했고, 나에게 디즈니+ 공식 해지 경로를 보냈습니다. 새 결제 문자와 대기 중 질문은 없었고, 넷플릭스(D-21)와 유튜브 프리미엄(D-14)은 아직 검토 시점이 아닙니다.",
+      "waitingFor": [
+       "나(결제자): 결제일 2026-11-17 전에 디즈니+ 공식 경로에서 해지를 신청하고 앱에 기록하기"
+      ]
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "점검 기록을 남겼어요"
+    }
+   ],
+   "messages": [
+    {
+     "id": "msg-17",
+     "at": "2026-11-14T18:00:00+09:00",
+     "from": "bot",
+     "readByBot": true,
+     "patrolId": "P4",
+     "to": "me",
+     "kind": "route",
+     "text": "가족 모두 동의했어요(제안 v2: 3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요.). 디즈니+ 해지 경로 — 서비스 웹·앱에서 직접 결제: 공식 주소의 구독 관리 메뉴에서 해지해 주세요(세부 단계는 아직 확인되지 않았어요). 공식 주소: https://www.disneyplus.com/account/cancel-subscription 참고: 취소는 결제 주기 종료 시 자동 갱신 중단을 뜻하며, 즉시 종료·환불 정책 본문은 확인하지 못했습니다. 해지를 신청하면 앱에서 '해지 신청함'을 눌러 주세요. 다음 결제 예정일 2026-11-17에 청구가 오는지 지켜볼게요.",
+     "subscriptionId": "sub-disney",
+     "caseId": "case-disney_plus_kr-1",
+     "fromLabel": "봇",
+     "toLabel": "나"
+    }
+   ],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "handoff_ready",
+     "stageLabel": "결제자 인계 준비 완료",
+     "proposal": {
+      "version": 2,
+      "choice": "잠시 해지 후 복귀",
+      "pauseMonths": 3,
+      "horizon": 12,
+      "sentence": "3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요.",
+      "agree": [
+       "엄마",
+       "동생"
+      ],
+      "object": [],
+      "abstain": [],
+      "pending": [],
+      "invalidatedOldVotes": 2
+     },
+     "closure": "해지 요청 전",
+     "cancelRequestedAt": null
+    }
+   ]
+  },
+  {
+   "kind": "event",
+   "clock": "2026-11-14T18:30:00+09:00",
+   "text": "결제자가 디즈니+ 웹에서 해지 신청"
+  },
+  {
+   "kind": "human",
+   "clock": "2026-11-14T18:30:00+09:00",
+   "actor": "나",
+   "action": "cancel",
+   "text": "나: 해지 신청함 기록 — 사업자 해지 확인이 아직 없어요(요청만 기록됨)",
+   "allowed": true,
+   "reasons": [
+    "provider_unconfirmed"
+   ],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "cancel_requested",
+     "stageLabel": "해지 요청 기록됨",
+     "proposal": {
+      "version": 2,
+      "choice": "잠시 해지 후 복귀",
+      "pauseMonths": 3,
+      "horizon": 12,
+      "sentence": "3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요.",
+      "agree": [
+       "엄마",
+       "동생"
+      ],
+      "object": [],
+      "abstain": [],
+      "pending": [],
+      "invalidatedOldVotes": 2
+     },
+     "closure": "해지 요청만 기록됨 (종료 확인 아님)",
+     "cancelRequestedAt": "2026-11-14T18:30:00+09:00"
+    }
+   ]
+  },
+  {
+   "kind": "event",
+   "clock": "2026-11-17T09:00:00+09:00",
+   "text": "3일 뒤, 원래 결제일 아침"
+  },
+  {
+   "kind": "event",
+   "clock": "2026-11-17T09:00:00+09:00",
+   "text": "결제 문자 1건 도착(합성)",
+   "sms": "[합성 데모]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n9,900원 일시불\n2026-11-17 09:00 KST\nGoogle Play 디즈니+"
+  },
+  {
+   "kind": "patrol",
+   "id": "P5",
+   "clock": "2026-11-17T09:00:00+09:00",
+   "receipt": {
+    "model": "claude-opus-5.5",
+    "engine": "v3",
+    "ms": 77374,
+    "toolCalls": 5,
+    "tools": [
+     "get_status",
+     "ingest_sms",
+     "send_cancel_route",
+     "get_status",
+     "finish_patrol"
+    ],
+    "denied": 0,
+    "hooks": [
+     {
+      "name": "session-context",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "pretool-guard-read",
+      "status": "completed"
+     },
+     {
+      "name": "stop-summary",
+      "status": "completed"
+     }
+    ],
+    "credits": 2.691,
+    "fallback": false,
+    "exitCode": 0,
+    "finalText": "디즈니+ 스탠다드는 2026-11-14에 해지를 신청했는데도 2026-11-17에 9,900원이 청구되어 사건을 다시 열었습니다. 청구는 Google Play 결제로 들어왔고, 이는 등록해 둔 결제 경로(서비스 웹·앱)와 다릅니다. 그래서 나에게 Google Play 공식 해지 경로(https://play.google.com/store/account/subscriptions)를 보냈습니다.\n\n- **새 답장:** 나의 해지 신청 답장(사업자 확인 전)은 기록만 했습니다.\n- **해지 확인:** 사건이 다시 열려서 이번 점검에서는 해지 확인(check_closure)을 하지 않았습니다.\n- **다른 구독:** 넷플릭스(D-18)와 유튜브 프리미엄(D-11)은 결제일이 3일 넘게 남아 질문을 보내지 않았습니다.\n\n**기다리는 일**\n- 나: Google Play 구독 관리에서 디즈니+ 스탠다드를 해지하고 신청한 사실을 기록\n- 나: 디즈니+ 사업자의 해지 확인을 받으면 기록",
+    "startedAtReal": "2026-11-14T15:24:44.141+09:00",
+    "finishedAtReal": "2026-11-14T15:26:01.516+09:00"
+   },
+   "report": {
+    "summary": "나의 디즈니+ 스탠다드 해지 신청 답장(사업자 확인 전)을 반영하고 결제 문자 1건을 구조화했습니다. 해지 신청(2026-11-14) 뒤 2026-11-17에 Google Play 결제로 9,900원 청구가 확인되어 사건을 다시 열었고, 등록된 결제 경로(서비스 웹·앱)와 달라 나에게 Google Play 공식 해지 경로를 보냈습니다. 사건이 다시 열려 이번에는 종료 확인을 하지 않았고, 넷플릭스(D-18)와 유튜브 프리미엄(D-11)은 3일 안 결제가 아니라 질문을 보내지 않았습니다.",
+    "waitingFor": [
+     "나: Google Play 구독 관리에서 디즈니+ 스탠다드 해지 처리 후 신청 기록",
+     "나: 디즈니+ 사업자 해지 확인 기록"
+    ]
+   },
+   "tools": [
+    {
+     "seq": 23,
+     "at": "2026-11-17T09:00:00+09:00",
+     "patrolId": "P5",
+     "tool": "get_status",
+     "args": {},
+     "ok": true,
+     "reasons": [],
+     "summary": "구독 3개, 3일 안 결제 1개, 새 답장 1개"
+    },
+    {
+     "seq": 24,
+     "at": "2026-11-17T09:00:00+09:00",
+     "patrolId": "P5",
+     "tool": "ingest_sms",
+     "args": {},
+     "ok": true,
+     "reasons": [],
+     "summary": "문자 1건 구조화, 해지 후 청구 1건으로 사건 재개방"
+    },
+    {
+     "seq": 25,
+     "at": "2026-11-17T09:00:00+09:00",
+     "patrolId": "P5",
+     "tool": "send_cancel_route",
+     "args": {
+      "subscriptionId": "sub-disney"
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "나에게 Google Play 결제 경로를 보냈어요"
+    },
+    {
+     "seq": 26,
+     "at": "2026-11-17T09:00:00+09:00",
+     "patrolId": "P5",
+     "tool": "get_status",
+     "args": {},
+     "ok": true,
+     "reasons": [],
+     "summary": "구독 3개, 3일 안 결제 1개, 새 답장 0개"
+    },
+    {
+     "seq": 27,
+     "at": "2026-11-17T09:00:00+09:00",
+     "patrolId": "P5",
+     "tool": "finish_patrol",
+     "args": {
+      "summary": "나의 디즈니+ 스탠다드 해지 신청 답장(사업자 확인 전)을 반영하고 결제 문자 1건을 구조화했습니다. 해지 신청(2026-11-14) 뒤 2026-11-17에 Google Play 결제로 9,900원 청구가 확인되어 사건을 다시 열었고, 등록된 결제 경로(서비스 웹·앱)와 달라 나에게 Google Play 공식 해지 경로를 보냈습니다. 사건이 다시 열려 이번에는 종료 확인을 하지 않았고, 넷플릭스(D-18)와 유튜브 프리미엄(D-11)은 3일 안 결제가 아니라 질문을 보내지 않았습니다.",
+      "waitingFor": [
+       "나: Google Play 구독 관리에서 디즈니+ 스탠다드 해지 처리 후 신청 기록",
+       "나: 디즈니+ 사업자 해지 확인 기록"
+      ]
+     },
+     "ok": true,
+     "reasons": [],
+     "summary": "점검 기록을 남겼어요"
+    }
+   ],
+   "messages": [
+    {
+     "id": "msg-20",
+     "at": "2026-11-17T09:00:00+09:00",
+     "from": "bot",
+     "readByBot": true,
+     "patrolId": "P5",
+     "to": "me",
+     "kind": "route",
+     "text": "해지 신청 뒤 2026-11-17에 Google Play 결제로 9,900원이 청구됐어요. 이 결제 경로는 따로 해지해야 해요. 디즈니+ 해지 경로 — Google Play 결제: Play 스토어 → 프로필 → 결제 및 정기 결제 → 정기 결제 → 해당 항목 → 정기 결제 취소. 공식 주소: https://play.google.com/store/account/subscriptions 참고: 취소는 결제 주기 종료 시 자동 갱신 중단을 뜻하며, 즉시 종료·환불 정책 본문은 확인하지 못했습니다. 해지를 신청하면 앱에서 '해지 신청함'을 눌러 주세요. 다음 결제 예정일 2026-11-17에 청구가 오는지 지켜볼게요.",
+     "subscriptionId": "sub-disney",
+     "caseId": "case-disney_plus_kr-1",
+     "fromLabel": "봇",
+     "toLabel": "나"
+    }
+   ],
+   "cases": [
+    {
+     "caseId": "case-disney_plus_kr-1",
+     "subscriptionId": "sub-disney",
+     "service": "디즈니+ 스탠다드",
+     "stage": "reopened",
+     "stageLabel": "사건 다시 열림",
+     "proposal": {
+      "version": 2,
+      "choice": "잠시 해지 후 복귀",
+      "pauseMonths": 3,
+      "horizon": 12,
+      "sentence": "3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요.",
+      "agree": [
+       "엄마",
+       "동생"
+      ],
+      "object": [],
+      "abstain": [],
+      "pending": [],
+      "invalidatedOldVotes": 2
+     },
+     "closure": "예상 밖 청구 — 사건 다시 열림",
+     "cancelRequestedAt": "2026-11-14T18:30:00+09:00"
+    }
+   ]
+  }
+ ],
+ "final": {
+  "cases": [
+   {
+    "caseId": "case-disney_plus_kr-1",
+    "subscriptionId": "sub-disney",
+    "service": "디즈니+ 스탠다드",
+    "stage": "reopened",
+    "stageLabel": "사건 다시 열림",
+    "proposal": {
+     "version": 2,
+     "choice": "잠시 해지 후 복귀",
+     "pauseMonths": 3,
+     "horizon": 12,
+     "sentence": "3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요.",
+     "agree": [
+      "엄마",
+      "동생"
+     ],
+     "object": [],
+     "abstain": [],
+     "pending": [],
+     "invalidatedOldVotes": 2
+    },
+    "closure": "예상 밖 청구 — 사건 다시 열림",
+    "cancelRequestedAt": "2026-11-14T18:30:00+09:00"
+   }
+  ],
+  "messages": [
+   {
+    "id": "msg-3",
+    "at": "2026-11-14T09:00:00+09:00",
+    "from": "bot",
+    "readByBot": true,
+    "patrolId": "P1",
+    "to": "me",
+    "kind": "question",
+    "text": "디즈니+ 스탠다드가 2026-11-17(D-3)에 결제될 예정이라 먼저 여쭤봐요. 디즈니+ 스탠다드: 지금 해지하고 다시 가입하면 월 11,500원(2026-11-10 이후 신규 요금)이에요. 12개월 기준으로 1개월만 쉬면 7,700원 더 들고, 2개월 이상 안 볼 거면 해지가 이득이에요(2개월 3,800원, 3개월 15,300원 아낌). 대안으로 광고형 스탠다드는 12개월 84,000원으로 유지보다 34,800원 적지만 광고가 붙고 기존 요금 자격을 잃어요. 엄마·동생과 함께 쓰는 구독이라 쉬기·변경은 가족 동의를 받은 뒤 진행하며, 숫자는 모두 공개 요금 기준 예시 계산이에요.",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "choices": [
+     "유지할게요",
+     "가족과 상의할게요(2개월 쉬기)",
+     "가족과 상의할게요(광고형으로 변경)",
+     "가족과 상의할게요(다른 개월 수는 답장에 적기)"
+    ],
+    "questionId": "q-2",
+    "fromLabel": "봇",
+    "toLabel": "나"
+   },
+   {
+    "id": "msg-4",
+    "at": "2026-11-14T09:10:00+09:00",
+    "from": "me",
+    "to": "bot",
+    "kind": "reply",
+    "text": "2개월 쉬는 걸로 하고, 엄마랑 동생한테 물어봐 줘.",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "questionId": "q-2",
+    "readByBot": true,
+    "patrolId": null,
+    "fromLabel": "나",
+    "toLabel": "봇"
+   },
+   {
+    "id": "msg-6",
+    "at": "2026-11-14T09:30:00+09:00",
+    "from": "bot",
+    "readByBot": true,
+    "patrolId": "P2",
+    "to": "mom",
+    "kind": "vote_request",
+    "text": "[가족 제안 v1] 디즈니+ 스탠다드 — 잠시 해지 후 복귀 2개월. 2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요. (결제자(나) 답장 반영: 2개월 쉬었다가 복귀하는 안으로 가족 상의 요청)",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "choices": [
+     "동의",
+     "반대",
+     "보류"
+    ],
+    "version": 1,
+    "questionId": "q-5",
+    "fromLabel": "봇",
+    "toLabel": "엄마"
+   },
+   {
+    "id": "msg-8",
+    "at": "2026-11-14T09:30:00+09:00",
+    "from": "bot",
+    "readByBot": true,
+    "patrolId": "P2",
+    "to": "bro",
+    "kind": "vote_request",
+    "text": "[가족 제안 v1] 디즈니+ 스탠다드 — 잠시 해지 후 복귀 2개월. 2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요. (결제자(나) 답장 반영: 2개월 쉬었다가 복귀하는 안으로 가족 상의 요청)",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "choices": [
+     "동의",
+     "반대",
+     "보류"
+    ],
+    "version": 1,
+    "questionId": "q-7",
+    "fromLabel": "봇",
+    "toLabel": "동생"
+   },
+   {
+    "id": "msg-9",
+    "at": "2026-11-14T10:00:00+09:00",
+    "from": "mom",
+    "to": "bot",
+    "kind": "vote",
+    "text": "동의 (제안 v1)",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "version": 1,
+    "readByBot": true,
+    "patrolId": null,
+    "fromLabel": "엄마",
+    "toLabel": "봇"
+   },
+   {
+    "id": "msg-10",
+    "at": "2026-11-14T10:05:00+09:00",
+    "from": "bro",
+    "to": "bot",
+    "kind": "vote",
+    "text": "반대 (제안 v1) — \"2개월은 애매해요. 어차피 2월까지는 볼 게 없으니까 3개월 쉬어요.\"",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "version": 1,
+    "readByBot": true,
+    "patrolId": null,
+    "fromLabel": "동생",
+    "toLabel": "봇"
+   },
+   {
+    "id": "msg-12",
+    "at": "2026-11-14T12:00:00+09:00",
+    "from": "bot",
+    "readByBot": true,
+    "patrolId": "P3",
+    "to": "mom",
+    "kind": "vote_request",
+    "text": "[가족 제안 v2] 디즈니+ 스탠다드 — 잠시 해지 후 복귀 3개월. 3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요. (동생 의견 반영: 쉬는 기간을 2개월에서 3개월로 변경) 조건이 바뀌어 이전 응답은 무효가 됐어요. 다시 응답해 주세요.",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "choices": [
+     "동의",
+     "반대",
+     "보류"
+    ],
+    "version": 2,
+    "questionId": "q-11",
+    "fromLabel": "봇",
+    "toLabel": "엄마"
+   },
+   {
+    "id": "msg-14",
+    "at": "2026-11-14T12:00:00+09:00",
+    "from": "bot",
+    "readByBot": true,
+    "patrolId": "P3",
+    "to": "bro",
+    "kind": "vote_request",
+    "text": "[가족 제안 v2] 디즈니+ 스탠다드 — 잠시 해지 후 복귀 3개월. 3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요. (동생 의견 반영: 쉬는 기간을 2개월에서 3개월로 변경) 조건이 바뀌어 이전 응답은 무효가 됐어요. 다시 응답해 주세요.",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "choices": [
+     "동의",
+     "반대",
+     "보류"
+    ],
+    "version": 2,
+    "questionId": "q-13",
+    "fromLabel": "봇",
+    "toLabel": "동생"
+   },
+   {
+    "id": "msg-15",
+    "at": "2026-11-14T12:20:00+09:00",
+    "from": "mom",
+    "to": "bot",
+    "kind": "vote",
+    "text": "동의 (제안 v2)",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "version": 2,
+    "readByBot": true,
+    "patrolId": null,
+    "fromLabel": "엄마",
+    "toLabel": "봇"
+   },
+   {
+    "id": "msg-16",
+    "at": "2026-11-14T12:25:00+09:00",
+    "from": "bro",
+    "to": "bot",
+    "kind": "vote",
+    "text": "동의 (제안 v2)",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "version": 2,
+    "readByBot": true,
+    "patrolId": null,
+    "fromLabel": "동생",
+    "toLabel": "봇"
+   },
+   {
+    "id": "msg-17",
+    "at": "2026-11-14T18:00:00+09:00",
+    "from": "bot",
+    "readByBot": true,
+    "patrolId": "P4",
+    "to": "me",
+    "kind": "route",
+    "text": "가족 모두 동의했어요(제안 v2: 3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요.). 디즈니+ 해지 경로 — 서비스 웹·앱에서 직접 결제: 공식 주소의 구독 관리 메뉴에서 해지해 주세요(세부 단계는 아직 확인되지 않았어요). 공식 주소: https://www.disneyplus.com/account/cancel-subscription 참고: 취소는 결제 주기 종료 시 자동 갱신 중단을 뜻하며, 즉시 종료·환불 정책 본문은 확인하지 못했습니다. 해지를 신청하면 앱에서 '해지 신청함'을 눌러 주세요. 다음 결제 예정일 2026-11-17에 청구가 오는지 지켜볼게요.",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "fromLabel": "봇",
+    "toLabel": "나"
+   },
+   {
+    "id": "msg-18",
+    "at": "2026-11-14T18:30:00+09:00",
+    "from": "me",
+    "to": "bot",
+    "kind": "action",
+    "text": "디즈니+ 스탠다드 해지 신청함 (사업자 확인은 아직)",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "readByBot": true,
+    "patrolId": null,
+    "fromLabel": "나",
+    "toLabel": "봇"
+   },
+   {
+    "id": "msg-20",
+    "at": "2026-11-17T09:00:00+09:00",
+    "from": "bot",
+    "readByBot": true,
+    "patrolId": "P5",
+    "to": "me",
+    "kind": "route",
+    "text": "해지 신청 뒤 2026-11-17에 Google Play 결제로 9,900원이 청구됐어요. 이 결제 경로는 따로 해지해야 해요. 디즈니+ 해지 경로 — Google Play 결제: Play 스토어 → 프로필 → 결제 및 정기 결제 → 정기 결제 → 해당 항목 → 정기 결제 취소. 공식 주소: https://play.google.com/store/account/subscriptions 참고: 취소는 결제 주기 종료 시 자동 갱신 중단을 뜻하며, 즉시 종료·환불 정책 본문은 확인하지 못했습니다. 해지를 신청하면 앱에서 '해지 신청함'을 눌러 주세요. 다음 결제 예정일 2026-11-17에 청구가 오는지 지켜볼게요.",
+    "subscriptionId": "sub-disney",
+    "caseId": "case-disney_plus_kr-1",
+    "fromLabel": "봇",
+    "toLabel": "나"
+   }
+  ],
+  "toolLog": [
+   {
+    "seq": 1,
+    "at": "2026-11-14T09:00:00+09:00",
+    "patrolId": "P1",
+    "tool": "get_status",
+    "args": {},
+    "ok": true,
+    "reasons": [],
+    "summary": "구독 3개, 3일 안 결제 1개, 새 답장 0개"
+   },
+   {
+    "seq": 2,
+    "at": "2026-11-14T09:00:00+09:00",
+    "patrolId": "P1",
+    "tool": "ingest_sms",
+    "args": {},
+    "ok": true,
+    "reasons": [],
+    "summary": "문자 2건 구조화"
+   },
+   {
+    "seq": 3,
+    "at": "2026-11-14T09:00:00+09:00",
+    "patrolId": "P1",
+    "tool": "calc_resub",
+    "args": {
+     "subscriptionId": "sub-disney",
+     "pauseMonths": 1
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "1개월 쉬었다가 돌아오면 12개월 기준 7,700원 더 들어요."
+   },
+   {
+    "seq": 4,
+    "at": "2026-11-14T09:00:00+09:00",
+    "patrolId": "P1",
+    "tool": "calc_resub",
+    "args": {
+     "subscriptionId": "sub-disney",
+     "pauseMonths": 2
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요."
+   },
+   {
+    "seq": 5,
+    "at": "2026-11-14T09:00:00+09:00",
+    "patrolId": "P1",
+    "tool": "compare_options",
+    "args": {
+     "subscriptionId": "sub-disney",
+     "pauseMonths": 2
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "대안 4개 비교, 요구에 맞는 가장 싼 안: 광고형 스탠다드로 변경"
+   },
+   {
+    "seq": 6,
+    "at": "2026-11-14T09:00:00+09:00",
+    "patrolId": "P1",
+    "tool": "ask_member",
+    "args": {
+     "to": "me",
+     "subscriptionId": "sub-disney",
+     "text": "디즈니+ 스탠다드가 2026-11-17(D-3)에 결제될 예정이라 먼저 여쭤봐요. 디즈니+ 스탠다드: 지금 해지하고 다시 가입하면 월 11,500원(2026-11-10 이후 신규 요금)이에요. 12개월 기준으로 1개월만 쉬면 7,700원 더 들고, 2개월 이상 안 볼 거면 해지가 이득이에요(2개월 3,800원, 3개월 15,300원 아낌). 대안으로 광고형 스탠다드는 12개월 84,000원으로 유지보다 34,800원 적지만 광고가 붙고 기존 요금 자격을 잃어요. 엄마·동생과 함께 쓰는 구독이라 쉬기·변경은 가족 동의를 받은 뒤 진행…",
+     "choices": [
+      "유지할게요",
+      "가족과 상의할게요(2개월 쉬기)",
+      "가족과 상의할게요(광고형으로 변경)",
+      "가족과 상의할게요(다른 개월 수는 답장에 적기)"
+     ]
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "나에게 질문을 보냈어요"
+   },
+   {
+    "seq": 7,
+    "at": "2026-11-14T09:00:00+09:00",
+    "patrolId": "P1",
+    "tool": "get_status",
+    "args": {},
+    "ok": true,
+    "reasons": [],
+    "summary": "구독 3개, 3일 안 결제 1개, 새 답장 0개"
+   },
+   {
+    "seq": 8,
+    "at": "2026-11-14T09:00:00+09:00",
+    "patrolId": "P1",
+    "tool": "finish_patrol",
+    "args": {
+     "summary": "결제 문자 2건을 구조화했어요. 디즈니+ 2026-10-17 결제 승인 9,900원(등록 금액과 일치) 1건과 광고 문자 1건이고, 해지 요청 뒤 청구는 없었어요. 디즈니+ 스탠다드가 2026-11-17(D-3)에 결제 예정이라 쉬기 손익과 대안을 계산해 결제자(나)에게 먼저 물었어요(질문 q-2, 사건 case-disney_plus_kr-1 결제 전 검토). 공개 요금 기준 예시 계산으로 12개월 기준 1개월만 쉬면 7,700원 더 들고 2개월 쉬면 3,800원 아끼며, 광고형 스탠다드는 34,800원 적지만 광고가 붙어요. 넷플…",
+     "waitingFor": [
+      "나(결제자): 디즈니+ 스탠다드 결제 전 결정 답장(유지 또는 가족과 상의), 결제 예정일 2026-11-17, 질문 q-2"
+     ]
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "점검 기록을 남겼어요"
+   },
+   {
+    "seq": 9,
+    "at": "2026-11-14T09:30:00+09:00",
+    "patrolId": "P2",
+    "tool": "get_status",
+    "args": {},
+    "ok": true,
+    "reasons": [],
+    "summary": "구독 3개, 3일 안 결제 1개, 새 답장 1개"
+   },
+   {
+    "seq": 10,
+    "at": "2026-11-14T09:30:00+09:00",
+    "patrolId": "P2",
+    "tool": "calc_resub",
+    "args": {
+     "subscriptionId": "sub-disney",
+     "pauseMonths": 2
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요."
+   },
+   {
+    "seq": 11,
+    "at": "2026-11-14T09:30:00+09:00",
+    "patrolId": "P2",
+    "tool": "propose_family_plan",
+    "args": {
+     "subscriptionId": "sub-disney",
+     "choice": "pause",
+     "pauseMonths": 2,
+     "note": "결제자(나) 답장 반영: 2개월 쉬었다가 복귀하는 안으로 가족 상의 요청"
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "가족 제안 v1(잠시 해지 후 복귀 2개월)을 엄마·동생에게 보냈어요"
+   },
+   {
+    "seq": 12,
+    "at": "2026-11-14T09:30:00+09:00",
+    "patrolId": "P2",
+    "tool": "request_handoff",
+    "args": {
+     "caseId": "case-disney_plus_kr-1"
+    },
+    "ok": false,
+    "reasons": [
+     "consent_missing"
+    ],
+    "summary": "정책 관문 거부: 아직 응답하지 않은 가족이 있어요"
+   },
+   {
+    "seq": 13,
+    "at": "2026-11-14T09:30:00+09:00",
+    "patrolId": "P2",
+    "tool": "remind_pending",
+    "args": {
+     "caseId": "case-disney_plus_kr-1"
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "다시 알릴 사람이 없어요"
+   },
+   {
+    "seq": 14,
+    "at": "2026-11-14T09:30:00+09:00",
+    "patrolId": "P2",
+    "tool": "finish_patrol",
+    "args": {
+     "summary": "결제자(나)의 답장대로 디즈니+ 스탠다드(11월 17일 결제, D-3)를 2개월 쉬었다가 복귀하는 가족 제안 v1을 만들어 엄마·동생에게 동의 요청을 보냈습니다. 공개 요금 기준 예시 계산으로는 12개월 기준 3,800원 아끼는 안이고, 재가입하면 월 11,500원 신규 요금이 적용됩니다. 결제자 인계는 두 사람이 아직 응답하지 않아 정책 관문이 거부했고, 방금 보낸 요청이라 다시 알림은 보내지 않았습니다. 처리할 결제 문자는 없었고, 넷플릭스·유튜브 프리미엄은 3일 안 결제가 아니어서 이번에는 묻지 않았습니다.",
+     "waitingFor": [
+      "엄마: 디즈니+ 가족 제안 v1(2개월 쉬기) 찬성·반대 응답 (결제일 11월 17일 전)",
+      "동생: 디즈니+ 가족 제안 v1(2개월 쉬기) 찬성·반대 응답 (결제일 11월 17일 전)"
+     ]
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "점검 기록을 남겼어요"
+   },
+   {
+    "seq": 15,
+    "at": "2026-11-14T12:00:00+09:00",
+    "patrolId": "P3",
+    "tool": "get_status",
+    "args": {},
+    "ok": true,
+    "reasons": [],
+    "summary": "구독 3개, 3일 안 결제 1개, 새 답장 2개"
+   },
+   {
+    "seq": 16,
+    "at": "2026-11-14T12:00:00+09:00",
+    "patrolId": "P3",
+    "tool": "request_handoff",
+    "args": {
+     "caseId": "case-disney_plus_kr-1"
+    },
+    "ok": false,
+    "reasons": [
+     "objection_present"
+    ],
+    "summary": "정책 관문 거부: 반대한 가족이 있어요"
+   },
+   {
+    "seq": 17,
+    "at": "2026-11-14T12:00:00+09:00",
+    "patrolId": "P3",
+    "tool": "calc_resub",
+    "args": {
+     "subscriptionId": "sub-disney",
+     "pauseMonths": 3
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "3개월 쉬었다가 돌아오면 12개월 기준 15,300원 아껴요."
+   },
+   {
+    "seq": 18,
+    "at": "2026-11-14T12:00:00+09:00",
+    "patrolId": "P3",
+    "tool": "propose_family_plan",
+    "args": {
+     "subscriptionId": "sub-disney",
+     "choice": "pause",
+     "pauseMonths": 3,
+     "horizon": 12,
+     "note": "동생 의견 반영: 쉬는 기간을 2개월에서 3개월로 변경"
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "가족 제안 v2(잠시 해지 후 복귀 3개월)을 엄마·동생에게 보냈어요"
+   },
+   {
+    "seq": 19,
+    "at": "2026-11-14T12:00:00+09:00",
+    "patrolId": "P3",
+    "tool": "finish_patrol",
+    "args": {
+     "summary": "디즈니+ 스탠다드 가족 제안 v1(2개월 쉬기)은 엄마가 동의하고 동생이 반대해 정책 관문에서 결제자 인계가 거부됐어요. 동생 의견대로 3개월 쉬기를 계산하니 공개 요금 기준 예시 계산으로 12개월 기준 15,300원 아끼는 안이라, 개정안 v2를 엄마·동생에게 보냈고 v1 응답 2건은 무효가 됐어요. 새 결제 문자와 해지 확인 대상 사건은 없었고, 넷플릭스(2026-12-05)·유튜브 프리미엄(2026-11-28)은 3일 안 결제가 아니어서 이번에는 묻지 않았어요.",
+     "waitingFor": [
+      "엄마: 디즈니+ 가족 제안 v2(3개월 쉬기) 응답 (결제일 2026-11-17)",
+      "동생: 디즈니+ 가족 제안 v2(3개월 쉬기) 응답 (결제일 2026-11-17)"
+     ]
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "점검 기록을 남겼어요"
+   },
+   {
+    "seq": 20,
+    "at": "2026-11-14T18:00:00+09:00",
+    "patrolId": "P4",
+    "tool": "get_status",
+    "args": {},
+    "ok": true,
+    "reasons": [],
+    "summary": "구독 3개, 3일 안 결제 1개, 새 답장 2개"
+   },
+   {
+    "seq": 21,
+    "at": "2026-11-14T18:00:00+09:00",
+    "patrolId": "P4",
+    "tool": "request_handoff",
+    "args": {
+     "caseId": "case-disney_plus_kr-1"
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "인계 허용 — 나에게 해지 경로를 보냈어요"
+   },
+   {
+    "seq": 22,
+    "at": "2026-11-14T18:00:00+09:00",
+    "patrolId": "P4",
+    "tool": "finish_patrol",
+    "args": {
+     "summary": "엄마와 동생이 디즈니+ 스탠다드 제안 v2(3개월 쉬었다가 복귀)에 동의한 답장을 반영했습니다. 공유 구성원 전원이 현재 버전에 동의해 정책 관문이 결제자 인계를 허용했고, 나에게 디즈니+ 공식 해지 경로를 보냈습니다. 새 결제 문자와 대기 중 질문은 없었고, 넷플릭스(D-21)와 유튜브 프리미엄(D-14)은 아직 검토 시점이 아닙니다.",
+     "waitingFor": [
+      "나(결제자): 결제일 2026-11-17 전에 디즈니+ 공식 경로에서 해지를 신청하고 앱에 기록하기"
+     ]
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "점검 기록을 남겼어요"
+   },
+   {
+    "seq": 23,
+    "at": "2026-11-17T09:00:00+09:00",
+    "patrolId": "P5",
+    "tool": "get_status",
+    "args": {},
+    "ok": true,
+    "reasons": [],
+    "summary": "구독 3개, 3일 안 결제 1개, 새 답장 1개"
+   },
+   {
+    "seq": 24,
+    "at": "2026-11-17T09:00:00+09:00",
+    "patrolId": "P5",
+    "tool": "ingest_sms",
+    "args": {},
+    "ok": true,
+    "reasons": [],
+    "summary": "문자 1건 구조화, 해지 후 청구 1건으로 사건 재개방"
+   },
+   {
+    "seq": 25,
+    "at": "2026-11-17T09:00:00+09:00",
+    "patrolId": "P5",
+    "tool": "send_cancel_route",
+    "args": {
+     "subscriptionId": "sub-disney"
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "나에게 Google Play 결제 경로를 보냈어요"
+   },
+   {
+    "seq": 26,
+    "at": "2026-11-17T09:00:00+09:00",
+    "patrolId": "P5",
+    "tool": "get_status",
+    "args": {},
+    "ok": true,
+    "reasons": [],
+    "summary": "구독 3개, 3일 안 결제 1개, 새 답장 0개"
+   },
+   {
+    "seq": 27,
+    "at": "2026-11-17T09:00:00+09:00",
+    "patrolId": "P5",
+    "tool": "finish_patrol",
+    "args": {
+     "summary": "나의 디즈니+ 스탠다드 해지 신청 답장(사업자 확인 전)을 반영하고 결제 문자 1건을 구조화했습니다. 해지 신청(2026-11-14) 뒤 2026-11-17에 Google Play 결제로 9,900원 청구가 확인되어 사건을 다시 열었고, 등록된 결제 경로(서비스 웹·앱)와 달라 나에게 Google Play 공식 해지 경로를 보냈습니다. 사건이 다시 열려 이번에는 종료 확인을 하지 않았고, 넷플릭스(D-18)와 유튜브 프리미엄(D-11)은 3일 안 결제가 아니라 질문을 보내지 않았습니다.",
+     "waitingFor": [
+      "나: Google Play 구독 관리에서 디즈니+ 스탠다드 해지 처리 후 신청 기록",
+      "나: 디즈니+ 사업자 해지 확인 기록"
+     ]
+    },
+    "ok": true,
+    "reasons": [],
+    "summary": "점검 기록을 남겼어요"
+   }
+  ],
+  "patrols": [
+   {
+    "id": "P1",
+    "clock": "2026-11-14T09:00:00+09:00",
+    "startedAtReal": "2026-11-14T15:17:44.429+09:00",
+    "report": {
+     "summary": "결제 문자 2건을 구조화했어요. 디즈니+ 2026-10-17 결제 승인 9,900원(등록 금액과 일치) 1건과 광고 문자 1건이고, 해지 요청 뒤 청구는 없었어요. 디즈니+ 스탠다드가 2026-11-17(D-3)에 결제 예정이라 쉬기 손익과 대안을 계산해 결제자(나)에게 먼저 물었어요(질문 q-2, 사건 case-disney_plus_kr-1 결제 전 검토). 공개 요금 기준 예시 계산으로 12개월 기준 1개월만 쉬면 7,700원 더 들고 2개월 쉬면 3,800원 아끼며, 광고형 스탠다드는 34,800원 적지만 광고가 붙어요. 넷플릭스(D-21)·유튜브 프리미엄(D-14)은 여유가 있고, 가족 검토나 해지 확인 단계의 사건은 없어요.",
+     "waitingFor": [
+      "나(결제자): 디즈니+ 스탠다드 결제 전 결정 답장(유지 또는 가족과 상의), 결제 예정일 2026-11-17, 질문 q-2"
+     ]
+    },
+    "receipt": {
+     "model": "claude-opus-5.5",
+     "engine": "v3",
+     "ms": 130940,
+     "toolCalls": 8,
+     "tools": [
+      "get_status",
+      "ingest_sms",
+      "calc_resub",
+      "calc_resub",
+      "compare_options",
+      "ask_member",
+      "get_status",
+      "finish_patrol"
+     ],
+     "denied": 0,
+     "hooks": [
+      {
+       "name": "session-context",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "stop-summary",
+       "status": "completed"
+      }
+     ],
+     "credits": 4.282,
+     "fallback": false,
+     "exitCode": 0,
+     "finalText": "점검을 마쳤어요. 디즈니+ 스탠다드가 2026-11-17(D-3)에 결제될 예정이라, 유지할지 쉴지 결제자(나)에게 먼저 물었어요.\n\n- **결제 문자 2건 처리:** 하나는 2026-10-17 디즈니+ 결제 승인 9,900원으로, 등록된 금액과 같아요. 다른 하나는 광고 문자예요. 해지 요청 뒤에 들어온 청구는 없었어요.\n- **디즈니+ 손익 계산:** 12개월 기준으로 1개월만 쉬면 7,700원이 더 들고, 2개월 쉬면 3,800원을 아껴요. 광고형 스탠다드로 바꾸면 34,800원이 덜 들지만 광고가 붙어요. 공개 요금으로 낸 예시 계산이라 실제 청구액과 다를 수 있어요. 엄마·동생과 함께 쓰는 구독이라, 쉬기나 요금제 변경을 고르면 가족 동의를 먼저 받아요.\n- **나머지 구독:** 넷플릭스(D-21)와 유튜브 프리미엄(D-14)은 결제일까지 여유가 있어요. 가족 검토나 해지 확인 단계에 있는 사건도 없어요.\n\n**기다리는 것:** 결제자(나)의 디즈니+ 결정 답장이에요(질문 q-2, 사건 case-disney_plus_kr-1).\n\n**확인할 점:** 손익 계산에 쓴 가격 출처의 확인 시각이 2026-11-14 14:27로 찍혀 있어요. 데모 시계인 09:00보다 늦은 시각이에요. 원인은 아직 확인하지 않았어요. `~/kirothon-team-024/src/data/`에서 디즈니+ 요금 정책의 확인 시각 값을 살펴보세요.",
+     "startedAtReal": "2026-11-14T15:17:44.429+09:00",
+     "finishedAtReal": "2026-11-14T15:19:55.369+09:00"
+    }
+   },
+   {
+    "id": "P2",
+    "clock": "2026-11-14T09:30:00+09:00",
+    "startedAtReal": "2026-11-14T15:19:55.372+09:00",
+    "report": {
+     "summary": "결제자(나)의 답장대로 디즈니+ 스탠다드(11월 17일 결제, D-3)를 2개월 쉬었다가 복귀하는 가족 제안 v1을 만들어 엄마·동생에게 동의 요청을 보냈습니다. 공개 요금 기준 예시 계산으로는 12개월 기준 3,800원 아끼는 안이고, 재가입하면 월 11,500원 신규 요금이 적용됩니다. 결제자 인계는 두 사람이 아직 응답하지 않아 정책 관문이 거부했고, 방금 보낸 요청이라 다시 알림은 보내지 않았습니다. 처리할 결제 문자는 없었고, 넷플릭스·유튜브 프리미엄은 3일 안 결제가 아니어서 이번에는 묻지 않았습니다.",
+     "waitingFor": [
+      "엄마: 디즈니+ 가족 제안 v1(2개월 쉬기) 찬성·반대 응답 (결제일 11월 17일 전)",
+      "동생: 디즈니+ 가족 제안 v1(2개월 쉬기) 찬성·반대 응답 (결제일 11월 17일 전)"
+     ]
+    },
+    "receipt": {
+     "model": "claude-opus-5.5",
+     "engine": "v3",
+     "ms": 117283,
+     "toolCalls": 6,
+     "tools": [
+      "get_status",
+      "calc_resub",
+      "propose_family_plan",
+      "request_handoff",
+      "remind_pending",
+      "finish_patrol"
+     ],
+     "denied": 1,
+     "hooks": [
+      {
+       "name": "session-context",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "stop-summary",
+       "status": "completed"
+      }
+     ],
+     "credits": 3.67,
+     "fallback": false,
+     "exitCode": 0,
+     "finalText": "점검을 마쳤습니다. 디즈니+ 스탠다드를 2개월 쉬었다가 다시 가입하는 가족 제안 v1을 엄마와 동생에게 보냈습니다.\n\n- **디즈니+ 스탠다드(11월 17일 결제, D-3):** 나의 답장대로 2개월 쉬는 안으로 제안했습니다. 공개 요금으로 계산한 예시 값이라 실제 계정 요금과 다를 수 있습니다. 이 계산으로는 12개월 동안 3,800원을 아낍니다. 다시 가입하면 월 11,500원 신규 요금이 적용됩니다.\n- **결제자 인계:** 엄마와 동생이 아직 응답하지 않아 정책 관문이 인계를 거부했습니다. 방금 보낸 요청이라 다시 알림은 보내지 않았습니다.\n- **나머지 구독:** 처리할 결제 문자는 없었습니다. 넷플릭스(12월 5일 결제)와 유튜브 프리미엄(11월 28일 결제)은 3일 안에 결제되지 않아서 이번에는 묻지 않았습니다.\n\n**기다리는 것:** 엄마와 동생의 찬성·반대 응답이 11월 17일 결제일 전에 와야 합니다. 두 사람이 모두 동의하면 다음 점검에서 결제자 인계를 다시 요청합니다. 2시간이 지나도 응답이 없으면 한 번 더 알립니다.\n\n참고로 calc_resub 결과에 적힌 가격 확인 시각은 2026-11-14 14:27입니다. 데모 시각 09:30보다 늦은 시각이라 데이터를 확인해 봐야 할 것 같습니다. 원인은 아직 확인하지 않았습니다.",
+     "startedAtReal": "2026-11-14T15:19:55.372+09:00",
+     "finishedAtReal": "2026-11-14T15:21:52.655+09:00"
+    }
+   },
+   {
+    "id": "P3",
+    "clock": "2026-11-14T12:00:00+09:00",
+    "startedAtReal": "2026-11-14T15:21:52.658+09:00",
+    "report": {
+     "summary": "디즈니+ 스탠다드 가족 제안 v1(2개월 쉬기)은 엄마가 동의하고 동생이 반대해 정책 관문에서 결제자 인계가 거부됐어요. 동생 의견대로 3개월 쉬기를 계산하니 공개 요금 기준 예시 계산으로 12개월 기준 15,300원 아끼는 안이라, 개정안 v2를 엄마·동생에게 보냈고 v1 응답 2건은 무효가 됐어요. 새 결제 문자와 해지 확인 대상 사건은 없었고, 넷플릭스(2026-12-05)·유튜브 프리미엄(2026-11-28)은 3일 안 결제가 아니어서 이번에는 묻지 않았어요.",
+     "waitingFor": [
+      "엄마: 디즈니+ 가족 제안 v2(3개월 쉬기) 응답 (결제일 2026-11-17)",
+      "동생: 디즈니+ 가족 제안 v2(3개월 쉬기) 응답 (결제일 2026-11-17)"
+     ]
+    },
+    "receipt": {
+     "model": "claude-opus-5.5",
+     "engine": "v3",
+     "ms": 122685,
+     "toolCalls": 5,
+     "tools": [
+      "get_status",
+      "request_handoff",
+      "calc_resub",
+      "propose_family_plan",
+      "finish_patrol"
+     ],
+     "denied": 1,
+     "hooks": [
+      {
+       "name": "session-context",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "stop-summary",
+       "status": "completed"
+      }
+     ],
+     "credits": 3.587,
+     "fallback": false,
+     "exitCode": 0,
+     "finalText": "점검 도구 스키마를 불러온 뒤 가구 상태부터 확인하겠습니다.\n동생의 반대 의견(3개월 쉬기)대로 조건을 바꿨을 때 손익을 계산하겠습니다.\n3개월 쉬기는 12개월 기준 15,300원 이득이라 손해가 아닙니다. 동생 의견을 반영한 개정안(v2)을 내겠습니다.\n점검을 마쳤습니다. 디즈니+ 스탠다드는 동생 의견대로 3개월 쉬는 개정안 v2를 엄마와 동생에게 보냈습니다.\n\n- **인계 거부:** 정책 관문이 제안 v1(2개월 쉬기)의 결제자 인계를 거부했습니다. 엄마는 동의했지만, 동생이 \"2월까지는 볼 게 없으니 3개월 쉬자\"며 반대했습니다.\n- **개정안 v2:** 3개월 쉬면 12개월 기준 15,300원을 아낍니다. 이 값은 공개 요금으로 낸 예시 계산이고, 계정의 실제 청구액은 아직 확인하지 않았습니다. 조건이 바뀌어서 v1 응답 2건은 무효가 됐습니다.\n- **그 밖의 구독:** 새 결제 문자는 없었고, 다음 청구를 확인할 해지 사건도 없었습니다. 넷플릭스(2026-12-05)와 유튜브 프리미엄(2026-11-28)은 3일 안에 결제되지 않아서 이번에는 묻지 않았습니다.\n\n**기다리는 일:** 엄마와 동생의 v2 응답입니다. 결제일은 2026-11-17입니다.\n\n참고로, calc_resub가 돌려준 가격 출처 확인 시각(2026-11-14 14:27)이 데모 시계(12:00)보다 늦습니다. 데모 자료의 시각 설정을 확인해 주세요.",
+     "startedAtReal": "2026-11-14T15:21:52.658+09:00",
+     "finishedAtReal": "2026-11-14T15:23:55.343+09:00"
+    }
+   },
+   {
+    "id": "P4",
+    "clock": "2026-11-14T18:00:00+09:00",
+    "startedAtReal": "2026-11-14T15:23:55.346+09:00",
+    "report": {
+     "summary": "엄마와 동생이 디즈니+ 스탠다드 제안 v2(3개월 쉬었다가 복귀)에 동의한 답장을 반영했습니다. 공유 구성원 전원이 현재 버전에 동의해 정책 관문이 결제자 인계를 허용했고, 나에게 디즈니+ 공식 해지 경로를 보냈습니다. 새 결제 문자와 대기 중 질문은 없었고, 넷플릭스(D-21)와 유튜브 프리미엄(D-14)은 아직 검토 시점이 아닙니다.",
+     "waitingFor": [
+      "나(결제자): 결제일 2026-11-17 전에 디즈니+ 공식 경로에서 해지를 신청하고 앱에 기록하기"
+     ]
+    },
+    "receipt": {
+     "model": "claude-opus-5.5",
+     "engine": "v3",
+     "ms": 48784,
+     "toolCalls": 3,
+     "tools": [
+      "get_status",
+      "request_handoff",
+      "finish_patrol"
+     ],
+     "denied": 0,
+     "hooks": [
+      {
+       "name": "session-context",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "stop-summary",
+       "status": "completed"
+      }
+     ],
+     "credits": 1.861,
+     "fallback": false,
+     "exitCode": 0,
+     "finalText": "점검을 마쳤고, 디즈니+ 스탠다드 해지 경로를 결제자인 나에게 보냈습니다.\n\n- **디즈니+ 스탠다드**: 엄마와 동생이 제안 v2(3개월 쉬었다가 복귀, 12개월 기준 계산상 15,300원 절약)에 동의했습니다. 공유하는 가족이 모두 현재 제안에 동의해서 정책 관문이 결제자 인계를 허용했습니다. 보낸 공식 해지 경로는 https://www.disneyplus.com/account/cancel-subscription 입니다.\n- **그 밖의 확인 결과**: 새 결제 문자와 대기 중인 질문은 없었습니다. 넷플릭스(D-21)와 유튜브 프리미엄(D-14)은 아직 검토할 시점이 아닙니다.\n\n**기다리는 일**\n- 나(결제자): 결제일인 2026-11-17 전에 위 공식 경로에서 해지를 신청하고 앱에 기록해야 합니다. 신청이 기록되면 다음 점검부터 다음 청구가 오는지 확인합니다.",
+     "startedAtReal": "2026-11-14T15:23:55.346+09:00",
+     "finishedAtReal": "2026-11-14T15:24:44.131+09:00"
+    }
+   },
+   {
+    "id": "P5",
+    "clock": "2026-11-17T09:00:00+09:00",
+    "startedAtReal": "2026-11-14T15:24:44.141+09:00",
+    "report": {
+     "summary": "나의 디즈니+ 스탠다드 해지 신청 답장(사업자 확인 전)을 반영하고 결제 문자 1건을 구조화했습니다. 해지 신청(2026-11-14) 뒤 2026-11-17에 Google Play 결제로 9,900원 청구가 확인되어 사건을 다시 열었고, 등록된 결제 경로(서비스 웹·앱)와 달라 나에게 Google Play 공식 해지 경로를 보냈습니다. 사건이 다시 열려 이번에는 종료 확인을 하지 않았고, 넷플릭스(D-18)와 유튜브 프리미엄(D-11)은 3일 안 결제가 아니라 질문을 보내지 않았습니다.",
+     "waitingFor": [
+      "나: Google Play 구독 관리에서 디즈니+ 스탠다드 해지 처리 후 신청 기록",
+      "나: 디즈니+ 사업자 해지 확인 기록"
+     ]
+    },
+    "receipt": {
+     "model": "claude-opus-5.5",
+     "engine": "v3",
+     "ms": 77374,
+     "toolCalls": 5,
+     "tools": [
+      "get_status",
+      "ingest_sms",
+      "send_cancel_route",
+      "get_status",
+      "finish_patrol"
+     ],
+     "denied": 0,
+     "hooks": [
+      {
+       "name": "session-context",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "pretool-guard-read",
+       "status": "completed"
+      },
+      {
+       "name": "stop-summary",
+       "status": "completed"
+      }
+     ],
+     "credits": 2.691,
+     "fallback": false,
+     "exitCode": 0,
+     "finalText": "디즈니+ 스탠다드는 2026-11-14에 해지를 신청했는데도 2026-11-17에 9,900원이 청구되어 사건을 다시 열었습니다. 청구는 Google Play 결제로 들어왔고, 이는 등록해 둔 결제 경로(서비스 웹·앱)와 다릅니다. 그래서 나에게 Google Play 공식 해지 경로(https://play.google.com/store/account/subscriptions)를 보냈습니다.\n\n- **새 답장:** 나의 해지 신청 답장(사업자 확인 전)은 기록만 했습니다.\n- **해지 확인:** 사건이 다시 열려서 이번 점검에서는 해지 확인(check_closure)을 하지 않았습니다.\n- **다른 구독:** 넷플릭스(D-18)와 유튜브 프리미엄(D-11)은 결제일이 3일 넘게 남아 질문을 보내지 않았습니다.\n\n**기다리는 일**\n- 나: Google Play 구독 관리에서 디즈니+ 스탠다드를 해지하고 신청한 사실을 기록\n- 나: 디즈니+ 사업자의 해지 확인을 받으면 기록",
+     "startedAtReal": "2026-11-14T15:24:44.141+09:00",
+     "finishedAtReal": "2026-11-14T15:26:01.516+09:00"
+    }
+   }
+  ],
+  "transactions": [
+   {
+    "smsId": "sms-seed-1",
+    "receivedAt": "2026-10-17T09:00:12+09:00",
+    "eventType": "approval",
+    "serviceId": "disney_plus_kr",
+    "amountWon": 9900,
+    "foreignAmount": null,
+    "date": "2026-10-17",
+    "channel": null,
+    "spans": {
+     "service": {
+      "start": 67,
+      "end": 71
+     },
+     "amount": {
+      "start": 35,
+      "end": 41
+     },
+     "date": {
+      "start": 46,
+      "end": 56
+     }
+    },
+    "linkedSubscriptionId": "sub-disney",
+    "effect": "matches_subscription"
+   },
+   {
+    "smsId": "sms-seed-2",
+    "receivedAt": "2026-11-13T19:30:00+09:00",
+    "eventType": "advertisement",
+    "serviceId": "disney_plus_kr",
+    "amountWon": null,
+    "foreignAmount": null,
+    "date": null,
+    "channel": null,
+    "spans": {
+     "service": {
+      "start": 13,
+      "end": 17
+     }
+    },
+    "linkedSubscriptionId": "sub-disney",
+    "effect": "ignored_not_charge"
+   },
+   {
+    "smsId": "sms-19",
+    "receivedAt": "2026-11-17T09:00:30+09:00",
+    "eventType": "approval",
+    "serviceId": "disney_plus_kr",
+    "amountWon": 9900,
+    "foreignAmount": null,
+    "date": "2026-11-17",
+    "channel": "google_play",
+    "spans": {
+     "service": {
+      "start": 79,
+      "end": 83
+     },
+     "amount": {
+      "start": 35,
+      "end": 41
+     },
+     "date": {
+      "start": 46,
+      "end": 56
+     },
+     "channel": {
+      "start": 67,
+      "end": 78
+     }
+    },
+    "linkedSubscriptionId": "sub-disney",
+    "effect": "charge_after_cancel"
+   }
+  ]
+ }
+}

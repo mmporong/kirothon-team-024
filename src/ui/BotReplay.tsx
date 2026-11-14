@@ -38,7 +38,10 @@ export function BotReplay() {
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((d: Replay) => {
         setData(d);
-        setUpto(Math.min(1, d.steps.length - 1));
+        // ?step=all 이면 전체, ?step=N 이면 N단계까지(스크린샷·발표용)
+        const q = new URLSearchParams(window.location.search).get('step');
+        const n = q === 'all' ? d.steps.length - 1 : q && /^\d+$/.test(q) ? Math.min(Number(q), d.steps.length - 1) : Math.min(1, d.steps.length - 1);
+        setUpto(n);
       })
       .catch((e) => setErr(String(e)));
   }, []);

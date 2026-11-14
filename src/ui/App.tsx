@@ -30,7 +30,9 @@ export function App() {
         <div className="brand">
           <span className="dot" aria-hidden />
           <div>
-            <h1>{BRAND.name}</h1>
+            <h1>
+              {BRAND.name} <span className="slogan">{BRAND.slogan}</span>
+            </h1>
             <p className="tagline">{BRAND.tagline}</p>
           </div>
         </div>

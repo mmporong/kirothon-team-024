@@ -1,4 +1,4 @@
-// 마침표 봇 점검 1회: Kiro CLI 헤드리스로 subs-bot 에이전트를 실행하고 실행 영수증을 남긴다. [R22][R26]
+// 똑Pay 점검 봇 '똑이' 점검 1회: Kiro CLI 헤드리스로 subs-bot 에이전트를 실행하고 실행 영수증을 남긴다. [R22][R26]
 // 사용: npm run bot:patrol  (Kiro CLI 로그인 필요. 앱의 재생 화면은 로그인 없이 기록만 보여 준다)
 import { spawn } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';

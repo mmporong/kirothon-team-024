@@ -1,6 +1,6 @@
 {
-  "name": "구독 마침표",
-  "short_name": "마침표",
+  "name": "똑Pay",
+  "short_name": "똑Pay",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",

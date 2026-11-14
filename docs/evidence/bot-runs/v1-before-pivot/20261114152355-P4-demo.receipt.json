@@ -1,0 +1,93 @@
+{
+  "patrolId": "P4",
+  "clock": "2026-11-14T18:00:00+09:00",
+  "report": {
+    "summary": "엄마와 동생이 디즈니+ 스탠다드 제안 v2(3개월 쉬었다가 복귀)에 동의한 답장을 반영했습니다. 공유 구성원 전원이 현재 버전에 동의해 정책 관문이 결제자 인계를 허용했고, 나에게 디즈니+ 공식 해지 경로를 보냈습니다. 새 결제 문자와 대기 중 질문은 없었고, 넷플릭스(D-21)와 유튜브 프리미엄(D-14)은 아직 검토 시점이 아닙니다.",
+    "waitingFor": [
+      "나(결제자): 결제일 2026-11-17 전에 디즈니+ 공식 경로에서 해지를 신청하고 앱에 기록하기"
+    ]
+  },
+  "receipt": {
+    "model": "claude-opus-5.5",
+    "engine": "v3",
+    "ms": 48784,
+    "toolCalls": 3,
+    "tools": [
+      "get_status",
+      "request_handoff",
+      "finish_patrol"
+    ],
+    "denied": 0,
+    "hooks": [
+      {
+        "name": "session-context",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "stop-summary",
+        "status": "completed"
+      }
+    ],
+    "credits": 1.861,
+    "fallback": false,
+    "exitCode": 0,
+    "finalText": "점검을 마쳤고, 디즈니+ 스탠다드 해지 경로를 결제자인 나에게 보냈습니다.\n\n- **디즈니+ 스탠다드**: 엄마와 동생이 제안 v2(3개월 쉬었다가 복귀, 12개월 기준 계산상 15,300원 절약)에 동의했습니다. 공유하는 가족이 모두 현재 제안에 동의해서 정책 관문이 결제자 인계를 허용했습니다. 보낸 공식 해지 경로는 https://www.disneyplus.com/account/cancel-subscription 입니다.\n- **그 밖의 확인 결과**: 새 결제 문자와 대기 중인 질문은 없었습니다. 넷플릭스(D-21)와 유튜브 프리미엄(D-14)은 아직 검토할 시점이 아닙니다.\n\n**기다리는 일**\n- 나(결제자): 결제일인 2026-11-17 전에 위 공식 경로에서 해지를 신청하고 앱에 기록해야 합니다. 신청이 기록되면 다음 점검부터 다음 청구가 오는지 확인합니다.",
+    "startedAtReal": "2026-11-14T15:23:55.346+09:00",
+    "finishedAtReal": "2026-11-14T15:24:44.131+09:00"
+  },
+  "toolLog": [
+    {
+      "seq": 20,
+      "at": "2026-11-14T18:00:00+09:00",
+      "patrolId": "P4",
+      "tool": "get_status",
+      "args": {},
+      "ok": true,
+      "reasons": [],
+      "summary": "구독 3개, 3일 안 결제 1개, 새 답장 2개"
+    },
+    {
+      "seq": 21,
+      "at": "2026-11-14T18:00:00+09:00",
+      "patrolId": "P4",
+      "tool": "request_handoff",
+      "args": {
+        "caseId": "case-disney_plus_kr-1"
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "인계 허용 — 나에게 해지 경로를 보냈어요"
+    },
+    {
+      "seq": 22,
+      "at": "2026-11-14T18:00:00+09:00",
+      "patrolId": "P4",
+      "tool": "finish_patrol",
+      "args": {
+        "summary": "엄마와 동생이 디즈니+ 스탠다드 제안 v2(3개월 쉬었다가 복귀)에 동의한 답장을 반영했습니다. 공유 구성원 전원이 현재 버전에 동의해 정책 관문이 결제자 인계를 허용했고, 나에게 디즈니+ 공식 해지 경로를 보냈습니다. 새 결제 문자와 대기 중 질문은 없었고, 넷플릭스(D-21)와 유튜브 프리미엄(D-14)은 아직 검토 시점이 아닙니다.",
+        "waitingFor": [
+          "나(결제자): 결제일 2026-11-17 전에 디즈니+ 공식 경로에서 해지를 신청하고 앱에 기록하기"
+        ]
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "점검 기록을 남겼어요"
+    }
+  ]
+}

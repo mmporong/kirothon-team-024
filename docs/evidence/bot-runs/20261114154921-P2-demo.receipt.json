@@ -1,0 +1,210 @@
+{
+  "patrolId": "P2",
+  "clock": "2026-11-14T09:30:00+09:00",
+  "report": {
+    "summary": "새 결제 문자는 없었고, 결제자 답장(msg-7)을 구독별로 반영했어요. 유튜브 프리미엄은 웹(월 14,900원)이 App Store(월 19,500원)보다 월 4,600원 싸서 웹 이전 인계가 허용됐고, 옮기는 단계를 결제자에게 보냈어요. 디즈니+ 스탠다드는 해지 제안 v1(2026-11-17 결제 전에 해지, 다시 가입하면 월 11,500원 신규 요금)을 엄마·동생에게 보냈고, 인계 요청은 미응답으로 정책 관문이 거부했으며 두 사람 모두 2시간 안에 물어봐 재알림은 건너뛰었어요. 넷플릭스(2026-12-05 결제)는 결정까지 21일 남아 조치하지 않았어요.",
+    "waitingFor": [
+      "나(결제자): 유튜브 프리미엄 App Store 구독 취소(결정 마감 2026-11-15, 결제 24시간 전까지) 후 기존 혜택 만료 뒤 웹 가입",
+      "엄마: 디즈니+ 해지 제안 v1 응답(결제 2026-11-17 전)",
+      "동생: 디즈니+ 해지 제안 v1 응답(결제 2026-11-17 전)"
+    ]
+  },
+  "receipt": {
+    "model": "claude-opus-5.5",
+    "engine": "v3",
+    "ms": 189644,
+    "toolCalls": 10,
+    "tools": [
+      "get_status",
+      "compare_channels",
+      "calc_resub",
+      "calc_resub",
+      "request_handoff",
+      "propose_family_plan",
+      "get_status",
+      "request_handoff",
+      "remind_pending",
+      "finish_patrol"
+    ],
+    "denied": 1,
+    "hooks": [
+      {
+        "name": "session-context",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "stop-summary",
+        "status": "completed"
+      }
+    ],
+    "credits": 6.222,
+    "fallback": false,
+    "exitCode": 0,
+    "finalText": "점검 1단계로 가구 상태를 확인합니다.\n새 문자는 0건이라 문자 반영은 건너뜁니다. 새 답장에서 유튜브는 결제 경로 변경, 디즈니+는 가족 해지 제안 요청이라 각각 계산부터 합니다.\n유튜브는 웹 이전 인계가 허용됐고, 디즈니+는 해지 제안 v1을 엄마·동생에게 보냈습니다. 바뀐 사건 단계를 다시 확인합니다.\n디즈니+ 사건이 가족 검토 단계로 바뀌었습니다. 절차대로 인계를 정책 관문에 요청합니다.\n거부 사유는 미응답뿐입니다. 절차대로 재알림 도구를 호출하고, 방금 질문을 받은 사람은 도구가 건너뛰는지 확인합니다.\n점검을 마쳤습니다. 새 결제 문자는 없었고, 결제자 답장(msg-7)은 구독별로 나눠 처리했습니다.\n\n- **유튜브 프리미엄:** 웹은 월 14,900원, App Store는 월 19,500원이라 웹이 월 4,600원 쌉니다. 웹으로 옮기는 인계가 허용됐고, 옮기는 단계를 결제자에게 보냈습니다.\n- **디즈니+ 스탠다드:** 엄마와 동생에게 해지 제안 v1을 보냈습니다. 내용은 \"2026-11-17 결제 전에 해지, 나중에 다시 가입하면 월 11,500원(신규 요금)\"입니다.\n  - 답장의 \"이번 달까지만\"은 11월 17일 결제 전에 해지한다는 뜻으로 보고 제안을 만들었습니다.\n  - 인계 요청은 두 사람이 아직 답하지 않아 정책 관문이 거부했습니다.\n  - 두 사람 모두 이번 점검에서 처음 질문을 받았기 때문에 재알림 도구가 다시 보내지 않았습니다.\n- **넷플릭스:** 결정까지 21일 남아 이번에는 아무것도 하지 않았습니다.\n\n**기다리는 일**\n- **나(결제자):** 2026-11-15까지 App Store 구독을 취소해야 합니다. App Store는 결제 24시간 전까지 자동 갱신을 꺼야 합니다. 기존 혜택이 끝나면 웹에서 다시 가입하면 됩니다.\n- **엄마·동생:** 디즈니+ 해지 제안 v1에 2026-11-17 결제 전까지 답해야 합니다.",
+    "startedAtReal": "2026-11-14T15:49:21.445+09:00",
+    "finishedAtReal": "2026-11-14T15:52:31.089+09:00"
+  },
+  "toolLog": [
+    {
+      "seq": 9,
+      "at": "2026-11-14T09:30:00+09:00",
+      "patrolId": "P2",
+      "tool": "get_status",
+      "args": {},
+      "ok": true,
+      "reasons": [],
+      "summary": "구독 3개, 3일 안 결제 2개, 새 답장 1개"
+    },
+    {
+      "seq": 10,
+      "at": "2026-11-14T09:30:00+09:00",
+      "patrolId": "P2",
+      "tool": "compare_channels",
+      "args": {
+        "subscriptionId": "sub-youtube"
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "웹으로 옮기면 월 4,600원 덜 내요"
+    },
+    {
+      "seq": 11,
+      "at": "2026-11-14T09:30:00+09:00",
+      "patrolId": "P2",
+      "tool": "calc_resub",
+      "args": {
+        "subscriptionId": "sub-disney",
+        "pauseMonths": 1
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "1개월 쉬었다가 돌아오면 12개월 기준 7,700원 더 들어요."
+    },
+    {
+      "seq": 12,
+      "at": "2026-11-14T09:30:00+09:00",
+      "patrolId": "P2",
+      "tool": "calc_resub",
+      "args": {
+        "subscriptionId": "sub-disney",
+        "pauseMonths": 2
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요."
+    },
+    {
+      "seq": 13,
+      "at": "2026-11-14T09:30:00+09:00",
+      "patrolId": "P2",
+      "tool": "request_handoff",
+      "args": {
+        "caseId": "case-youtube_premium_kr-1",
+        "switchTo": "web"
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "인계 허용 — 나에게 웹으로 옮기는 방법을 보냈어요"
+    },
+    {
+      "seq": 14,
+      "at": "2026-11-14T09:30:00+09:00",
+      "patrolId": "P2",
+      "tool": "propose_family_plan",
+      "args": {
+        "subscriptionId": "sub-disney",
+        "choice": "cancel",
+        "pauseMonths": 0,
+        "note": "결제자(나) 요청: 이번 결제 기간까지만 보고 해지"
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "가족 제안 v1(해지)을 엄마·동생에게 보냈어요"
+    },
+    {
+      "seq": 15,
+      "at": "2026-11-14T09:30:00+09:00",
+      "patrolId": "P2",
+      "tool": "get_status",
+      "args": {},
+      "ok": true,
+      "reasons": [],
+      "summary": "구독 3개, 3일 안 결제 2개, 새 답장 0개"
+    },
+    {
+      "seq": 16,
+      "at": "2026-11-14T09:30:00+09:00",
+      "patrolId": "P2",
+      "tool": "request_handoff",
+      "args": {
+        "caseId": "case-disney_plus_kr-4"
+      },
+      "ok": false,
+      "reasons": [
+        "consent_missing"
+      ],
+      "summary": "정책 관문 거부: 아직 응답하지 않은 가족이 있어요"
+    },
+    {
+      "seq": 17,
+      "at": "2026-11-14T09:30:00+09:00",
+      "patrolId": "P2",
+      "tool": "remind_pending",
+      "args": {
+        "caseId": "case-disney_plus_kr-4"
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "다시 알릴 사람이 없어요"
+    },
+    {
+      "seq": 18,
+      "at": "2026-11-14T09:30:00+09:00",
+      "patrolId": "P2",
+      "tool": "finish_patrol",
+      "args": {
+        "summary": "새 결제 문자는 없었고, 결제자 답장(msg-7)을 구독별로 반영했어요. 유튜브 프리미엄은 웹(월 14,900원)이 App Store(월 19,500원)보다 월 4,600원 싸서 웹 이전 인계가 허용됐고, 옮기는 단계를 결제자에게 보냈어요. 디즈니+ 스탠다드는 해지 제안 v1(2026-11-17 결제 전에 해지, 다시 가입하면 월 11,500원 신규 요금)을 엄마·동생에게 보냈고, 인계 요청은 미응답으로 정책 관문이 거부했으며 두 사람 모두 2시간 안에 물어봐 재알림은 건너뛰었어요. 넷플릭스(2026-12-05 결제)는 결정까지 2…",
+        "waitingFor": [
+          "나(결제자): 유튜브 프리미엄 App Store 구독 취소(결정 마감 2026-11-15, 결제 24시간 전까지) 후 기존 혜택 만료 뒤 웹 가입",
+          "엄마: 디즈니+ 해지 제안 v1 응답(결제 2026-11-17 전)",
+          "동생: 디즈니+ 해지 제안 v1 응답(결제 2026-11-17 전)"
+        ]
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "점검 기록을 남겼어요"
+    }
+  ]
+}

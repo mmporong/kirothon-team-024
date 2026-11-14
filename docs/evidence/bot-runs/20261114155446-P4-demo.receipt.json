@@ -1,0 +1,114 @@
+{
+  "patrolId": "P4",
+  "clock": "2026-11-14T18:00:00+09:00",
+  "report": {
+    "summary": "디즈니+ 스탠다드는 엄마와 동생이 제안 v2(2개월 쉬었다가 복귀)에 모두 동의해 정책 관문이 인계를 허용했고, 결제자(나)에게 공식 해지 경로를 보냈어요. 유튜브 프리미엄은 해지 요청만 기록돼 있고 사업자 해지 확인이 아직 없어 종료 확인으로 넘기지 않았어요. 새 결제 문자는 없었고, 넷플릭스 광고형 스탠다드는 결정 마감까지 21일 남아 이번에는 묻지 않았어요.",
+    "waitingFor": [
+      "나(결제자): 디즈니+ 스탠다드를 공식 경로(https://www.disneyplus.com/account/cancel-subscription)에서 해지하고 해지 요청을 기록 (다음 결제일 2026-11-17)",
+      "나(결제자): 유튜브 프리미엄의 사업자 해지 확인을 기록 (App Store 자동 갱신은 결제 24시간 전까지 꺼야 함, 결정 마감 2026-11-15, 유료 전환 2026-11-16)"
+    ]
+  },
+  "receipt": {
+    "model": "claude-opus-5.5",
+    "engine": "v3",
+    "ms": 143353,
+    "toolCalls": 4,
+    "tools": [
+      "get_status",
+      "request_handoff",
+      "check_closure",
+      "finish_patrol"
+    ],
+    "denied": 1,
+    "hooks": [
+      {
+        "name": "session-context",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "stop-summary",
+        "status": "completed"
+      }
+    ],
+    "credits": 4.038,
+    "fallback": false,
+    "exitCode": 0,
+    "finalText": "점검을 시작합니다. 먼저 household 도구를 불러옵니다.\n2026-11-14 18:00 기준으로 점검을 마쳤습니다.\n\n디즈니+ 스탠다드는 엄마와 동생이 제안 v2(2개월 쉬었다가 다시 가입)에 모두 동의했습니다. 정책 관문이 인계를 허용해서 결제자(나)에게 공식 해지 경로를 보냈습니다.\n\n유튜브 프리미엄은 해지 요청만 기록돼 있고 사업자의 해지 확인은 아직 없습니다. 그래서 종료 확인 단계로 넘기지 않았습니다.\n\n새 결제 문자는 없었습니다. 넷플릭스 광고형 스탠다드는 결정 마감까지 21일이 남아 이번에는 묻지 않았습니다.\n\n**기다리는 일**\n- 나(결제자): 디즈니+ 스탠다드를 공식 경로(https://www.disneyplus.com/account/cancel-subscription)에서 해지한 뒤 해지 요청을 기록해 주세요. 다음 결제일은 2026-11-17입니다.\n- 나(결제자): 유튜브 프리미엄은 사업자의 해지 확인을 기록해 주세요. App Store는 결제 24시간 전까지 자동 갱신을 꺼야 하므로 결정 마감은 2026-11-15입니다. 2026-11-16에 무료체험이 끝나면 유료로 바뀝니다.",
+    "startedAtReal": "2026-11-14T15:54:46.422+09:00",
+    "finishedAtReal": "2026-11-14T15:57:09.776+09:00"
+  },
+  "toolLog": [
+    {
+      "seq": 25,
+      "at": "2026-11-14T18:00:00+09:00",
+      "patrolId": "P4",
+      "tool": "get_status",
+      "args": {},
+      "ok": true,
+      "reasons": [],
+      "summary": "구독 3개, 3일 안 결제 2개, 새 답장 2개"
+    },
+    {
+      "seq": 26,
+      "at": "2026-11-14T18:00:00+09:00",
+      "patrolId": "P4",
+      "tool": "request_handoff",
+      "args": {
+        "caseId": "case-disney_plus_kr-4"
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "인계 허용 — 나에게 해지 경로를 보냈어요"
+    },
+    {
+      "seq": 27,
+      "at": "2026-11-14T18:00:00+09:00",
+      "patrolId": "P4",
+      "tool": "check_closure",
+      "args": {
+        "caseId": "case-youtube_premium_kr-1"
+      },
+      "ok": false,
+      "reasons": [
+        "provider_unconfirmed"
+      ],
+      "summary": "해지 요청만 기록됨 (종료 확인 아님)"
+    },
+    {
+      "seq": 28,
+      "at": "2026-11-14T18:00:00+09:00",
+      "patrolId": "P4",
+      "tool": "finish_patrol",
+      "args": {
+        "summary": "디즈니+ 스탠다드는 엄마와 동생이 제안 v2(2개월 쉬었다가 복귀)에 모두 동의해 정책 관문이 인계를 허용했고, 결제자(나)에게 공식 해지 경로를 보냈어요. 유튜브 프리미엄은 해지 요청만 기록돼 있고 사업자 해지 확인이 아직 없어 종료 확인으로 넘기지 않았어요. 새 결제 문자는 없었고, 넷플릭스 광고형 스탠다드는 결정 마감까지 21일 남아 이번에는 묻지 않았어요.",
+        "waitingFor": [
+          "나(결제자): 디즈니+ 스탠다드를 공식 경로(https://www.disneyplus.com/account/cancel-subscription)에서 해지하고 해지 요청을 기록 (다음 결제일 2026-11-17)",
+          "나(결제자): 유튜브 프리미엄의 사업자 해지 확인을 기록 (App Store 자동 갱신은 결제 24시간 전까지 꺼야 함, 결정 마감 2026-11-15, 유료 전환 2026-11-16)"
+        ]
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "점검 기록을 남겼어요"
+    }
+  ]
+}

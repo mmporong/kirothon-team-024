@@ -50,7 +50,7 @@ export function buildSummary(state: CaseState, scenario: Scenario | null, now: s
 
 export function summaryMarkdown(s: CaseSummary): string {
   const lines = [
-    `# 구독 마침표 사건 요약 — ${s.service}`,
+    `# 똑Pay 사건 요약 — ${s.service}`,
     '',
     `- 사건: ${s.caseId} · 단계: ${s.stage} · 해지 확인: ${s.closure}`,
     s.scope ? `- 범위: ${s.scope}` : '- 범위: 아직 판단 전',

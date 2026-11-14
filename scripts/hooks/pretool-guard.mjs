@@ -14,7 +14,7 @@ const RULES = [
 const hit = RULES.find((r) => r.re.test(text));
 if (hit) {
   appendEvidence('policy-denials.jsonl', { at: kstNow(), hook: 'pretool-guard', rule: hit.id, tool: input.tool_name ?? null, session: input.session_id ?? null, blocked: true });
-  console.error(`BLOCKED-BY-MACHIMPYO-GUARD [${hit.id}]: ${hit.msg}`);
+  console.error(`BLOCKED-BY-TTOKPAY-GUARD [${hit.id}]: ${hit.msg}`);
   process.exit(2);
 }
 process.exit(0);

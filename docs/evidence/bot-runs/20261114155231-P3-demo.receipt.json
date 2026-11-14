@@ -1,0 +1,152 @@
+{
+  "patrolId": "P3",
+  "clock": "2026-11-14T12:00:00+09:00",
+  "report": {
+    "summary": "새 결제 문자는 없었고, 3일 안 결제 2건(유튜브 프리미엄·디즈니+ 스탠다드)은 이미 열린 사건이 있어 새 질문을 보내지 않았습니다. 디즈니+ 스탠다드는 동생의 반대로 결제자 인계가 거부되어, 동생 의견대로 2개월 쉬기를 계산한 뒤(12개월 기준 3,800원 아낌) 가족 제안 v2를 엄마·동생에게 보냈고 v1 응답 2건은 무효가 됐습니다. 유튜브 프리미엄은 App Store 자동 갱신을 끔 기록은 있지만 사업자(Apple) 해지 확인이 아직 없어 종료 확인 전입니다.",
+    "waitingFor": [
+      "엄마·동생: 디즈니+ 스탠다드 가족 제안 v2(2개월 쉬기) 동의 응답 (결정 마감 2026-11-17)",
+      "나(결제자): 유튜브 프리미엄 App Store 해지의 Apple 확인 화면 확인과 기록 (결정 마감 2026-11-15)"
+    ]
+  },
+  "receipt": {
+    "model": "claude-opus-5.5",
+    "engine": "v3",
+    "ms": 135305,
+    "toolCalls": 6,
+    "tools": [
+      "get_status",
+      "request_handoff",
+      "check_closure",
+      "calc_resub",
+      "propose_family_plan",
+      "finish_patrol"
+    ],
+    "denied": 2,
+    "hooks": [
+      {
+        "name": "session-context",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "pretool-guard-read",
+        "status": "completed"
+      },
+      {
+        "name": "stop-summary",
+        "status": "completed"
+      }
+    ],
+    "credits": 3.94,
+    "fallback": false,
+    "exitCode": 0,
+    "finalText": "점검을 마치고 finish_patrol에 기록했습니다. 새 결제 문자는 없었습니다. 3일 안에 결제되는 유튜브 프리미엄과 디즈니+ 스탠다드는 이미 열린 사건이 있어서 새 질문을 보내지 않았습니다.\n\n- **디즈니+ 스탠다드:** 동생이 반대해서 결제자 인계가 정책 관문에서 거부됐습니다. 동생 의견대로 해지하지 않고 2개월만 쉬면 12개월 기준 3,800원을 아낀다고 계산됐습니다. 이 값은 공개 요금으로 낸 예시 계산입니다. 그래서 2개월 쉬는 가족 제안 v2를 엄마와 동생에게 보냈고, v1에 받은 응답 2건은 무효가 됐습니다.\n- **유튜브 프리미엄:** App Store 자동 갱신을 껐다는 기록은 있습니다. 하지만 Apple의 해지 확인이 아직 없어서 종료를 확인하기 전 단계입니다.\n\n**기다리는 일**\n- 엄마와 동생: 디즈니+ 제안 v2에 대한 동의 응답 (결정 마감 2026-11-17)\n- 나(결제자): Apple 화면에서 유튜브 프리미엄 해지를 확인하고 기록 (결정 마감 2026-11-15)\n\n참고로 손익 계산 결과의 전제에 적힌 디즈니+ 가격 확인 시각은 2026-11-14 14:27이고, 데모 시계 12:00보다 늦습니다. 계산 결과는 그대로지만 화면에서 시각이 어긋나 보일 수 있습니다. 원인은 아직 확인하지 않았습니다.",
+    "startedAtReal": "2026-11-14T15:52:31.104+09:00",
+    "finishedAtReal": "2026-11-14T15:54:46.409+09:00"
+  },
+  "toolLog": [
+    {
+      "seq": 19,
+      "at": "2026-11-14T12:00:00+09:00",
+      "patrolId": "P3",
+      "tool": "get_status",
+      "args": {},
+      "ok": true,
+      "reasons": [],
+      "summary": "구독 3개, 3일 안 결제 2개, 새 답장 3개"
+    },
+    {
+      "seq": 20,
+      "at": "2026-11-14T12:00:00+09:00",
+      "patrolId": "P3",
+      "tool": "request_handoff",
+      "args": {
+        "caseId": "case-disney_plus_kr-4"
+      },
+      "ok": false,
+      "reasons": [
+        "objection_present"
+      ],
+      "summary": "정책 관문 거부: 반대한 가족이 있어요"
+    },
+    {
+      "seq": 21,
+      "at": "2026-11-14T12:00:00+09:00",
+      "patrolId": "P3",
+      "tool": "check_closure",
+      "args": {
+        "caseId": "case-youtube_premium_kr-1"
+      },
+      "ok": false,
+      "reasons": [
+        "provider_unconfirmed"
+      ],
+      "summary": "해지 요청만 기록됨 (종료 확인 아님)"
+    },
+    {
+      "seq": 22,
+      "at": "2026-11-14T12:00:00+09:00",
+      "patrolId": "P3",
+      "tool": "calc_resub",
+      "args": {
+        "subscriptionId": "sub-disney",
+        "pauseMonths": 2,
+        "horizon": 12
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "2개월 쉬었다가 돌아오면 12개월 기준 3,800원 아껴요."
+    },
+    {
+      "seq": 23,
+      "at": "2026-11-14T12:00:00+09:00",
+      "patrolId": "P3",
+      "tool": "propose_family_plan",
+      "args": {
+        "choice": "pause",
+        "horizon": 12,
+        "note": "동생 의견 반영: 해지 대신 2개월만 쉬고 1월에 다시 보기 (12개월 기준 3,800원 아낌, 계산 296baeef)",
+        "pauseMonths": 2,
+        "subscriptionId": "sub-disney"
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "가족 제안 v2(잠시 해지 후 복귀 2개월)을 엄마·동생에게 보냈어요"
+    },
+    {
+      "seq": 24,
+      "at": "2026-11-14T12:00:00+09:00",
+      "patrolId": "P3",
+      "tool": "finish_patrol",
+      "args": {
+        "summary": "새 결제 문자는 없었고, 3일 안 결제 2건(유튜브 프리미엄·디즈니+ 스탠다드)은 이미 열린 사건이 있어 새 질문을 보내지 않았습니다. 디즈니+ 스탠다드는 동생의 반대로 결제자 인계가 거부되어, 동생 의견대로 2개월 쉬기를 계산한 뒤(12개월 기준 3,800원 아낌) 가족 제안 v2를 엄마·동생에게 보냈고 v1 응답 2건은 무효가 됐습니다. 유튜브 프리미엄은 App Store 자동 갱신을 끔 기록은 있지만 사업자(Apple) 해지 확인이 아직 없어 종료 확인 전입니다.",
+        "waitingFor": [
+          "엄마·동생: 디즈니+ 스탠다드 가족 제안 v2(2개월 쉬기) 동의 응답 (결정 마감 2026-11-17)",
+          "나(결제자): 유튜브 프리미엄 App Store 해지의 Apple 확인 화면 확인과 기록 (결정 마감 2026-11-15)"
+        ]
+      },
+      "ok": true,
+      "reasons": [],
+      "summary": "점검 기록을 남겼어요"
+    }
+  ]
+}

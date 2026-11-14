@@ -100,7 +100,7 @@ async function main() {
   const s = loadState();
   const replay = {
     schema: 1,
-    title: '구독 점검 봇 — Kiro CLI 실제 실행 기록',
+    title: '점검 봇 똑이 — Kiro CLI 실제 실행 기록',
     recordedAt: startedAt,
     finishedAt: kst(),
     note: '각 점검은 Kiro CLI 헤드리스(--agent subs-bot, household MCP)로 실제 실행했고, 이 파일은 그 결과를 저장한 녹화 기록이다. 가구·문자·응답은 모두 합성 데이터다.',
