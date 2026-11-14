@@ -18,7 +18,7 @@ export interface SmsItem {
   synthetic: boolean;
 }
 
-export type TxEffect = 'ignored_not_charge' | 'matches_subscription' | 'amount_differs' | 'unlinked' | 'charge_after_cancel' | 'charge_recorded';
+export type TxEffect = 'ignored_not_charge' | 'matches_subscription' | 'amount_differs' | 'unlinked' | 'charge_after_cancel' | 'charge_recorded' | 'expected_new_channel';
 
 export const TX_EFFECT_LABEL: Record<TxEffect, string> = {
   ignored_not_charge: '청구 아님(광고·인증·유효성 확인 등)',
@@ -27,6 +27,7 @@ export const TX_EFFECT_LABEL: Record<TxEffect, string> = {
   unlinked: '등록된 구독과 연결되지 않음',
   charge_after_cancel: '해지 요청 뒤 청구 — 사건 다시 열림',
   charge_recorded: '청구 기록',
+  expected_new_channel: '옮긴 결제 경로의 예상된 청구',
 };
 
 export interface TxRecord {

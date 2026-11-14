@@ -17,6 +17,7 @@ const TOOL_KO: Record<string, string> = {
   ingest_sms: '결제 문자 구조화',
   calc_resub: '재가입 손익 계산',
   compare_options: '대안 비교',
+  compare_channels: '결제 경로 가격 비교',
   ask_member: '먼저 묻기',
   propose_family_plan: '가족 제안',
   remind_pending: '미응답자 재알림',

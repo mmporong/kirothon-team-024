@@ -66,6 +66,7 @@ const CHANNELS: { channel: Channel; re: RegExp }[] = [
   { channel: 'google_play', re: /Google\s?Play|구글\s?플레이/i },
   { channel: 'app_store', re: /App\s?Store|앱스토어|APPLE\.COM\/BILL|애플\s?결제/i },
   { channel: 'carrier', re: /통신\s?요금|휴대폰\s?결제|소액\s?결제|SKT|KT\s|LG\s?U\+|U\+/ },
+  { channel: 'web', re: /웹\s?결제|홈페이지\s?결제/ },
 ];
 
 const AMOUNT_RE = /(\d{1,3}(?:,\d{3})+|\d+)\s?원/;

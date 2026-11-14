@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { BRAND } from '../brand';
 import { BotReplay } from './BotReplay';
 import { Calculator } from './Calculator';
+import { ChannelCheck } from './ChannelCheck';
 import { FamilySim } from './FamilySim';
 import { HowBuilt } from './HowBuilt';
 
 const TABS = [
   { id: 'bot', label: '봇 점검 기록' },
-  { id: 'calc', label: '손익 계산기' },
+  { id: 'channel', label: '결제 경로 비교' },
   { id: 'family', label: '가족 동의 체험' },
+  { id: 'calc', label: '재가입 손익(보조)' },
   { id: 'kiro', label: 'Kiro로 만든 방법' },
 ] as const;
 type TabId = (typeof TABS)[number]['id'];
@@ -42,6 +44,7 @@ export function App() {
       </header>
       <main>
         {tab === 'bot' && <BotReplay />}
+        {tab === 'channel' && <ChannelCheck />}
         {tab === 'calc' && <Calculator />}
         {tab === 'family' && <FamilySim />}
         {tab === 'kiro' && <HowBuilt />}

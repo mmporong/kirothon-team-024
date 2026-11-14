@@ -60,37 +60,41 @@ function sms(text: string, receivedAt: string, label: string) {
 async function main() {
   const startedAt = kst();
   resetState();
-  steps.push({ kind: 'event', clock: loadState().clock, text: '합성 데모 가구: 나(결제자)·엄마·동생. 디즈니+ 스탠다드 9,900원(기존 요금)을 셋이 함께 봐요. 결제일 11월 17일.' });
+  const caseOf = (subId: string) => loadState().cases.filter((c) => c.subscription.id === subId).at(-1)?.caseId;
+  steps.push({ kind: 'event', clock: loadState().clock, text: '합성 데모 가구: 나(결제자)·엄마·동생. 유튜브 프리미엄은 아이폰에서 시작한 무료체험(App Store, 11월 16일 종료). 디즈니+ 스탠다드 9,900원(기존 요금)은 셋이 함께 봐요(11월 17일 결제).' });
 
   await patrol('1');
-  clock('2026-11-14T09:10:00+09:00', '10분 뒤');
-  human('나', 'reply', (s) => humanReply(s, 'me', '2개월 쉬는 걸로 하고, 엄마랑 동생한테 물어봐 줘.', 'sub-disney'));
+  clock('2026-11-14T09:10:00+09:00', '10분 뒤 결제자 답장');
+  human('나', 'reply', (s) => humanReply(s, 'me', '유튜브는 계속 쓸 거라 웹으로 옮길게. 디즈니+는 이번 달까지만 보고 해지하자고 엄마랑 동생한테 물어봐 줘.'));
 
   clock('2026-11-14T09:30:00+09:00', '20분 뒤 다음 점검');
   await patrol('2');
 
+  clock('2026-11-14T09:40:00+09:00', '결제자가 App Store에서 유튜브 체험 자동 갱신을 끔');
+  human('나', 'cancel', (s) => humanRecordCancel(s, 'me', caseOf('sub-youtube'), '유튜브 App Store 자동 갱신 끔 (Apple 확인 화면은 아직)'));
   clock('2026-11-14T10:00:00+09:00', '30분 뒤');
-  human('엄마', 'vote', (s) => humanVote(s, 'mom', 'agree'));
+  human('엄마', 'vote', (s) => humanVote(s, 'mom', 'agree', { caseId: caseOf('sub-disney') }));
   clock('2026-11-14T10:05:00+09:00', '5분 뒤');
-  human('동생', 'vote', (s) => humanVote(s, 'bro', 'object', { comment: '2개월은 애매해요. 어차피 2월까지는 볼 게 없으니까 3개월 쉬어요.' }));
+  human('동생', 'vote', (s) => humanVote(s, 'bro', 'object', { caseId: caseOf('sub-disney'), comment: '1월에 보고 싶은 시리즈가 나와요. 해지 말고 2개월만 쉬었다가 다시 봐요.' }));
 
   clock('2026-11-14T12:00:00+09:00', '점심 점검');
   await patrol('3');
 
   clock('2026-11-14T12:20:00+09:00', '20분 뒤');
-  human('엄마', 'vote-stale', (s) => humanVote(s, 'mom', 'agree', { version: 1 }));
-  human('엄마', 'vote', (s) => humanVote(s, 'mom', 'agree'));
+  human('엄마', 'vote-stale', (s) => humanVote(s, 'mom', 'agree', { caseId: caseOf('sub-disney'), version: 1 }));
+  human('엄마', 'vote', (s) => humanVote(s, 'mom', 'agree', { caseId: caseOf('sub-disney') }));
   clock('2026-11-14T12:25:00+09:00', '5분 뒤');
-  human('동생', 'vote', (s) => humanVote(s, 'bro', 'agree'));
+  human('동생', 'vote', (s) => humanVote(s, 'bro', 'agree', { caseId: caseOf('sub-disney') }));
 
   clock('2026-11-14T18:00:00+09:00', '저녁 점검');
   await patrol('4');
 
   clock('2026-11-14T18:30:00+09:00', '결제자가 디즈니+ 웹에서 해지 신청');
-  human('나', 'cancel', (s) => humanRecordCancel(s, 'me'));
+  human('나', 'cancel', (s) => humanRecordCancel(s, 'me', caseOf('sub-disney')));
 
-  clock('2026-11-17T09:00:00+09:00', '3일 뒤, 원래 결제일 아침');
-  sms('[합성 데모]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n9,900원 일시불\n2026-11-17 09:00 KST\nGoogle Play 디즈니+', '2026-11-17T09:00:30+09:00', '결제 문자 1건 도착(합성)');
+  clock('2026-11-16T09:00:00+09:00', '이틀 뒤 아침, 결제 문자 2건 도착(합성)');
+  sms('[합성 데모]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n14,900원 일시불\n2026-11-16 08:10 KST\n유튜브 프리미엄 웹결제', '2026-11-16T08:10:20+09:00', '웹 가입 결제 문자(합성)');
+  sms('[합성 데모]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n19,500원 일시불\n2026-11-16 00:12 KST\nAPPLE.COM/BILL', '2026-11-16T00:12:40+09:00', 'App Store 결제 문자(합성)');
   await patrol('5');
 
   const s = loadState();

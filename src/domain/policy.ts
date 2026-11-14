@@ -49,7 +49,7 @@ export type Action =
   | { type: 'revise_terms'; actor: string; terms: Terms }
   | { type: 'cast_vote'; actor: string; version: number; value: VoteValue; comment?: string }
   | { type: 'revoke_vote'; actor: string }
-  | { type: 'prepare_owner_handoff'; actor: string; terms?: Terms }
+  | { type: 'prepare_owner_handoff'; actor: string; terms?: Terms; switchTo?: Channel }
   | { type: 'record_cancel_request'; actor: string }
   | { type: 'record_provider_confirmation'; actor: string }
   | { type: 'record_payment_method'; actor: string; state: ClosureRecord['paymentMethod'] }
@@ -80,7 +80,9 @@ export type Reason =
   | 'expected_date_unknown'
   | 'no_channel_checked'
   | 'provider_unconfirmed'
-  | 'invalid_amount';
+  | 'invalid_amount'
+  | 'charge_on_new_channel'
+  | 'same_channel';
 
 export const REASON_TEXT: Record<Reason, string> = {
   consent_missing: '아직 응답하지 않은 가족이 있어요',
@@ -105,6 +107,8 @@ export const REASON_TEXT: Record<Reason, string> = {
   no_channel_checked: '확인한 결제 경로가 없어 판단을 보류해요',
   provider_unconfirmed: '사업자 해지 확인이 아직 없어요(요청만 기록됨)',
   invalid_amount: '청구 금액이 올바르지 않아요',
+  charge_on_new_channel: '옮긴 결제 경로의 청구라 예상된 청구로 기록했어요',
+  same_channel: '지금과 같은 결제 경로로는 옮길 수 없어요',
 };
 
 export function newCase(caseId: string, subscription: Subscription): CaseState {
@@ -185,8 +189,9 @@ function decide(state: CaseState, action: Action, now: string): { allowed: boole
       }
       const route = routeFor(sub.serviceId, sub.channel);
       if (route.status === 'channel_unknown') reasons.push('channel_unknown');
+      if (action.switchTo && action.switchTo === sub.channel) reasons.push('same_channel');
       if (reasons.length) return deny(...reasons);
-      return { allowed: true, reasons: route.status === 'no_guide' ? ['no_guide'] : [], patch: { stage: 'handoff_ready' } };
+      return { allowed: true, reasons: route.status === 'no_guide' ? ['no_guide'] : [], patch: { stage: 'handoff_ready', closure: { ...state.closure, switchTo: action.switchTo ?? null } } };
     }
 
     case 'record_cancel_request':
@@ -219,6 +224,7 @@ function decide(state: CaseState, action: Action, now: string): { allowed: boole
       if (!Number.isSafeInteger(c.amountWon) || c.amountWon <= 0) return deny('invalid_amount');
       const closure = { ...state.closure, observedCharges: [...state.closure.observedCharges, c] };
       const after = !!closure.requestedAt && c.date >= closure.requestedAt.slice(0, 10);
+      if (after && closure.switchTo && c.channel === closure.switchTo) return { allowed: true, reasons: ['charge_on_new_channel'], patch: { closure } };
       if (after) return { allowed: true, reasons: ['charge_after_cancel'], patch: { closure, stage: 'reopened' } };
       return { allowed: true, reasons: ['charge_before_cancel'], patch: { closure } };
     }

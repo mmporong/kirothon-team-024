@@ -16,6 +16,7 @@ export interface ClosureRecord {
   expectedNextCharge: string | null; // YYYY-MM-DD
   observedCharges: Charge[];
   checkedChannels: Channel[];
+  switchTo?: Channel | null; // 결제 경로를 옮기는 중이면 새 경로. 새 경로 청구는 예상된 청구다 [R28]
 }
 
 export const EMPTY_CLOSURE: ClosureRecord = {
@@ -26,6 +27,7 @@ export const EMPTY_CLOSURE: ClosureRecord = {
   expectedNextCharge: null,
   observedCharges: [],
   checkedChannels: [],
+  switchTo: null,
 };
 
 export type ClosureStatus = 'not_requested' | 'requested_unconfirmed' | 'awaiting_next_cycle' | 'no_charge_observed_scoped' | 'reopened';
@@ -38,11 +40,17 @@ export const CLOSURE_LABEL: Record<ClosureStatus, string> = {
   reopened: '예상 밖 청구 — 사건 다시 열림',
 };
 
-/** 해지 요청일(KST 날짜) 이후의 청구만 '해지 후 청구'로 본다. */
+/** 해지 요청일(KST 날짜) 이후의 청구만 '해지 후 청구'로 본다. 옮긴 새 경로의 청구는 예상된 청구라 뺀다. */
 export function chargesAfterRequest(rec: ClosureRecord): Charge[] {
   if (!rec.requestedAt) return [];
   const reqDate = rec.requestedAt.slice(0, 10);
-  return rec.observedCharges.filter((c) => c.date >= reqDate);
+  return rec.observedCharges.filter((c) => c.date >= reqDate && !(rec.switchTo && c.channel === rec.switchTo));
+}
+
+export function chargesOnNewChannel(rec: ClosureRecord): Charge[] {
+  if (!rec.requestedAt || !rec.switchTo) return [];
+  const reqDate = rec.requestedAt.slice(0, 10);
+  return rec.observedCharges.filter((c) => c.date >= reqDate && c.channel === rec.switchTo);
 }
 
 export function closureStatus(rec: ClosureRecord, todayYmd: string, graceDays = 3): { status: ClosureStatus; reasons: string[]; scope: string | null } {

@@ -49,7 +49,8 @@ export function Calculator() {
   return (
     <section className="grid2">
       <div className="card">
-        <h2>한 달 쉬면 정말 이득일까?</h2>
+        <h2>해지했다가 다시 가입하면? (보조)</h2>
+        <p className="small">기존 요금으로 이용 중인 구독만 해당해요. 해지하거나 결제 경로를 옮기면 새로 가입하는 것이라 신규 요금이 붙을 수 있어요.</p>
         <p className="muted">
           디즈니+는 {pol.change_effective_date}부터 해지 후 재가입·멤버십 변경에 신규 요금을 적용해요. 같은 기간으로 계속 유지와 쉬었다 돌아오기를 비교해요.
         </p>

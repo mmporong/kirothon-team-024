@@ -1,20 +1,60 @@
-# Tasks — subscription-closure
+# Implementation Plan — subscription-closure
 
-> 각 작업은 요구 ID를 가진다. 완료하면 체크하고 커밋 SHA를 적는다. 커밋 메시지 끝에 `[Txx][Rxx]`.
+> 요구 번호는 `requirements.md`의 Requirement N(= 코드·테스트의 `RNN`). 커밋 메시지 끝에 `[Txx][Rxx]`를 붙인다. 봇 작업 13~16은 `.kiro/specs/subs-bot/tasks.md`.
 
-- [ ] T01 저장소·steering·spec·훅·에이전트 골격 — R17·R18
-- [ ] T02 앱 골격·화이트 톤 레이아웃·합성 데모 데이터 — R17
-- [ ] T03 공개 요금 정책 데이터와 `pricePolicy` (출처·확인일·적용일) — R20
-- [ ] T04 `resubBreakeven` 계산·손익 표·조언 문장 + 속성 테스트 P1~P4 — R19·R20
-- [ ] T05 `alternatives` 대안 비교(연간·광고형·낮은 등급, 요구 부적합) — R21
-- [ ] T06 결제 전 검토함 `reminders` (D-3·D-1) — R05 / `.ics` 내보내기는 선택 — R06
-- [ ] T07 손익 화면: k·H 조절, 전제 상시 표시, 공통 계산 문장 — R19·R20·R21
-- [ ] T08 `consent` + `policy.evaluateAction` + 가족 검토 화면(2역할 시뮬레이션) + 속성 P5·P6 — R07·R08·R16
-- [ ] T09 `guides` 공식 해지 경로 + 결제자 인계 화면 — R09·R10
-- [ ] T10 `verification` 해지 사건·다음 청구 관찰·재개방 + 속성 P7 — R11·R12
-- [ ] T11 `parsePayment` 결제 문자 구조화 + `evidence` 요약(P8) — R01·R02·R03·R13·R15
-- [ ] T12 reviewer 에이전트 검토·수정, README·증거·배포 — R17·R18
-- [ ] T13 MCP 서버 `mcp/server.ts`: 가구 상태(bot-state)·문자 구조화·손익·가족 제안·정책 관문·메시지 도구 — R22·R24·R27
-- [ ] T14 마침표 봇 에이전트 `.kiro/agents/machimpyo-bot.json` + 점검 실행기 `scripts/bot-run.mjs` + 실행 영수증 — R22·R23·R26
-- [ ] T15 앱 봇 화면: 메시지 피드·역할별 답장(나·엄마·동생)·실행 영수증·녹화 재생 — R23·R26
-- [ ] T16 데모 시나리오 실제 실행 기록(점검 5회) + 재생 데이터 — R17·R25·R26
+- [x] 1. 저장소·steering·spec·훅·에이전트 골격 (T01)
+  - steering 7개, 훅 4개(SessionStart·PostFileSave·PreToolUse·Stop), reviewer 에이전트, Vite+React+TS 골격
+  - _Requirements: 14, 17, 18_
+  - 커밋: de96e2e
+- [x] 2. 앱 골격·화이트 톤 레이아웃 (T02)
+  - `src/ui/App.tsx`, `src/ui/styles.css` — 탭 4개(봇 점검 기록·손익 계산기·가족 동의 체험·Kiro로 만든 방법)
+  - _Requirements: 17_
+  - 커밋: 9883c06
+- [x] 3. 공개 요금 정책 데이터와 조회 (T03)
+  - `src/data/price_policies.json`(14개 서비스, 출처·확인 시각), `src/domain/pricePolicy.ts`
+  - _Requirements: 20_
+  - 커밋: de96e2e
+- [x] 4. 재가입 손익 계산 + 속성 테스트 P1~P4 (T04)
+  - `src/domain/resubBreakeven.ts`, `tests/domain/resubBreakeven.test.ts`(Python golden 255건 동치)
+  - _Requirements: 19, 20_
+  - 커밋: de96e2e
+- [x] 5. 대안 비교 (T05)
+  - `src/domain/alternatives.ts`, `tests/domain/alternatives.test.ts`
+  - _Requirements: 21_
+  - 커밋: de96e2e
+- [x] 6. 결제 전 검토함 (T06)
+  - `src/domain/reminders.ts`(D-3·D-1·당일·지남·미확인), 중복 제거
+  - _Requirements: 3, 5_
+  - 커밋: de96e2e
+- [x] 7. 손익 화면: H·k 조절, 전제 상시 표시 (T07)
+  - `src/ui/Calculator.tsx`
+  - _Requirements: 19, 20, 21_
+  - 커밋: 9883c06
+- [x] 8. 가족 동의 + 단일 정책 관문 + 속성 P5·P6 (T08)
+  - `src/domain/consent.ts`, `src/domain/policy.ts`, `src/ui/FamilySim.tsx`, `tests/domain/consentPolicy.test.ts`
+  - _Requirements: 7, 8, 16_
+  - 커밋: de96e2e, 9883c06
+- [x] 9. 결제 채널별 공식 해지 경로 (T09)
+  - `src/data/cancel_guides.json`(20개 서비스 + App Store·Google Play 공통), `src/domain/guides.ts`
+  - _Requirements: 9, 10_
+  - 커밋: de96e2e
+- [x] 10. 해지 사건·다음 청구 관찰·재개방 + 속성 P7 (T10)
+  - `src/domain/verification.ts`, `tests/domain/verificationEvidence.test.ts`
+  - _Requirements: 11, 12_
+  - 커밋: de96e2e
+- [x] 11. 결제 문자 구조화 + 원문 제외 요약 P8 (T11)
+  - `src/domain/parsePayment.ts`(외화 분리), `src/domain/evidence.ts`, `tests/domain/remindersParse.test.ts`
+  - _Requirements: 1, 2, 3, 4, 13, 15_
+  - 커밋: de96e2e
+- [x] 17. 결제 경로별 가격 차이와 경로 갈아타기 (T17, 15:30 사용자 요청)
+  - `src/domain/channelPrice.ts`, `src/data/channel_prices.json`(조사 29개 요금제, verified만 계산), `src/data/store_procedures.json`, `scripts/merge-research.mjs`, `tests/domain/channelPrice.test.ts`
+  - _Requirements: 28, 30_
+- [x] 18. 무료체험·App Store 결정 마감 (T18)
+  - `src/domain/reminders.ts`의 `decisionDeadline`(체험 종료일 기준, App Store 하루 전)
+  - _Requirements: 5, 29_
+- [x] 19. 메인 재정렬: 재가입 손익을 보조로 (T19, 15:30 사용자 결정)
+  - 가족 '해지' 제안에는 신규 요금 한 줄만, 손익 계산기는 보조 탭으로 이동
+  - _Requirements: 19, 20, 21_
+- [ ] 12. reviewer 에이전트 검토·수정, README·증거·배포 (T12)
+  - `docs/evidence/review.md`, `docs/evidence/traceability.md`, GitHub Pages
+  - _Requirements: 17, 18_

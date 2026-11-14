@@ -4,20 +4,91 @@
   "household": {
     "name": "합성 데모 가구",
     "members": [
-      { "id": "me", "label": "나", "role": "owner" },
-      { "id": "mom", "label": "엄마", "role": "member" },
-      { "id": "bro", "label": "동생", "role": "member" }
+      {
+        "id": "me",
+        "label": "나",
+        "role": "owner"
+      },
+      {
+        "id": "mom",
+        "label": "엄마",
+        "role": "member"
+      },
+      {
+        "id": "bro",
+        "label": "동생",
+        "role": "member"
+      }
     ]
   },
   "subscriptions": [
-    { "id": "sub-disney", "serviceId": "disney_plus_kr", "planId": "standard", "name": "디즈니+ 스탠다드", "monthlyWon": 9900, "nextChargeDate": "2026-11-17", "channel": "web", "ownerId": "me", "sharedWith": ["mom", "bro"], "sourceKind": "demo", "usage": null },
-    { "id": "sub-netflix", "serviceId": "netflix_kr", "planId": "ad_standard", "name": "넷플릭스 광고형 스탠다드", "monthlyWon": 7000, "nextChargeDate": "2026-12-05", "channel": "web", "ownerId": "me", "sharedWith": [], "sourceKind": "demo", "usage": null },
-    { "id": "sub-youtube", "serviceId": "youtube_premium_kr", "planId": "individual", "name": "유튜브 프리미엄", "monthlyWon": 14900, "nextChargeDate": "2026-11-28", "channel": "google_play", "ownerId": "me", "sharedWith": [], "sourceKind": "demo", "usage": null }
+    {
+      "id": "sub-youtube",
+      "serviceId": "youtube_premium_kr",
+      "planId": "individual",
+      "name": "유튜브 프리미엄",
+      "monthlyWon": null,
+      "nextChargeDate": "2026-11-16",
+      "trialEndsAt": "2026-11-16",
+      "channel": "app_store",
+      "ownerId": "me",
+      "sharedWith": [],
+      "sourceKind": "demo",
+      "usage": null
+    },
+    {
+      "id": "sub-disney",
+      "serviceId": "disney_plus_kr",
+      "planId": "standard",
+      "name": "디즈니+ 스탠다드",
+      "monthlyWon": 9900,
+      "nextChargeDate": "2026-11-17",
+      "channel": "web",
+      "ownerId": "me",
+      "sharedWith": [
+        "mom",
+        "bro"
+      ],
+      "sourceKind": "demo",
+      "usage": null
+    },
+    {
+      "id": "sub-netflix",
+      "serviceId": "netflix_kr",
+      "planId": "ad_standard",
+      "name": "넷플릭스 광고형 스탠다드",
+      "monthlyWon": 7000,
+      "nextChargeDate": "2026-12-05",
+      "channel": "web",
+      "ownerId": "me",
+      "sharedWith": [],
+      "sourceKind": "demo",
+      "usage": null
+    }
   ],
   "cases": [],
   "inbox": [
-    { "id": "sms-seed-1", "receivedAt": "2026-10-17T09:00:12+09:00", "text": "[합성 데모]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n9,900원 일시불\n2026-10-17 09:00 KST\n디즈니+", "processed": false, "synthetic": true },
-    { "id": "sms-seed-2", "receivedAt": "2026-11-13T19:30:00+09:00", "text": "[합성 데모] (광고) 디즈니+ 연말 특가! 지금 연간권 가입하면 115,000원", "processed": false, "synthetic": true }
+    {
+      "id": "sms-seed-1",
+      "receivedAt": "2026-10-17T09:00:12+09:00",
+      "text": "[합성 데모]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n9,900원 일시불\n2026-10-17 09:00 KST\n디즈니+",
+      "processed": false,
+      "synthetic": true
+    },
+    {
+      "id": "sms-seed-2",
+      "receivedAt": "2026-10-15T21:03:40+09:00",
+      "text": "[합성 데모]\nKB국민카드[합성] 카드(1234) 승인 홍*동\n0원 일시불\n2026-10-15 21:03 KST\nAPPLE.COM/BILL 유효성 확인",
+      "processed": false,
+      "synthetic": true
+    },
+    {
+      "id": "sms-seed-3",
+      "receivedAt": "2026-11-13T19:30:00+09:00",
+      "text": "[합성 데모] (광고) 디즈니+ 연말 특가! 지금 연간권 가입하면 115,000원",
+      "processed": false,
+      "synthetic": true
+    }
   ],
   "transactions": [],
   "messages": [],

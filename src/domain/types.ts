@@ -10,6 +10,32 @@ export const CHANNEL_LABEL: Record<Channel, string> = {
   partner: '제휴(카드·멤버십) 결제',
 };
 
+export const CHANNEL_SHORT: Record<Channel, string> = {
+  web: '웹',
+  app_store: 'App Store',
+  google_play: 'Google Play',
+  carrier: '통신사',
+  partner: '제휴',
+};
+
+function jongOf(word: string): number | null {
+  const code = word.trim().slice(-1).charCodeAt(0) - 0xac00;
+  return code >= 0 && code <= 11171 ? code % 28 : null;
+}
+
+/** 한국어 조사 '으로/로': 받침이 있으면(ㄹ 제외) '으로'. 영문 등은 '로'. */
+export function withRo(word: string): string {
+  const j = jongOf(word);
+  return `${word}${j !== null && j !== 0 && j !== 8 ? '으로' : '로'}`;
+}
+
+/** 한국어 조사 '은/는', '이/가'. 받침이 있으면 앞쪽. 영문(App Store·Google Play)은 받침 없는 것으로 본다. */
+export function josa(word: string, pair: '은/는' | '이/가'): string {
+  const j = jongOf(word);
+  const [withJong, without] = pair.split('/') as [string, string];
+  return `${word}${j !== null && j !== 0 ? withJong : without}`;
+}
+
 export interface Member {
   id: string;
   label: string;
@@ -27,6 +53,7 @@ export interface Subscription {
   ownerId: string;
   sharedWith: string[]; // member ids (결제자 제외)
   sourceKind: 'demo' | 'manual' | 'sms_paste';
+  trialEndsAt?: string | null; // 무료체험 종료일 YYYY-MM-DD (없으면 정기결제)
   usage: { observed: number | null; unit: string; period: string } | null; // null = 미확인 [R04]
 }
 

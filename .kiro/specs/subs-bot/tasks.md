@@ -1,0 +1,21 @@
+# Implementation Plan — subs-bot
+
+- [x] 13. household MCP 서버와 도구 12개
+  - `mcp/server.ts`(stdio JSON-RPC), `scripts/mcp-launch.mjs`(경로 독립 실행), `src/bot/tools.ts`
+  - 상태 변경은 `evaluateAction`, 원문 비노출, 숫자 검증, 중복 금지
+  - _Requirements: 22, 24, 25, 27_
+  - 커밋: 9883c06
+- [x] 14. subs-bot 에이전트와 점검 실행기
+  - `.kiro/agents/subs-bot.json`(MCP만 허용, fs·shell deny), `scripts/bot-patrol.ts`(stream-json → 영수증)
+  - 첫 실제 점검(smoke): claude-opus-5.5, 114초, 도구 7회 — `docs/evidence/bot-runs/20261114151505-P1-smoke.receipt.json`
+  - _Requirements: 22, 23, 26_
+  - 커밋: 9883c06
+- [x] 15. 재생 화면
+  - `src/ui/BotReplay.tsx`: 점검별 영수증·도구 호출·거부·구성원별 메시지
+  - _Requirements: 23, 26_
+  - 커밋: 9883c06
+- [x] 16a. 경로 비교 도구 `compare_channels`, 경로 이동 인계(`request_handoff` switchTo), 이중 결제·환불 안내(`send_cancel_route`), 앱마켓 청구처 문자 연결
+  - _Requirements: 22, 25_
+- [ ] 16. 데모 시나리오 실제 실행(점검 5회)과 재생 데이터
+  - `scripts/demo-scenario.ts` → `public/replay/demo.json`
+  - _Requirements: 17, 24, 25, 26_

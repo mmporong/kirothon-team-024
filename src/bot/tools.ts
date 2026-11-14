@@ -1,16 +1,17 @@
 // 마침표 봇의 MCP 도구. 모든 상태 변경은 domain/policy.evaluateAction 을 거친다. [R16][R22][R23][R24][R25][R27]
 // 사람만 할 수 있는 일(투표·동의 철회·해지 요청 기록·사업자 확인)은 도구로 만들지 않았다. [R23][B1]
 import { cheapestFit, compareAlternatives, NEED_LABEL, type Need } from '../domain/alternatives';
+import { CHANNEL_PRICES, compareChannels, findPrices, PRICE_STATUS_LABEL, refundRoute, switchSteps } from '../domain/channelPrice';
 import { CHOICE_LABEL, tally, type Choice } from '../domain/consent';
 import { routeFor } from '../domain/guides';
 import { formatSignedWon, formatWon } from '../domain/money';
 import { EVENT_LABEL, parsePaymentText } from '../domain/parsePayment';
 import { evaluateAction, newCase, REASON_TEXT, STAGE_LABEL, type CaseState, type Reason } from '../domain/policy';
 import { getPlan, getPolicy, PLAN_LABEL } from '../domain/pricePolicy';
-import { REVIEW_LABEL, reviewStatus } from '../domain/reminders';
+import { decisionDeadline, REVIEW_LABEL, reviewStatus } from '../domain/reminders';
 import { computeScenario, type Scenario } from '../domain/resubBreakeven';
-import { CHANNEL_LABEL, type Channel, type Subscription } from '../domain/types';
-import { CLOSURE_LABEL, closureStatus } from '../domain/verification';
+import { CHANNEL_LABEL, CHANNEL_SHORT, josa, withRo, type Channel, type Subscription } from '../domain/types';
+import { chargesOnNewChannel, CLOSURE_LABEL, closureStatus } from '../domain/verification';
 import { hoursBetween, labelOf, memberOf, nextId, openCaseFor, replaceCase, todayOf, TX_EFFECT_LABEL, type BotState, type Message } from './state';
 
 export interface ToolOutcome {
@@ -75,6 +76,7 @@ function allowedNumbers(s: BotState, subId: string | null): Set<number> {
         set.add(row.pause);
       }
     }
+    for (const p of findPrices(CHANNEL_PRICES, sub.serviceId, sub.planId)?.prices ?? []) if (p.status === 'verified') for (const v of [p.monthly, p.annual]) if (typeof v === 'number') set.add(v);
     const opts = s.optionBook[sub.id] ?? [];
     for (const v of opts) set.add(v);
     for (const tx of s.transactions) if (tx.linkedSubscriptionId === sub.id && tx.amountWon !== null) set.add(tx.amountWon);
@@ -167,14 +169,23 @@ export const TOOLS: ToolDef[] = [
       const t = todayOf(s);
       const subscriptions = s.subscriptions.map((sub) => {
         const r = reviewStatus(sub, t);
+        const dl = decisionDeadline(sub);
+        const cc = compareChannels(CHANNEL_PRICES, sub.serviceId, sub.planId, sub.channel, sub.monthlyWon);
+        const legacy = getPlan(sub.serviceId, sub.planId)?.legacy_monthly ?? null;
         return {
           id: sub.id,
           name: sub.name,
-          monthly: sub.monthlyWon === null ? '미확인' : formatWon(sub.monthlyWon),
+          monthly: sub.monthlyWon === null ? (sub.trialEndsAt ? '무료체험 중' : '미확인') : formatWon(sub.monthlyWon),
+          trialEndsAt: sub.trialEndsAt ?? null,
           nextChargeDate: sub.nextChargeDate,
-          dDay: r.days,
+          deadline: dl.kind === 'trial_end' ? '무료체험 종료(유료 전환)' : '정기결제',
+          decideBy: dl.cancelBy,
+          decideByNote: dl.leadDays ? `${CHANNEL_SHORT[sub.channel!]}는 결제 ${dl.leadDays * 24}시간 전까지 자동 갱신을 꺼야 해요` : null,
+          daysToDecide: r.days,
           review: REVIEW_LABEL[r.status],
           dueWithin3Days: ['d3', 'd2', 'd1', 'today'].includes(r.status),
+          cheaperChannel: cc.status === 'cheaper_available' ? `${josa(CHANNEL_SHORT[cc.cheapest!.channel], '이/가')} 월 ${formatWon(cc.monthlyDiff!)} 쌈 — compare_channels로 확인` : null,
+          legacyPrice: legacy !== null && sub.monthlyWon === legacy ? '기존 요금 자격 있음(해지·경로 변경 후 다시 가입하면 신규 요금)' : null,
           channel: sub.channel ? CHANNEL_LABEL[sub.channel] : '미확인',
           owner: labelOf(s, sub.ownerId),
           sharedWith: sub.sharedWith.map((m) => labelOf(s, m)),
@@ -209,7 +220,18 @@ export const TOOLS: ToolDef[] = [
           out.push({ smsId: item.id, type: '분류 불가', effect: TX_EFFECT_LABEL.ignored_not_charge });
           continue;
         }
-        const sub = p.serviceId ? s.subscriptions.find((x) => x.serviceId === p.serviceId) ?? null : null;
+        let sub = p.serviceId ? s.subscriptions.find((x) => x.serviceId === p.serviceId) ?? null : null;
+        let linkedBy: string | null = sub ? '서비스명' : null;
+        if (!sub && p.isCharge && (p.channel === 'app_store' || p.channel === 'google_play')) {
+          // 앱마켓 청구 문자는 서비스명 없이 청구처(APPLE.COM/BILL 등)만 보이는 경우가 많다 → 같은 경로 구독과 금액으로 연결
+          const cands = s.subscriptions.filter((x) => x.channel === p.channel);
+          const byAmount = cands.filter((x) => (x.monthlyWon !== null && x.monthlyWon === p.amountWon) || findPrices(CHANNEL_PRICES, x.serviceId, x.planId)?.prices.find((q) => q.channel === p.channel)?.monthly === p.amountWon);
+          const pick = byAmount.length === 1 ? byAmount[0]! : cands.length === 1 ? cands[0]! : null;
+          if (pick) {
+            sub = pick;
+            linkedBy = byAmount.length === 1 ? '청구처·금액' : '청구처(이 경로 구독이 하나뿐)';
+          }
+        }
         let effect: keyof typeof TX_EFFECT_LABEL;
         let caseStage: string | null = null;
         if (!p.isCharge) effect = 'ignored_not_charge';
@@ -219,7 +241,7 @@ export const TOOLS: ToolDef[] = [
           if (c && c.closure.requestedAt && p.date && p.amountWon !== null && p.date >= c.closure.requestedAt.slice(0, 10)) {
             const d = evaluateAction(c, { type: 'observe_charge', actor: 'bot', charge: { date: p.date, amountWon: p.amountWon, channel: p.channel, synthetic: item.synthetic } }, s.clock);
             replaceCase(s, d.next);
-            effect = d.next.stage === 'reopened' ? 'charge_after_cancel' : 'charge_recorded';
+            effect = d.reasons.includes('charge_after_cancel') ? 'charge_after_cancel' : d.reasons.includes('charge_on_new_channel') ? 'expected_new_channel' : 'charge_recorded';
             caseStage = STAGE_LABEL[d.next.stage];
           } else effect = p.amountWon === sub.monthlyWon ? 'matches_subscription' : 'amount_differs';
         }
@@ -232,6 +254,7 @@ export const TOOLS: ToolDef[] = [
           date: p.date ?? '미확인',
           channel: p.channel ? CHANNEL_LABEL[p.channel] : '미확인',
           subscriptionId: sub?.id ?? null,
+          linkedBy,
           effect: TX_EFFECT_LABEL[effect],
           caseStage,
           evidenceSpans: p.spans,
@@ -294,6 +317,38 @@ export const TOOLS: ToolDef[] = [
     },
   },
   {
+    name: 'compare_channels',
+    description: '이 구독을 지금 결제 경로보다 싸게 낼 수 있는 공식 경로(웹·App Store·Google Play)가 있는지 본다. 검증된 가격만 비교해 월·연 차액, 옮기는 단계, 기존 요금 자격 경고를 돌려준다. App Store·Google Play로 결제하는 구독은 먼저 묻기 전에 호출한다.',
+    inputSchema: { type: 'object', properties: { subscriptionId: { type: 'string' } }, required: ['subscriptionId'] },
+    handler(s, a) {
+      const sub = subOf(s, a.subscriptionId);
+      if (!sub) return fail(['unknown_subscription'], '구독을 찾지 못했어요');
+      const c = compareChannels(CHANNEL_PRICES, sub.serviceId, sub.planId, sub.channel, sub.monthlyWon);
+      const sp = findPrices(CHANNEL_PRICES, sub.serviceId, sub.planId);
+      const book = new Set(s.optionBook[sub.id] ?? []);
+      for (const v of [c.currentMonthly, c.cheapest?.monthly ?? null, c.monthlyDiff, c.annualDiff]) if (typeof v === 'number') book.add(v);
+      s.optionBook[sub.id] = [...book];
+      const listed = (sp?.prices ?? []).map((p) => ({ channel: CHANNEL_SHORT[p.channel], status: PRICE_STATUS_LABEL[p.status], monthly: p.monthly === null ? '미확인' : formatWon(p.monthly), source: p.source_url, checkedAt: p.checked_at }));
+      const why: Record<string, string> = { no_price_data: '이 요금제의 경로별 가격 자료가 없어요', channel_unknown: '결제 경로를 몰라요', current_price_unknown: '지금 경로의 가격이 검증되지 않았어요', no_verified_alternative: '다른 경로의 검증된 가격이 없어요' };
+      if (c.status !== 'cheaper_available') return ok(c.status === 'already_cheapest' ? '지금 경로가 가장 싸거나 같아요' : `비교 보류: ${c.reasons.map((r) => why[r] ?? r).join(', ')}`, { status: c.status, reasons: c.reasons.map((r) => why[r] ?? r), listed });
+      const from = sub.channel as Channel;
+      const to = c.cheapest!.channel;
+      const steps = switchSteps(sub.serviceId, from, to, to === 'web' ? c.cheapest!.source_url : null, { trial: !!sub.trialEndsAt });
+      const sentence = `${withRo(CHANNEL_SHORT[from])} 결제하면 월 ${formatWon(c.currentMonthly!)}, ${josa(CHANNEL_SHORT[to], '은/는')} 월 ${formatWon(c.cheapest!.monthly!)}이라 월 ${formatWon(c.monthlyDiff!)}(1년 ${formatWon(c.annualDiff!)}) 차이예요.`;
+      return ok(`${withRo(CHANNEL_SHORT[to])} 옮기면 월 ${formatWon(c.monthlyDiff!)} 덜 내요`, {
+        status: c.status,
+        sentence,
+        current: { channel: CHANNEL_SHORT[from], monthly: formatWon(c.currentMonthly!), basis: c.currentBasis === 'charge' ? '내 청구액' : '공개 가격' },
+        cheapest: { channel: CHANNEL_SHORT[to], channelId: to, monthly: formatWon(c.cheapest!.monthly!), source: c.cheapest!.source_url, checkedAt: c.cheapest!.checked_at },
+        monthlyDiff: formatWon(c.monthlyDiff!),
+        annualDiff: formatWon(c.annualDiff!),
+        steps,
+        legacyWarning: c.legacyWarning ? '이 구독은 기존 요금 자격이 있어 경로를 옮기면(새로 가입) 신규 요금이 적용될 수 있어요. calc_resub로 확인하세요.' : null,
+        listed,
+      });
+    },
+  },
+  {
     name: 'ask_member',
     description: '구성원 한 명에게 결정 질문을 보낸다(예: 결제 전 유지/쉬기/가족 상의). 같은 사람에게 같은 구독의 질문이 대기 중이면 보내지 않는다. 본문의 금액은 도구가 계산한 값만 쓸 수 있다.',
     inputSchema: { type: 'object', properties: { to: { type: 'string', description: '구성원 id 또는 이름' }, subscriptionId: { type: 'string' }, text: { type: 'string' }, choices: { type: 'array', items: { type: 'string' } } }, required: ['to', 'subscriptionId', 'text'] },
@@ -330,7 +385,13 @@ export const TOOLS: ToolDef[] = [
       if (bad.length) return fail(['unverified_number'], `메모에 확인하지 않은 금액이 있어요: ${bad.map(formatWon).join(', ')}`);
       const c = ensureCase(s, sub);
       const before = c.proposal?.version ?? 0;
-      const terms = { resultId: r.sc.resultId, horizon, pauseMonths: k, choice, needs: strList(a.needs), sentence: r.sc.verdict };
+      const plan = getPlan(sub.serviceId, sub.planId);
+      const legacy = plan?.legacy_monthly !== null && plan?.legacy_monthly !== undefined && sub.monthlyWon === plan.legacy_monthly;
+      const sentence =
+        choice === 'cancel'
+          ? `${sub.nextChargeDate ?? '다음 결제일'} 결제 전에 해지해요.${legacy && plan?.new_monthly ? ` 나중에 다시 가입하면 월 ${formatWon(plan.new_monthly)}(신규 요금)이에요.` : ''}`
+          : r.sc.verdict;
+      const terms = { resultId: r.sc.resultId, horizon, pauseMonths: k, choice, needs: strList(a.needs), sentence };
       const d = evaluateAction(c, c.proposal ? { type: 'revise_terms', actor: 'bot', terms } : { type: 'request_family_review', actor: 'bot', terms }, s.clock);
       replaceCase(s, d.next);
       if (!d.allowed) return fail(d.reasons, d.reasons.map((x) => REASON_TEXT[x as Reason]).join(' / '));
@@ -342,11 +403,11 @@ export const TOOLS: ToolDef[] = [
       for (const mid of p.requiredMembers) {
         const qid = nextId(s, 'q');
         s.questions.push({ id: qid, at: s.clock, to: mid, subscriptionId: sub.id, caseId: c.caseId, topic: 'vote', version: p.version, status: 'pending', patrolId: s.activePatrolId });
-        const text = `[가족 제안 v${p.version}] ${sub.name} — ${label}. ${r.sc.verdict}${note ? ` (${note})` : ''}${p.version > 1 ? ' 조건이 바뀌어 이전 응답은 무효가 됐어요. 다시 응답해 주세요.' : ''}`;
+        const text = `[가족 제안 v${p.version}] ${sub.name} — ${label}. ${sentence}${note ? ` (${note})` : ''}${p.version > 1 ? ' 조건이 바뀌어 이전 응답은 무효가 됐어요. 다시 응답해 주세요.' : ''}`;
         send(s, { to: mid, kind: 'vote_request', text, subscriptionId: sub.id, caseId: c.caseId, choices: ['동의', '반대', '보류'], version: p.version, questionId: qid });
         sentTo.push(labelOf(s, mid));
       }
-      return ok(`가족 제안 v${p.version}(${label})을 ${sentTo.join('·')}에게 보냈어요`, { status: before === 0 ? 'created' : 'revised', caseId: c.caseId, version: p.version, invalidatedOldVotes: tally(p).staleIgnored, sentTo, sentence: r.sc.verdict });
+      return ok(`가족 제안 v${p.version}(${label})을 ${sentTo.join('·')}에게 보냈어요`, { status: before === 0 ? 'created' : 'revised', caseId: c.caseId, version: p.version, invalidatedOldVotes: tally(p).staleIgnored, sentTo, sentence });
     },
   },
   {
@@ -374,17 +435,27 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: 'request_handoff',
-    description: '결제자 인계를 정책 관문에 요청한다. 가족 공유 구독은 현재 버전 제안에 공유 구성원 전원이 동의해야 허용된다. 거부되면 사유(미응답·반대와 반대 의견·보류)를 돌려준다. 허용되면 결제자에게 공식 해지 경로를 보낸다.',
-    inputSchema: { type: 'object', properties: { caseId: { type: 'string' } }, required: ['caseId'] },
+    description: '결제자 인계를 정책 관문에 요청한다. 가족 공유 구독은 현재 버전 제안에 공유 구성원 전원이 동의해야 허용된다. 거부되면 사유(미응답·반대와 반대 의견·보류)를 돌려준다. 허용되면 결제자에게 공식 해지 경로를 보낸다. 결제 경로를 옮기는 경우 switchTo(새 경로)를 주면 옮기는 단계를 보낸다.',
+    inputSchema: { type: 'object', properties: { caseId: { type: 'string' }, switchTo: { type: 'string', enum: ['web', 'app_store', 'google_play'], description: '결제 경로를 옮길 때 새 경로(compare_channels의 cheapest.channelId)' } }, required: ['caseId'] },
     handler(s, a) {
       const c = caseOf(s, a.caseId);
       if (!c) return fail(['unknown_case'], '사건을 찾지 못했어요');
-      const d = evaluateAction(c, { type: 'prepare_owner_handoff', actor: 'bot' }, s.clock);
+      const switchTo = (['web', 'app_store', 'google_play'].includes(str(a.switchTo)) ? str(a.switchTo) : undefined) as Channel | undefined;
+      const d = evaluateAction(c, { type: 'prepare_owner_handoff', actor: 'bot', ...(switchTo ? { switchTo } : {}) }, s.clock);
       replaceCase(s, d.next);
       const view = caseView(s, d.next);
       if (!d.allowed) return fail(d.reasons, `정책 관문 거부: ${d.reasons.map((x) => REASON_TEXT[x as Reason]).join(' / ')}`, { reasons: d.reasons.map((x) => REASON_TEXT[x as Reason]), proposal: view.proposal });
       const sub = d.next.subscription;
-      const msg = routeMessage(s, sub, sub.channel, `가족 모두 동의했어요(제안 v${d.next.proposal?.version ?? '-'}: ${d.next.proposal?.terms.sentence ?? ''}).`);
+      const lead = sub.sharedWith.length ? `가족 모두 동의했어요(제안 v${d.next.proposal?.version ?? '-'}: ${d.next.proposal?.terms.sentence ?? ''}).` : '말씀하신 대로 진행할게요.';
+      if (switchTo && sub.channel) {
+        const cc = compareChannels(CHANNEL_PRICES, sub.serviceId, sub.planId, sub.channel, sub.monthlyWon);
+        const signup = switchTo === 'web' && cc.cheapest?.channel === 'web' ? cc.cheapest.source_url : null;
+        const steps = switchSteps(sub.serviceId, sub.channel, switchTo, signup, { trial: !!sub.trialEndsAt });
+        const text = `${lead} ${sub.name}을 ${CHANNEL_SHORT[sub.channel]}에서 ${withRo(CHANNEL_SHORT[switchTo])} 옮기는 방법이에요. ${steps.map((x, i) => `${i + 1}) ${x}`).join(' ')} ${CHANNEL_SHORT[sub.channel]} 쪽을 끄면 앱에서 '해지 신청함'을 눌러 주세요.`;
+        send(s, { to: sub.ownerId, kind: 'route', text, subscriptionId: sub.id, caseId: c.caseId });
+        return ok(`인계 허용 — ${labelOf(s, sub.ownerId)}에게 ${withRo(CHANNEL_SHORT[switchTo])} 옮기는 방법을 보냈어요`, { stage: STAGE_LABEL[d.next.stage], switchTo: CHANNEL_SHORT[switchTo], steps });
+      }
+      const msg = routeMessage(s, sub, sub.channel, lead);
       send(s, { to: sub.ownerId, kind: 'route', text: msg.text, subscriptionId: sub.id, caseId: c.caseId });
       return ok(`인계 허용 — ${labelOf(s, sub.ownerId)}에게 해지 경로를 보냈어요`, { stage: STAGE_LABEL[d.next.stage], routeStatus: msg.status, officialUrl: msg.url });
     },
@@ -402,9 +473,15 @@ export const TOOLS: ToolDef[] = [
       const lastAfter = after.at(-1) ?? null;
       const channel = (['web', 'app_store', 'google_play', 'carrier', 'partner'].includes(str(a.channel)) ? str(a.channel) : lastAfter?.channel ?? sub.channel) as Channel | null;
       if (s.messages.some((m) => m.kind === 'route' && m.caseId === (c?.caseId ?? null) && m.text.includes(channel ? CHANNEL_LABEL[channel] : '먼저 확인해 주세요') && m.at >= (c?.closure.requestedAt ?? ''))) return fail(['duplicate_route'], '같은 해지 경로를 이미 보냈어요');
-      const lead = lastAfter ? `해지 신청 뒤 ${lastAfter.date}에 ${lastAfter.channel ? CHANNEL_LABEL[lastAfter.channel] : '확인 안 된 경로'}로 ${formatWon(lastAfter.amountWon)}이 청구됐어요. 이 결제 경로는 따로 해지해야 해요.` : '요청하신 해지 경로예요.';
+      const dup = c ? chargesOnNewChannel(c.closure).filter((x) => lastAfter && x.date.slice(0, 7) === lastAfter.date.slice(0, 7)) : [];
+      const dupNote = dup.length ? ` 같은 달에 ${dup[0]!.channel ? CHANNEL_SHORT[dup[0]!.channel] : '새 경로'} 결제(${formatWon(dup[0]!.amountWon)})도 있어 이중 결제예요.` : '';
+      const lead = lastAfter
+        ? `해지 신청 뒤 ${lastAfter.date}에 ${lastAfter.channel ? CHANNEL_SHORT[lastAfter.channel] : '확인 안 된 경로'}로 ${formatWon(lastAfter.amountWon)}이 청구됐어요.${dupNote} 이 결제 경로의 구독이 아직 켜져 있는지 확인하고 꺼 주세요.`
+        : '요청하신 해지 경로예요.';
+      const refund = lastAfter?.channel ? refundRoute(lastAfter.channel) : null;
       const msg = routeMessage(s, sub, channel, lead);
-      send(s, { to: sub.ownerId, kind: 'route', text: msg.text, subscriptionId: sub.id, caseId: c?.caseId ?? null });
+      const text = refund ? `${msg.text} 환불 요청: ${[refund.url, ...refund.steps].filter(Boolean).join(' → ')}` : msg.text;
+      send(s, { to: sub.ownerId, kind: 'route', text, subscriptionId: sub.id, caseId: c?.caseId ?? null });
       return ok(`${labelOf(s, sub.ownerId)}에게 ${channel ? CHANNEL_LABEL[channel] : '결제 채널 확인'} 경로를 보냈어요`, { routeStatus: msg.status, officialUrl: msg.url, channel });
     },
   },

@@ -26,8 +26,9 @@ export function humanReply(state: BotState, from: string, text: string, subscrip
   const s = structuredClone(state);
   const m = memberOf(s, from);
   if (!m) return { state, result: { allowed: false, reasons: ['unknown_member'], text: '구성원을 찾지 못했어요' } };
-  const q = s.questions.filter((x) => x.to === m.id && x.status === 'pending' && x.topic === 'decide' && (!subscriptionId || x.subscriptionId === subscriptionId)).at(-1);
-  if (q) q.status = 'answered';
+  const pending = s.questions.filter((x) => x.to === m.id && x.status === 'pending' && x.topic === 'decide' && (!subscriptionId || x.subscriptionId === subscriptionId));
+  for (const x of pending) x.status = 'answered';
+  const q = pending.length === 1 ? pending[0] : undefined;
   s.messages.push({ id: nextId(s, 'msg'), at: s.clock, from: m.id, to: 'bot', kind: 'reply', text, subscriptionId: q?.subscriptionId ?? subscriptionId, caseId: q?.caseId ?? null, questionId: q?.id, readByBot: false, patrolId: null });
   return { state: s, result: { allowed: true, reasons: [], text: `${m.label}: ${text}` } };
 }
@@ -50,7 +51,7 @@ export function humanVote(state: BotState, from: string, value: VoteValue, opts:
 }
 
 /** 결제자가 실제 서비스에서 해지를 신청한 뒤 앱에 기록한다. 결제자만 가능. */
-export function humanRecordCancel(state: BotState, from: string, caseId?: string): { state: BotState; result: HumanResult } {
+export function humanRecordCancel(state: BotState, from: string, caseId?: string, note?: string): { state: BotState; result: HumanResult } {
   const s = structuredClone(state);
   const m = memberOf(s, from);
   const c = s.cases.find((x) => (caseId ? x.caseId === caseId : x.stage === 'handoff_ready'));
@@ -58,6 +59,6 @@ export function humanRecordCancel(state: BotState, from: string, caseId?: string
   const d = evaluateAction(c, { type: 'record_cancel_request', actor: m.id }, s.clock);
   replaceCase(s, d.next);
   if (!d.allowed) return { state: s, result: { allowed: false, reasons: d.reasons, text: `${m.label}의 해지 신청 기록 거부: ${d.reasons.map((r) => REASON_TEXT[r as Reason]).join(' / ')}` } };
-  s.messages.push({ id: nextId(s, 'msg'), at: s.clock, from: m.id, to: 'bot', kind: 'action', text: `${c.subscription.name} 해지 신청함 (사업자 확인은 아직)`, subscriptionId: c.subscription.id, caseId: c.caseId, readByBot: false, patrolId: null });
-  return { state: s, result: { allowed: true, reasons: d.reasons, text: `${labelOf(s, m.id)}: 해지 신청함 기록 — ${REASON_TEXT.provider_unconfirmed}` } };
+  s.messages.push({ id: nextId(s, 'msg'), at: s.clock, from: m.id, to: 'bot', kind: 'action', text: note ?? `${c.subscription.name} 해지 신청함 (사업자 확인은 아직)`, subscriptionId: c.subscription.id, caseId: c.caseId, readByBot: false, patrolId: null });
+  return { state: s, result: { allowed: true, reasons: d.reasons, text: `${labelOf(s, m.id)}: ${note ?? '해지 신청함'} 기록 — ${REASON_TEXT.provider_unconfirmed}` } };
 }
