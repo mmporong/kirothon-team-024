@@ -56,9 +56,12 @@
   ],
   "presentation": {
     "file": "PRESENTATION.pdf",
-    "sha256": "e59fbe077074a5142f62d1ab3c5d2bffdd3743bccdd2dce3d888d78ef1864286",
+    "sha256": "fe41cdfc1a93eb9f6879e366d629db8598cabea7b4144a18c37776885de96850",
     "pages": 10,
-    "render_check": "Changed pages 7, 8 and 10 rendered and visually inspected; fit and occlusion checks passed."
+    "render_check": "10 pages rendered; no fit or occlusion errors; problem, solution, differentiators and limits pages visually checked.",
+    "spoken_handout_sha256": "d459a16f8f807b7d06f7585b13f515358a04b3211fbd94e640dbc8f2c18dbe78",
+    "speaker_notes_match_handout": true,
+    "current_sms_scope": "Example SMS only; no personal SMS input or automatic collection"
   },
   "limitations": [
     "Kiro monthly usage limit prevented a new model run after the fixes. Original synthetic recordings remain unchanged.",
